@@ -1,6 +1,6 @@
 # My Endless RecyclerView
 
-Source code of the Android app, using Retrofit,Materials, Picasso, Butterknife and  palette
+Source code of the Android app, using Retrofit, Materials, Picasso, Butterknife and  palette
 
 ## App Features
 
