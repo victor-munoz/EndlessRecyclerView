@@ -1,0 +1,183 @@
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nestedScroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:maxWidth="400dp"
+    android:background="@android:color/white"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:visibility="invisible"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ui.userdetail.UserDetailFragment">
+    <LinearLayout
+        android:id="@+id/ll_user_detail"
+        android:layout_width="match_parent"
+        android:maxWidth="400dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!--statistics-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <LinearLayout style="@style/statistic_container">
+
+                <TextView
+                    android:id="@+id/user_repos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/statistic_number_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/public_repos" />
+
+            </LinearLayout>
+
+            <View style="@style/vertical_separator" />
+
+            <LinearLayout style="@style/statistic_container">
+
+                <TextView
+                    android:id="@+id/user_gists"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/statistic_number_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/public_gists" />
+
+            </LinearLayout>
+
+            <View style="@style/vertical_separator" />
+
+            <LinearLayout style="@style/statistic_container">
+
+                <TextView
+                    android:id="@+id/user_followers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/statistic_number_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/followers" />
+
+
+            </LinearLayout>
+
+            <View style="@style/vertical_separator" />
+
+            <LinearLayout style="@style/statistic_container">
+
+
+                <TextView
+                    android:id="@+id/user_following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/statistic_number_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/following" />
+            </LinearLayout>
+        </LinearLayout>
+        <View style="@style/horizontal_separator" />
+        <!--user info-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/margin_content"
+            >
+            <!--biography-->
+            <TextView
+                android:id="@+id/user_bio"
+                style="@style/info_item"
+                android:drawableStart="@drawable/icon_biography"
+                android:textStyle="italic"
+                android:visibility="gone" />
+            <!--Company-->
+            <TextView
+                android:id="@+id/user_company"
+                style="@style/info_item"
+                android:drawableStart="@drawable/icon_work"
+                android:visibility="gone" />
+
+            <!--Location-->
+            <TextView
+                android:id="@+id/user_location"
+                style="@style/info_item"
+                android:drawableStart="@drawable/icon_location"
+                android:visibility="gone" />
+            <!--joined at-->
+            <TextView
+                android:id="@+id/user_created_at"
+                style="@style/info_item"
+                android:drawableStart="@drawable/icon_clock" />
+            <!--hireable-->
+            <TextView
+                android:id="@+id/user_hireable"
+                style="@style/info_item"
+                android:drawableStart="@drawable/icon_alert"
+                android:visibility="gone" />
+            <!--blog-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/user_blog"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlue"
+                    android:minWidth="88dp"
+                    android:text="@string/blog"
+                    android:layout_marginBottom="@dimen/margin_content"
+                    android:drawablePadding="@dimen/margin_content"
+                    android:drawableStart="@drawable/icon_link"
+                    android:visibility="gone"
+                    android:layout_alignParentEnd="false"
+                    android:layout_toStartOf="@+id/user_github" />
+                <!--GitHub page-->
+                <Button
+                    android:id="@+id/user_github"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/colorBlue"
+                    android:layout_height="wrap_content"
+                    android:minWidth="88dp"
+                    android:text="@string/profile"
+                    android:layout_marginBottom="@dimen/margin_content"
+                    android:drawablePadding="@dimen/margin_content"
+                    android:drawableStart="@drawable/icon_github"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:interpolator/linear_out_slow_in"
+    android:duration="300"
+    android:transitionOrdering="together">
+    <fade/>
+    <slide android:slideEdge="top">
+        <targets>
+            <target android:targetId="@id/app_bar" />
+        </targets>
+    </slide>
+    <slide android:slideEdge="bottom">
+        <targets>
+            <target android:targetId="@id/contentFrame" />
+        </targets>
+    </slide>
+</transitionSet>
+

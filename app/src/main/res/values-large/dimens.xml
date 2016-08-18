@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="big_circle_image">200dp</dimen>
+    <dimen name="app_bar_height">300dp</dimen>
+    <dimen name="statistic_number_text_size">34sp</dimen>
+</resources>
