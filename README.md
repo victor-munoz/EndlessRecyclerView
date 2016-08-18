@@ -19,6 +19,6 @@ Source code of the Android app, using Retrofit,Materials, Picasso, Butterknife a
 
 ## Screenshots
 <img src="https://raw.githubusercontent.com/victor-munoz/EndlessRecyclerView/master/art/screenshots/users_nexus5.png" width="200"/>
-<img src="https://raw.githubusercontent.com/victor-munoz/EndlessRecyclerView/master/art/screenshots/users_nexus7.png" width="200"/>
+<img src="https://raw.githubusercontent.com/victor-munoz/EndlessRecyclerView/master/art/screenshots/users_nexus7.png" width="300"/>
 <img src="https://raw.githubusercontent.com/victor-munoz/EndlessRecyclerView/master/art/screenshots/user_nexus5.png" width="200"/>
-<img src="https://raw.githubusercontent.com/victor-munoz/EndlessRecyclerView/master/art/screenshots/user_nexus7.png" width="200"/>
+<img src="https://raw.githubusercontent.com/victor-munoz/EndlessRecyclerView/master/art/screenshots/user_nexus7.png" width="300"/>
