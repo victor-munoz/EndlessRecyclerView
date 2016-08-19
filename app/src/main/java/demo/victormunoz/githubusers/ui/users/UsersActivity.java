@@ -3,6 +3,7 @@ package demo.victormunoz.githubusers.ui.users;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.test.espresso.IdlingResource;
@@ -26,6 +27,7 @@ import butterknife.BindView;
 import demo.victormunoz.githubusers.R;
 import demo.victormunoz.githubusers.model.User;
 import demo.victormunoz.githubusers.ui.userdetail.UserDetailActivity;
+import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource;
 import demo.victormunoz.githubusers.utils.recyclerview.RecyclerViewMargin;
 
 /**
@@ -43,9 +45,8 @@ import demo.victormunoz.githubusers.utils.recyclerview.RecyclerViewMargin;
  *      Use Material Design as guideline for your UI.
  *      The app needs to run on an API 22 device.
  */
-public class UsersActivity extends AppCompatActivity implements UsersContract.Views, IdlingResource {
+public class UsersActivity extends AppCompatActivity implements UsersContract.Views {
     private boolean isIdle;
-    private ResourceCallback resourceCallback;
     @BindView(R.id.github_logo)
     ImageView imageView;
     @BindDimen(R.dimen.app_bar_height)
@@ -156,23 +157,10 @@ public class UsersActivity extends AppCompatActivity implements UsersContract.Vi
         startActivity(intent,options.toBundle());
     }
 
-    @Override
-    public String getName() {
-        return getClass().getName();
-    }
 
-    @Override
-    public boolean isIdleNow() {
-        if(isIdle){
-            resourceCallback.onTransitionToIdle();
-            return true;
-        }
 
-        return false;
-    }
-
-    @Override
-    public void registerIdleTransitionCallback(ResourceCallback callback) {
-        this.resourceCallback = callback;
+    @VisibleForTesting
+    public IdlingResource getCountingIdlingResource() {
+        return EspressoIdlingResource.getIdlingResource();
     }
 }

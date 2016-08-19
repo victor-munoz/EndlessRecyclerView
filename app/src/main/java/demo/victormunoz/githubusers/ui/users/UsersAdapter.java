@@ -66,7 +66,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
 
         //we need to set this delay to avoid an undesirable blink effect
         anim.setStartDelay(1);
-
         anim.setDuration(ANIMATION_DURATION);
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -89,11 +88,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
      * @param holder the holder of the item
      */
     @Override
-    public void onViewAttachedToWindow(MyViewHolder holder) {
+    public void onViewAttachedToWindow(final MyViewHolder holder) {
         super.onViewAttachedToWindow(holder);
         //start entrance animation
         entranceAnimation(holder.itemView).start();
-        //it is the last element of the list displayed?
+        //is the last element of the list displayed?
         if(holder.getAdapterPosition()==usersList.size()-1){
             gitHubUsersListener.onEndOfTheList();
         }

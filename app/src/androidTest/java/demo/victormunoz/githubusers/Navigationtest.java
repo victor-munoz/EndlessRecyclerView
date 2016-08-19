@@ -45,8 +45,7 @@ public class NavigationTest {
         //Initializes Intents and begins recording intents
         Intents.init();
         //set idle
-        IdlingResource resource = mUsersActivityTestRule.getActivity();
-        Espresso.registerIdlingResources(resource);
+        Espresso.registerIdlingResources(mUsersActivityTestRule.getActivity().getCountingIdlingResource());
         //trick to allow scrollToPosition inside CoordinatorLayout, otherwise the scroll will not be
         // performed
         mUsersActivityTestRule.getActivity().runOnUiThread(new Runnable() {
@@ -62,7 +61,6 @@ public class NavigationTest {
         });
 
     }
-
 
     @Test
     public void clickFirstUser_openDetailActivity() throws Exception {
@@ -87,8 +85,8 @@ public class NavigationTest {
     @After
     public void releaseAndUnregister() {
         Intents.release();
-        IdlingResource resource = mUsersActivityTestRule.getActivity();
-        Espresso.unregisterIdlingResources(resource);
+        Espresso.unregisterIdlingResources(
+                mUsersActivityTestRule.getActivity().getCountingIdlingResource());
     }
 
 }

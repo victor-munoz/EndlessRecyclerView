@@ -11,9 +11,11 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -37,6 +39,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import demo.victormunoz.githubusers.R;
 import demo.victormunoz.githubusers.model.User;
+import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource;
 import demo.victormunoz.githubusers.utils.picasso.ImageToCircleTransformation;
 
 public class UserDetailActivity extends AppCompatActivity implements UserDetailContract.View {
@@ -204,6 +207,10 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         return super.onOptionsItemSelected(item);
     }
 
+    @VisibleForTesting
+    public IdlingResource getCountingIdlingResource() {
+        return EspressoIdlingResource.getIdlingResource();
+    }
 
 }
 

@@ -39,8 +39,7 @@ public class endlessLoadedTest {
     @Before
     public void setUp() {
         //set idle
-        IdlingResource resource = mNotesActivityTestRule.getActivity();
-        Espresso.registerIdlingResources(resource);
+        Espresso.registerIdlingResources(mNotesActivityTestRule.getActivity().getCountingIdlingResource());
         //trick to allow scrollToPosition inside CoordinatorLayout, otherwise the scroll will not be
         // performed
         mNotesActivityTestRule.getActivity().runOnUiThread(new Runnable() {
@@ -60,8 +59,6 @@ public class endlessLoadedTest {
      */
     @Test
     public void endlessScrollingTest() {
-        //element 0  displayed
-        onView(withRecyclerView(R.id.recycler_view).atPosition(0)).check(matches(isDisplayed()));
         //scroll to element 29 (load more)
         onView(withId(R.id.recycler_view)).perform(scrollToPosition(29));
         //scroll to the next row
@@ -83,8 +80,8 @@ public class endlessLoadedTest {
     }
     @After
     public void unregisterIdlingResource() {
-        IdlingResource resource = mNotesActivityTestRule.getActivity();
-        Espresso.unregisterIdlingResources(resource);
+        Espresso.unregisterIdlingResources(
+                mNotesActivityTestRule.getActivity().getCountingIdlingResource());
     }
     public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
         return new RecyclerViewMatcher(recyclerViewId);

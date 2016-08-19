@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 
 import demo.victormunoz.githubusers.api.GitHubApi;
 import demo.victormunoz.githubusers.model.User;
+import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,11 +43,13 @@ public class UserDetailPresenter implements UserDetailContract.UserActionsListen
                 GitHubApi.CLIENT_SECRET);
         //asynchronous call
         call.enqueue(this);
+        EspressoIdlingResource.increment();
 
     }
 
     @Override
     public void onResponse(Call<User> call, Response<User> response) {
+        EspressoIdlingResource.decrement();
         if (response.isSuccessful()) {
             User user = response.body();
             mUsersView.displayUserDetails(user);
@@ -57,6 +60,8 @@ public class UserDetailPresenter implements UserDetailContract.UserActionsListen
 
     @Override
     public void onFailure(Call<User> call, Throwable t) {
+        EspressoIdlingResource.decrement();
         mUsersView.onLoadUserDetailsFail();
+
     }
 }

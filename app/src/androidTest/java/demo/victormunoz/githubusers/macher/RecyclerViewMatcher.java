@@ -2,6 +2,7 @@ package demo.victormunoz.githubusers.macher;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import org.hamcrest.Description;
@@ -47,13 +48,15 @@ public class RecyclerViewMatcher {
                     RecyclerView recyclerView =
                             (RecyclerView) view.getRootView().findViewById(recyclerViewId);
                     if (recyclerView != null && recyclerView.getId() == recyclerViewId) {
+                        Log.wtf("exist","total:"+recyclerView.getAdapter().getItemCount());
+                        Log.wtf("exist","->"+recyclerView.findViewHolderForAdapterPosition(position));
+                        Log.wtf("exist","position:"+position);
                         childView = recyclerView.findViewHolderForAdapterPosition(position).itemView;
                     }
                     else {
                         return false;
                     }
                 }
-
                 if (targetViewId == -1) {
                     return view == childView;
                 } else {
