@@ -137,6 +137,7 @@ public class UsersActivity extends AppCompatActivity implements UsersContract.Vi
         textView.setCompoundDrawablePadding( getResources().getDimensionPixelOffset(R.dimen.margin_content));
         snackbar.show();
     }
+
     /**
      * call to a new activity to show the user's profile information.
      * @param imageView the image to be use in the shared element transition.

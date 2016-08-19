@@ -72,7 +72,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
             @Override
             public void onAnimationStart(Animator animation) {
                 super.onAnimationStart(animation);
-                view.setVisibility(View.VISIBLE);
             }
         });
         return anim;

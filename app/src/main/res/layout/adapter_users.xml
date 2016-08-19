@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:stateListAnimator="@anim/translation_z"
-    android:visibility="gone"
     android:elevation="@dimen/base_elevation">
         <LinearLayout
             android:layout_width="wrap_content"

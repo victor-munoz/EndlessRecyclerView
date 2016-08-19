@@ -1,60 +1,46 @@
 package demo.victormunoz.githubusers;
 
-import android.support.test.filters.MediumTest;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.widget.RecyclerView;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
-import android.support.test.espresso.intent.Intents;
+import android.support.test.filters.MediumTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
-import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static demo.victormunoz.githubusers.UsersScreenTest.Matchers.withItemCount;
-
-import demo.victormunoz.githubusers.macher.RecyclerViewMatcher;
-import demo.victormunoz.githubusers.ui.userdetail.UserDetailActivity;
-import demo.victormunoz.githubusers.ui.users.UsersActivity;
-
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import demo.victormunoz.githubusers.macher.RecyclerViewMatcher;
+import demo.victormunoz.githubusers.ui.users.UsersActivity;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static demo.victormunoz.githubusers.endlessLoadedTest.Matchers.withItemCount;
+
 @RunWith(AndroidJUnit4.class)
 @MediumTest
-public class UsersScreenTest {
-    private final static  String FIRST_USER_LOGINNAME="mojombo";
-    private final static String TWENTY_NINTH_USER_LOGINNAME="bmizerany";
-
+public class endlessLoadedTest {
     @Rule
     public ActivityTestRule<UsersActivity> mNotesActivityTestRule =
             new ActivityTestRule<>(UsersActivity.class);
 
     @Before
-    public void registerIdlingResource() {
-        //Initializes Intents and begins recording intents
-        Intents.init();
-       
+    public void setUp() {
         //set idle
         IdlingResource resource = mNotesActivityTestRule.getActivity();
         Espresso.registerIdlingResources(resource);
-       
         //trick to allow scrollToPosition inside CoordinatorLayout, otherwise the scroll will not be
         // performed
         mNotesActivityTestRule.getActivity().runOnUiThread(new Runnable() {
@@ -68,7 +54,6 @@ public class UsersScreenTest {
             }
         });
     }
-
     /**
      * scroll three times to the last element of the recyclerview and the check if exactly 90
      * elements are loaded
@@ -96,31 +81,8 @@ public class UsersScreenTest {
 
 
     }
-
-    @Test
-    public void clickFirstUser_openDetailActivity() throws Exception {
-        onView(withId(R.id.recycler_view)).perform(actionOnItemAtPosition(0, click()));
-        intended(hasComponent(UserDetailActivity.class.getName()));
-        onView(withId(R.id.user_login)).check(matches(withText(FIRST_USER_LOGINNAME)));
-        Espresso.pressBack();
-
-    }
-
-    @Test
-    public void clickLastUser_openDetailActivity() throws Exception {
-        onView(withId(R.id.recycler_view)).perform(scrollToPosition(29));
-        onView(withId(R.id.recycler_view)).perform(actionOnItemAtPosition(29, click()));
-        intended(hasComponent(UserDetailActivity.class.getName()));
-        onView(withId(R.id.user_login)).check(matches(withText(TWENTY_NINTH_USER_LOGINNAME)));
-        Espresso.pressBack();
-        onView(withId(R.id.recycler_view)).perform(scrollToPosition(0));
-
-
-    }
-
     @After
     public void unregisterIdlingResource() {
-        Intents.release();
         IdlingResource resource = mNotesActivityTestRule.getActivity();
         Espresso.unregisterIdlingResources(resource);
     }
@@ -140,4 +102,5 @@ public class UsersScreenTest {
             };
         }
     }
+
 }
