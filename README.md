@@ -5,7 +5,7 @@ Source code of the Android app, using Retrofit, Materials, Picasso, Butterknife 
 ## App Features
 
 - Display an endless list of github users.
-- Acccess to an User's profile info.
+- Access to an User's profile info.
 
 ## Code Features
 
