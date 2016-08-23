@@ -2,7 +2,6 @@ package demo.victormunoz.githubusers;
 
 import android.support.design.widget.CoordinatorLayout;
 import android.support.test.espresso.Espresso;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.filters.MediumTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -14,7 +13,6 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,6 +57,8 @@ public class endlessLoadedTest {
      */
     @Test
     public void endlessScrollingTest() {
+        //element 0  displayed
+        //onView(withRecyclerView(R.id.recycler_view).atPosition(0)).check(matches(isDisplayed()));
         //scroll to element 29 (load more)
         onView(withId(R.id.recycler_view)).perform(scrollToPosition(29));
         //scroll to the next row

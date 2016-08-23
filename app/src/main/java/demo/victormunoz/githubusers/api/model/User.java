@@ -1,4 +1,4 @@
-package demo.victormunoz.githubusers.model;
+package demo.victormunoz.githubusers.api.model;
 
 import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;

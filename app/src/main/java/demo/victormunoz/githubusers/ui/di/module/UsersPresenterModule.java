@@ -1,23 +1,41 @@
-package demo.victormunoz.githubusers.ui.users;
+package demo.victormunoz.githubusers.ui.di.module;
+
 import android.support.annotation.NonNull;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
 import java.util.List;
-import demo.victormunoz.githubusers.api.GitHubApi;
-import demo.victormunoz.githubusers.model.User;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import dagger.Module;
+import dagger.Provides;
+import demo.victormunoz.githubusers.api.model.User;
+import demo.victormunoz.githubusers.ui.users.UsersContract;
 import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class UsersPresenter implements UsersContract.UserActionsListener, Callback<List<User>> {
-    private final UsersContract.Views mUsersView;
+@Module
+public class UsersPresenterModule implements UsersContract.UserActionsListener, Callback<List<User>> {
     private int lastIdDownloaded = 0;
+    private final UsersContract.Views mUsersView;
 
-    public UsersPresenter(@NonNull UsersContract.Views usersView) {
-        mUsersView = usersView;
+    GitHubModule.GitHubApiInterface githubUserAPI;
+    @Inject @Named("client_id")
+    String clientID;
+    @Inject @Named("client_secret")
+    String clientSecret;
+
+
+    @Provides
+    public UsersContract.UserActionsListener providesUsersPresenterInterface(GitHubModule.GitHubApiInterface github) {
+        githubUserAPI=github;
+        return this;
+    }
+
+    public UsersPresenterModule(@NonNull UsersContract.Views usersView) {
+        mUsersView =  usersView;
     }
 
     /**
@@ -25,19 +43,10 @@ public class UsersPresenter implements UsersContract.UserActionsListener, Callba
      */
     @Override
     public void loadMoreUsers() {
-        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                .create();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GitHubApi.ENDPOINT)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-        // prepare call in Retrofit 2.0
-        GitHubApi githubUserAPI = retrofit.create(GitHubApi.class);
         Call<List<User>> call = githubUserAPI.getUsers(
                 lastIdDownloaded,
-                GitHubApi.CLIENT_ID,
-                GitHubApi.CLIENT_SECRET);
+                clientID,
+                clientSecret);
         //asynchronous call
         call.enqueue( this);
         EspressoIdlingResource.increment();

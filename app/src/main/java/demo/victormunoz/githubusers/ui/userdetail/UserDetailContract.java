@@ -1,5 +1,5 @@
 package demo.victormunoz.githubusers.ui.userdetail;
-import demo.victormunoz.githubusers.model.User;
+import demo.victormunoz.githubusers.api.model.User;
 
 public interface UserDetailContract {
 

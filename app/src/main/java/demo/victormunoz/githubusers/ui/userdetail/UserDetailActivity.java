@@ -35,10 +35,13 @@ import android.widget.TextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import demo.victormunoz.githubusers.R;
-import demo.victormunoz.githubusers.model.User;
+import demo.victormunoz.githubusers.api.model.User;
+import demo.victormunoz.githubusers.ui.App;
 import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource;
 import demo.victormunoz.githubusers.utils.picasso.ImageToCircleTransformation;
 
@@ -46,7 +49,6 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     public static final String USER_LOGIN = "user login";
     public static final String USER_PICTURE_URL = "user picture URL";
     private static final String USER_DETAIL_FRAGMENT = "user's detail fragment";
-    private UserDetailContract.UserActionsListener mActionsListener;
     @BindView(R.id.app_bar)
     AppBarLayout appBar;
     @BindView(R.id.user_avatar)
@@ -62,6 +64,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     private UserDetailFragment detailFragment;
     private String loginName;
     private String avatarURL;
+    //UserDetailContract.UserActionsListener mActionsListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +83,12 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         //get intent vars
         loginName = getIntent().getStringExtra(USER_LOGIN);
         avatarURL = getIntent().getStringExtra(USER_PICTURE_URL);
-        mActionsListener = new UserDetailPresenter(this);
+
+
+        //((App)getApplication() ).getUserDetailPresenterComponent(this).inject(this);
+
         if (null == savedInstanceState) {
-            mActionsListener.loadUserDetails(loginName);
+           // mActionsListener.loadUserDetails(loginName);
             initFragment(UserDetailFragment.newInstance());
         }
         downloadProfileImage(true);
@@ -185,7 +191,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
                             downloadProfileImage(false);
                         }
                         if(name.getText().length() == 0){
-                            mActionsListener.loadUserDetails(loginName);
+                            //mActionsListener.loadUserDetails(loginName);
                         }
                     }
                 });

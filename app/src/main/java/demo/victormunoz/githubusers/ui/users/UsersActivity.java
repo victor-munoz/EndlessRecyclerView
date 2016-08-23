@@ -17,18 +17,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.BindDimen;
 import butterknife.BindView;
 import demo.victormunoz.githubusers.R;
-import demo.victormunoz.githubusers.model.User;
+import demo.victormunoz.githubusers.api.model.User;
+import demo.victormunoz.githubusers.ui.App;
+import demo.victormunoz.githubusers.ui.di.component.GitHubComponent;
 import demo.victormunoz.githubusers.ui.userdetail.UserDetailActivity;
 import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource;
 import demo.victormunoz.githubusers.utils.recyclerview.RecyclerViewMargin;
+import retrofit2.Retrofit;
 
 /**
  * Create an Android App with the following functionality:
@@ -45,8 +48,7 @@ import demo.victormunoz.githubusers.utils.recyclerview.RecyclerViewMargin;
  *      Use Material Design as guideline for your UI.
  *      The app needs to run on an API 22 device.
  */
-public class UsersActivity extends AppCompatActivity implements UsersContract.Views {
-    private boolean isIdle;
+public class UsersActivity extends AppCompatActivity implements UsersContract.Views,UsersAdapter.UsersListener {
     @BindView(R.id.github_logo)
     ImageView imageView;
     @BindDimen(R.dimen.app_bar_height)
@@ -57,22 +59,11 @@ public class UsersActivity extends AppCompatActivity implements UsersContract.Vi
     Toolbar toolbar;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    private List<User> usersList = new ArrayList<>();
-    private UsersAdapter mUsersAdapter;
+    @Inject
+    UsersAdapter mUsersAdapter;
     //listeners
-    private UsersContract.UserActionsListener mActionsListener;
-    private UsersAdapter.UsersListener mItemListener = new UsersAdapter.UsersListener() {
-        @Override
-        public void onUserClick(View view,String loginName,String avatarURL) {
-           callDetailUserActivity(view,loginName,avatarURL);
-        }
 
-        @Override
-        public void onEndOfTheList() {
-            isIdle=false;
-            mActionsListener.loadMoreUsers();
-        }
-    };
+    //@Inject UsersContract.UserActionsListener mActionsListener;
 
 
     @Override
@@ -87,9 +78,9 @@ public class UsersActivity extends AppCompatActivity implements UsersContract.Vi
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowTitleEnabled(true);
-
-        mActionsListener = new UsersPresenter(this);
-        mUsersAdapter = new UsersAdapter(this,usersList, mItemListener);
+        //
+      //  mActionsListener = new UsersPresenter(this);
+       ((App)getApplication() ).getmAdaptercomponent(this).inject(this);
 
         recyclerView.setAdapter(mUsersAdapter);
         int numColumns = getResources().getInteger(R.integer.columns);
@@ -98,28 +89,25 @@ public class UsersActivity extends AppCompatActivity implements UsersContract.Vi
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, numColumns));
         recyclerView.addItemDecoration(decoration);
-        isIdle=false;
-        mActionsListener.loadMoreUsers();
+       // mActionsListener.loadMoreUsers();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mActionsListener = null;
+      //  mActionsListener = null;
     }
 
 
     @Override
     public void addUsersToAdapter(List<User> users) {
-        isIdle = true;
         mUsersAdapter.addUsers(users);
     }
 
     @Override
     public void onLoadMoreUsersFail() {
-        isIdle = true;
        String errorMessage="Error downloading more users";
-       if( usersList.size()==0){
+       if( mUsersAdapter.getItemCount()==0){
            errorMessage="Error downloading users";
        }
         Snackbar snackbar = Snackbar
@@ -127,8 +115,7 @@ public class UsersActivity extends AppCompatActivity implements UsersContract.Vi
                 .setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        isIdle=false;
-                        mActionsListener.loadMoreUsers();
+                        //mActionsListener.loadMoreUsers();
                     }
                 });
         View sbView = snackbar.getView();
@@ -162,5 +149,16 @@ public class UsersActivity extends AppCompatActivity implements UsersContract.Vi
     @VisibleForTesting
     public IdlingResource getCountingIdlingResource() {
         return EspressoIdlingResource.getIdlingResource();
+    }
+
+    @Override
+    public void onUserClick(View view,String loginName,String avatarURL) {
+        callDetailUserActivity(view,loginName,avatarURL);
+    }
+
+    @Override
+    public void onEndOfTheList() {
+
+        //mActionsListener.loadMoreUsers();
     }
 }

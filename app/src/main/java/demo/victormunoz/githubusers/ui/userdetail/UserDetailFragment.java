@@ -12,7 +12,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import demo.victormunoz.githubusers.R;
-import demo.victormunoz.githubusers.model.User;
+import demo.victormunoz.githubusers.api.model.User;
 
 
 public class UserDetailFragment extends Fragment {

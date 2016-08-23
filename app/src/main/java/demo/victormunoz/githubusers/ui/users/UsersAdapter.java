@@ -1,6 +1,4 @@
 package demo.victormunoz.githubusers.ui.users;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
@@ -12,10 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import demo.victormunoz.githubusers.R;
-import demo.victormunoz.githubusers.model.User;
+import demo.victormunoz.githubusers.api.model.User;
 import demo.victormunoz.githubusers.utils.picasso.ImageToCircleTransformation;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder> {
@@ -25,7 +24,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
     private final UsersListener gitHubUsersListener;
     private List<User> usersList;
     private Context context;
-
     public UsersAdapter(Context context, List<User> moviesList, UsersListener listener) {
         this.usersList = moviesList;
         this.context = context;
@@ -67,12 +65,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
         //we need to set this delay to avoid an undesirable blink effect
         anim.setStartDelay(1);
         anim.setDuration(ANIMATION_DURATION);
-        anim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-            }
-        });
         return anim;
     }
 

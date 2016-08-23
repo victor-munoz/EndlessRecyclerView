@@ -1,6 +1,6 @@
 package demo.victormunoz.githubusers.ui.users;
 
-import demo.victormunoz.githubusers.model.User;
+import demo.victormunoz.githubusers.api.model.User;
 import java.util.List;
 
 public interface UsersContract {
