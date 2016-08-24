@@ -2,11 +2,8 @@ package demo.victormunoz.githubusers.ui.di.module;
 
 import android.content.Context;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
-
 
 @Module
 public class ContextModule {
@@ -17,7 +14,6 @@ public class ContextModule {
     }
 
     @Provides
-    @Singleton
     public Context provideContext() {
         return context;
     }

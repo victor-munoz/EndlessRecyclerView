@@ -64,7 +64,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     private UserDetailFragment detailFragment;
     private String loginName;
     private String avatarURL;
-    //UserDetailContract.UserActionsListener mActionsListener;
+    @Inject UserDetailContract.UserActionsListener mActionsListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +85,11 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         avatarURL = getIntent().getStringExtra(USER_PICTURE_URL);
 
 
-        //((App)getApplication() ).getUserDetailPresenterComponent(this).inject(this);
+        //Dagger 2 injection
+        ((App)getApplication()).getUserComponent(this).inject(this);
 
         if (null == savedInstanceState) {
-           // mActionsListener.loadUserDetails(loginName);
+            mActionsListener.loadUserDetails(loginName);
             initFragment(UserDetailFragment.newInstance());
         }
         downloadProfileImage(true);
@@ -191,7 +192,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
                             downloadProfileImage(false);
                         }
                         if(name.getText().length() == 0){
-                            //mActionsListener.loadUserDetails(loginName);
+                            mActionsListener.loadUserDetails(loginName);
                         }
                     }
                 });

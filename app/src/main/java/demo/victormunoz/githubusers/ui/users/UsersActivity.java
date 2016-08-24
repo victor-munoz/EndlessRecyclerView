@@ -27,11 +27,9 @@ import butterknife.BindView;
 import demo.victormunoz.githubusers.R;
 import demo.victormunoz.githubusers.api.model.User;
 import demo.victormunoz.githubusers.ui.App;
-import demo.victormunoz.githubusers.ui.di.component.GitHubComponent;
 import demo.victormunoz.githubusers.ui.userdetail.UserDetailActivity;
 import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource;
 import demo.victormunoz.githubusers.utils.recyclerview.RecyclerViewMargin;
-import retrofit2.Retrofit;
 
 /**
  * Create an Android App with the following functionality:
@@ -61,9 +59,8 @@ public class UsersActivity extends AppCompatActivity implements UsersContract.Vi
     RecyclerView recyclerView;
     @Inject
     UsersAdapter mUsersAdapter;
-    //listeners
-
-    //@Inject UsersContract.UserActionsListener mActionsListener;
+    @Inject
+    UsersContract.UserActionsListener mActionsListener;
 
 
     @Override
@@ -78,9 +75,8 @@ public class UsersActivity extends AppCompatActivity implements UsersContract.Vi
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowTitleEnabled(true);
-        //
-      //  mActionsListener = new UsersPresenter(this);
-       ((App)getApplication() ).getmAdaptercomponent(this).inject(this);
+        //Dagger 2 injection
+        ((App)getApplication()).getUsersComponent(this).inject(this);
 
         recyclerView.setAdapter(mUsersAdapter);
         int numColumns = getResources().getInteger(R.integer.columns);
@@ -89,13 +85,13 @@ public class UsersActivity extends AppCompatActivity implements UsersContract.Vi
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, numColumns));
         recyclerView.addItemDecoration(decoration);
-       // mActionsListener.loadMoreUsers();
+        mActionsListener.loadMoreUsers();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-      //  mActionsListener = null;
+        mActionsListener = null;
     }
 
 
@@ -115,7 +111,7 @@ public class UsersActivity extends AppCompatActivity implements UsersContract.Vi
                 .setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //mActionsListener.loadMoreUsers();
+                        mActionsListener.loadMoreUsers();
                     }
                 });
         View sbView = snackbar.getView();
@@ -159,6 +155,6 @@ public class UsersActivity extends AppCompatActivity implements UsersContract.Vi
     @Override
     public void onEndOfTheList() {
 
-        //mActionsListener.loadMoreUsers();
+        mActionsListener.loadMoreUsers();
     }
 }

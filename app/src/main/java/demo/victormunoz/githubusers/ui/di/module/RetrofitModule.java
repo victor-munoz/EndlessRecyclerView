@@ -1,6 +1,5 @@
 package demo.victormunoz.githubusers.ui.di.module;
 
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -10,8 +9,9 @@ import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 @Module
-public class NetModule {
+public class RetrofitModule {
     private final static String BASE_URL ="https://api.github.com";
     @Provides
     @Singleton

@@ -1,7 +1,6 @@
 package demo.victormunoz.githubusers.ui.users;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -22,11 +23,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
     private final static String TRANSLATION_Y = "translationY";
     private final static int ANIMATION_DURATION = 1000;
     private final UsersListener gitHubUsersListener;
-    private List<User> usersList;
-    private Context context;
-    public UsersAdapter(Context context, List<User> moviesList, UsersListener listener) {
-        this.usersList = moviesList;
-        this.context = context;
+    private final Picasso picasso;
+    private List<User> usersList=new ArrayList<>();
+    public UsersAdapter(Picasso picasso,UsersListener listener) {
+        this.picasso=picasso;
         this.gitHubUsersListener = listener;
     }
 
@@ -41,8 +41,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, int position) {
         User user = usersList.get(position);
         //set user's profile image
-        Picasso.with(context)
-                .load(user.getAvatarUrl()).fit().centerCrop()
+        picasso.load(user.getAvatarUrl()).fit().centerCrop()
                 .transform(new ImageToCircleTransformation())
                 .into(holder.avatar);
         //set username

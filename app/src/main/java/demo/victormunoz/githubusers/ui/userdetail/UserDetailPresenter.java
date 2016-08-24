@@ -1,45 +1,30 @@
 package demo.victormunoz.githubusers.ui.userdetail;
-
-import android.app.Activity;
 import android.support.annotation.NonNull;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import demo.victormunoz.githubusers.ui.di.module.GitHubModule;
-import demo.victormunoz.githubusers.ui.App;
 import demo.victormunoz.githubusers.api.model.User;
+import demo.victormunoz.githubusers.ui.di.module.GitHubModule.GitHubApiInterface;
 import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 public class UserDetailPresenter implements UserDetailContract.UserActionsListener, Callback<User> {
-
     private final UserDetailContract.View mUsersView;
-    @Inject
-    GitHubModule.GitHubApiInterface githubUserAPI;
-    @Inject @Named("client_id")
-    String clientID;
-    @Inject @Named("client_secret")
-    String clientSecret;
+   GitHubApiInterface githubUserAPI;
 
-    public UserDetailPresenter(@NonNull Activity activity) {
-        mUsersView = (UserDetailContract.View) checkNotNull(activity, "usersView cannot be null!");
 
+    public UserDetailPresenter(@NonNull UserDetailContract.View activity, GitHubApiInterface github) {
+        mUsersView =  activity;
+        githubUserAPI=github;
     }
+
+
     /**
      *  Use the Retrofit library to ask for an user's information to the GitHub API.
      */
     @Override
     public void loadUserDetails(String login) {
         // prepare call in Retrofit 2.0
-        Call<User> call = githubUserAPI.getUser(
-                login,
-                clientID,
-                clientSecret);
+        Call<User> call = githubUserAPI.getUser(login);
         //asynchronous call
         call.enqueue(this);
         EspressoIdlingResource.increment();
@@ -63,4 +48,5 @@ public class UserDetailPresenter implements UserDetailContract.UserActionsListen
         mUsersView.onLoadUserDetailsFail();
 
     }
+
 }
