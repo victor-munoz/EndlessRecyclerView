@@ -1,6 +1,6 @@
 # My Endless RecyclerView
 
-Source code of the Android app, using Retrofit, Materials, Picasso, Butterknife and  palette
+Source code of the Android app, using Retrofit, Materials, Dagger 2, Picasso, Butterknife and  palette
 
 ## App Features
 
@@ -13,6 +13,7 @@ Source code of the Android app, using Retrofit, Materials, Picasso, Butterknife 
 - Use of RecyclerView.
 - Use of Data Binding.
 - Retrofit + GSON .
+- Dagger 2 for Dependency injection 
 - Picasso for image loading.
 - Espresso for Unit Testing. 
 - Cool material design animations.
