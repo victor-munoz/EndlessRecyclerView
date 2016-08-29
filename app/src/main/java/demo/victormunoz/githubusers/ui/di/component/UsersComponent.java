@@ -9,6 +9,7 @@ import dagger.Component;
 import demo.victormunoz.githubusers.ui.di.module.UsersAdapterModule;
 import demo.victormunoz.githubusers.ui.di.module.UsersPresenterModule;
 import demo.victormunoz.githubusers.ui.users.UsersActivity;
+
 @Singleton
 @Component(
         modules= {

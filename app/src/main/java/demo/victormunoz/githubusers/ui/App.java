@@ -27,6 +27,7 @@ public class App extends Application {
 
     public UserComponent getUserComponent(Activity activity) {
         return  DaggerUserComponent.builder()
+                .contextModule(new ContextModule(activity))
                 .userPresenterModule(new UserPresenterModule(activity))
                 .build();
     }

@@ -10,7 +10,10 @@ import dagger.Provides;
 import demo.victormunoz.githubusers.ui.userdetail.UserDetailContract;
 import demo.victormunoz.githubusers.ui.userdetail.UserDetailPresenter;
 
-@Module (includes = {GitHubModule.class})
+@Module (includes = {
+        GitHubModule.class,
+        PicassoModule.class,
+        CircleTransformationModule.class})
 public class UserPresenterModule {
     private final UserDetailContract.View mUsersView;
 

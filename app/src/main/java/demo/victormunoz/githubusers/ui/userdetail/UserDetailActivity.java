@@ -45,7 +45,7 @@ import demo.victormunoz.githubusers.ui.App;
 import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource;
 import demo.victormunoz.githubusers.utils.picasso.ImageToCircleTransformation;
 
-public class UserDetailActivity extends AppCompatActivity implements UserDetailContract.View {
+public class UserDetailActivity extends AppCompatActivity implements UserDetailContract.View,Callback {
     public static final String USER_LOGIN = "user login";
     public static final String USER_PICTURE_URL = "user picture URL";
     private static final String USER_DETAIL_FRAGMENT = "user's detail fragment";
@@ -64,7 +64,10 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     private UserDetailFragment detailFragment;
     private String loginName;
     private String avatarURL;
+    private boolean isSharedElementOn = true;
     @Inject UserDetailContract.UserActionsListener mActionsListener;
+    @Inject Picasso picasso;
+    @Inject ImageToCircleTransformation transformation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,33 +95,13 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
             mActionsListener.loadUserDetails(loginName);
             initFragment(UserDetailFragment.newInstance());
         }
-        downloadProfileImage(true);
+        downloadProfileImage();
     }
 
-    private void downloadProfileImage(final boolean isSharedElementOn) {
-        Picasso.with(this)
-                .load(avatarURL).fit().centerCrop()
-                .transform(new ImageToCircleTransformation())
-                .into(avatar, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        if(isSharedElementOn){
-                            startPostponedEnterTransition();
-                            startRevealAnimation(getGradient(),200);
-                        }
-                        else{
-                            startRevealAnimation(getGradient(),0);
-                        }
-                    }
-
-                    @Override
-                    public void onError() {
-                        if(isSharedElementOn) {
-                            startPostponedEnterTransition();
-                        }
-                        onLoadUserDetailsFail();
-                    }
-                });
+    private void downloadProfileImage() {
+        picasso.load(avatarURL).fit().centerCrop()
+                .transform(transformation)
+                .into(avatar, this);
 
     }
 
@@ -189,7 +172,8 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
                     @Override
                     public void onClick(View view) {
                         if (avatar.getDrawable() == null) {
-                            downloadProfileImage(false);
+                            isSharedElementOn=false;
+                            downloadProfileImage();
                         }
                         if(name.getText().length() == 0){
                             mActionsListener.loadUserDetails(loginName);
@@ -219,6 +203,24 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         return EspressoIdlingResource.getIdlingResource();
     }
 
+    @Override
+    public void onSuccess() {
+        if(isSharedElementOn){
+            startPostponedEnterTransition();
+            startRevealAnimation(getGradient(),200);
+        }
+        else{
+            startRevealAnimation(getGradient(),0);
+        }
+    }
+
+    @Override
+    public void onError() {
+        if(isSharedElementOn) {
+            startPostponedEnterTransition();
+        }
+        onLoadUserDetailsFail();
+    }
 }
 
 

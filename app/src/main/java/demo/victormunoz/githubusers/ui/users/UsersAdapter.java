@@ -24,10 +24,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
     private final static int ANIMATION_DURATION = 1000;
     private final UsersListener gitHubUsersListener;
     private final Picasso picasso;
+    private ImageToCircleTransformation transformation;
     private List<User> usersList=new ArrayList<>();
-    public UsersAdapter(Picasso picasso,UsersListener listener) {
+    public UsersAdapter(Picasso picasso,ImageToCircleTransformation transformation,UsersListener listener) {
         this.picasso=picasso;
         this.gitHubUsersListener = listener;
+        this.transformation=transformation;
     }
 
     @Override
@@ -42,7 +44,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
         User user = usersList.get(position);
         //set user's profile image
         picasso.load(user.getAvatarUrl()).fit().centerCrop()
-                .transform(new ImageToCircleTransformation())
+                .transform(transformation)
                 .into(holder.avatar);
         //set username
         holder.loginName.setText(user.getLoginName());
@@ -88,6 +90,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
             gitHubUsersListener.onEndOfTheList();
         }
     }
+
+
 
 
     public User getItem(int position) {

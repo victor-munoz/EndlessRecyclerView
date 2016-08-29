@@ -8,10 +8,10 @@ import com.squareup.picasso.Picasso;
 import dagger.Module;
 import dagger.Provides;
 import demo.victormunoz.githubusers.ui.users.UsersAdapter;
+import demo.victormunoz.githubusers.utils.picasso.ImageToCircleTransformation;
 
 
-
-@Module(includes = {PicassoModule.class})
+@Module(includes = {PicassoModule.class,CircleTransformationModule.class})
 public class UsersAdapterModule  {
     private UsersAdapter.UsersListener mItemListener;
 
@@ -20,7 +20,7 @@ public class UsersAdapterModule  {
     }
 
     @Provides
-    UsersAdapter provideUsersAdapter(Picasso picasso) {
-        return new UsersAdapter(picasso, mItemListener);
+    UsersAdapter provideUsersAdapter(Picasso picasso,ImageToCircleTransformation transformation) {
+        return new UsersAdapter(picasso,transformation, mItemListener);
     }
 }
