@@ -6,6 +6,7 @@ Source code of the Android app, using Retrofit, Materials, Dagger 2, Picasso, Bu
 
 - Display an endless list of github users.
 - Access to an User's profile info.
+- Floating Action icon to come back to the app in any time (like Messenger's Chat Heads)
 
 ## Code Features
 
