@@ -36,12 +36,13 @@ public class FloatingIconService extends Service implements View.OnClickListener
     private WindowManager.LayoutParams trashParams;
     private int iconWidth;
 
+    //L I F E C Y C L E
+
     @Override
     public IBinder onBind(Intent intent) {
         // Not used
         return null;
     }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -61,6 +62,73 @@ public class FloatingIconService extends Service implements View.OnClickListener
         setTrashImage();
 
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (iconImage != null) {
+            windowManager.removeView(iconImage);
+            iconImage = null;
+        }
+        if (trashImage != null) {
+            windowManager.removeView(trashImage);
+            trashImage = null;
+        }
+        serviceRunning = false;
+
+
+    }
+
+    //U S E R  A C T I O N S
+
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), UsersActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+    }
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                //by default the action will be a click
+                isMoveAction = false;
+                return false;
+            case MotionEvent.ACTION_MOVE:
+                if (!isMoveAction) {
+                    trashEnterAnimation();
+                    iconAboveYourFingerAnimation();
+                }
+                isMoveAction = true;
+                if (isOnTrash(event.getRawX(), event.getRawY())) {
+                    iconsParams.x = trashParams.x;
+                    iconsParams.y = trashParams.y;
+                } else {
+                    iconsParams.x = fixPositionX(event.getRawX());
+                    iconsParams.y = fixPositionY(event.getRawY());
+                }
+                windowManager.updateViewLayout(iconImage, iconsParams);
+                return true;
+            case MotionEvent.ACTION_UP:
+                //we are performing a moving action
+                if (isMoveAction) {
+                    if (isOnTrash(event.getRawX(), event.getRawY())) {
+                        //we want to close the floating icon
+                        trashExitAnimation(true);
+                    } else {//no action was performed
+                        trashExitAnimation(false);
+                        iconToBorderX();
+                    }
+                    return true;
+                }
+                //we are performed a Click action
+                return false;
+        }
+
+        return false;
+    }
+
+    //S E T
 
     private void setTrashImage() {
         trashImage = new ImageView(this);
@@ -95,80 +163,7 @@ public class FloatingIconService extends Service implements View.OnClickListener
         iconsParams.y = screenHeight / 4;
         iconImage.setOnTouchListener(this);
         windowManager.addView(iconImage, iconsParams);
-        iconToRightAnimation();
-    }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (iconImage != null) {
-            windowManager.removeView(iconImage);
-            iconImage = null;
-        }
-        if (trashImage != null) {
-            windowManager.removeView(trashImage);
-            trashImage = null;
-        }
-        serviceRunning = false;
-
-
-    }
-
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent(getApplicationContext(), UsersActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-
-    }
-
-
-    @Override
-    public boolean onTouch(View view, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                //by default will be a click action
-                isMoveAction = false;
-                return false;
-            case MotionEvent.ACTION_UP:
-                if (isMoveAction) {
-                    //we are performing a moving action
-                    if (isOnTrash(event.getRawX(), event.getRawY())) {
-                        //we want to close the floating icon
-                        trashExitAnimation(true);
-                    } else {
-                        //no action was performed
-                        trashExitAnimation(false);
-                        if (isOnLeftSideOfScreen()) {
-                            iconToLeftAnimation();
-                        } else {
-                            iconToRightAnimation();
-                        }
-                    }
-                    return true;
-                }
-                //we are performed a Click action
-                return false;
-
-            case MotionEvent.ACTION_MOVE:
-                if (!isMoveAction) {
-                    iconAboveYourFingerAnimation();
-                    trashEnterAnimation();
-                }
-                isMoveAction = true;
-                if (isOnTrash(event.getRawX(), event.getRawY())) {
-                    iconsParams.x = trashParams.x;
-                    iconsParams.y = trashParams.y;
-                } else {
-                    iconsParams.x = getIconPositionX(event.getRawX());
-                    iconsParams.y = getIconPositionY(event.getRawY());
-                }
-                windowManager.updateViewLayout(iconImage, iconsParams);
-                return true;
-        }
-
-        return false;
+        iconToBorderX();
     }
 
     //A N I M A T I O N S
@@ -231,11 +226,16 @@ public class FloatingIconService extends Service implements View.OnClickListener
 
     }
 
+    private void iconToBorderX(){
 
-    private void iconToRightAnimation() {
         ValueAnimator anim = new ValueAnimator();
         anim.setInterpolator(new LinearOutSlowInInterpolator());
-        anim.setIntValues(iconsParams.x, screenWidth - iconWidth * 2 / 3);
+        if(isOnLeftSideOfScreen()) {
+            anim.setIntValues(iconsParams.x, -iconWidth / 3);
+        }
+        else{
+            anim.setIntValues(iconsParams.x, screenWidth - iconWidth * 2 / 3);
+        }
         anim.setDuration(400);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -244,27 +244,6 @@ public class FloatingIconService extends Service implements View.OnClickListener
                 windowManager.updateViewLayout(iconImage, iconsParams);
             }
         });
-
-        anim.start();
-
-    }
-
-    private void iconToLeftAnimation() {
-        ValueAnimator anim = new ValueAnimator();
-        anim.setInterpolator(new LinearOutSlowInInterpolator());
-        anim.setIntValues(iconsParams.x, -iconWidth / 3);
-        anim.setDuration(400);
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
-
-                               {
-                                   @Override
-                                   public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                       iconsParams.x = (int) valueAnimator.getAnimatedValue();
-                                       windowManager.updateViewLayout(iconImage, iconsParams);
-                                   }
-                               }
-
-        );
 
         anim.start();
     }
@@ -281,40 +260,7 @@ public class FloatingIconService extends Service implements View.OnClickListener
         xAnim.start();
     }
 
-    //
-    private int getIconPositionX(float x) {
-        if (x > screenWidth - iconRadio) {
-            x = screenWidth - iconRadio;
-        } else if (x < iconRadio) {
-            x = iconRadio;
-        }
-        return (int) x - iconRadio;
-    }
-
-    private int getIconPositionY(float y) {
-        int iconTopY = (int) (y - statusBarHeight);
-        int limitTop = iconRadio * 2;
-        int limitBottom = screenHeight;
-
-        if (iconTopY <= limitTop) {
-            iconTopY = limitTop;
-        } else if (iconTopY > limitBottom) {
-            iconTopY = limitBottom;
-        }
-        return iconTopY - offsetY;
-    }
-
-    private boolean isOnTrash(float x, float y) {
-        int distanceToTrash = iconRadio * 3;
-        Point icon = new Point((int) (x - iconRadio), (int) (y - offsetY));
-        Point trash = new Point(trashParams.x, trashParams.y);
-        double dist = Math.sqrt(Math.pow(icon.x - trash.x, 2) + Math.pow(icon.y - trash.y, 2));
-        return dist <= distanceToTrash;
-    }
-
-    private boolean isOnLeftSideOfScreen() {
-        return iconsParams.x <= (screenWidth / 2) - (iconRadio / 2);
-    }
+    //U T I L S
 
     private int getStatusBarHeight() {
         int result = 0;
@@ -324,4 +270,40 @@ public class FloatingIconService extends Service implements View.OnClickListener
         }
         return result;
     }
+
+    //P O S I T I O N
+
+    private boolean isOnTrash(float x, float y) {
+        int distanceToTrash = iconRadio * 3;
+        Point icon = new Point((int) (x - iconRadio), (int) (y-statusBarHeight-offsetY-iconRadio));
+        Point trash = new Point(trashParams.x, trashParams.y);
+        double dist = Math.sqrt(Math.pow(icon.x - trash.x, 2) + Math.pow(icon.y - trash.y, 2));
+        return dist <= distanceToTrash;
+    }
+
+    private boolean isOnLeftSideOfScreen() {
+        return iconsParams.x <= (screenWidth / 2) - (iconRadio / 2);
+    }
+
+    private int fixPositionX(float x) {
+        if (x > screenWidth - iconRadio) {
+            return screenWidth - iconWidth;
+        } else if (x < iconRadio) {
+            return 0;
+        } else {
+            return (int) x-iconRadio;
+        }
+    }
+
+    private int fixPositionY(float y) {
+        if(y-statusBarHeight-offsetY<iconRadio){
+            return 0;
+        }
+        else{
+            return (int) (y-statusBarHeight-iconRadio-offsetY);
+        }
+
+    }
+
+
 }
