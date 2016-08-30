@@ -2,6 +2,7 @@ package demo.victormunoz.githubusers.service;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.app.Notification;
 import android.app.Service;
@@ -35,6 +36,10 @@ public class FloatingIconService extends Service implements View.OnClickListener
     private int statusBarHeight;
     private WindowManager.LayoutParams trashParams;
     private int iconWidth;
+    private boolean isIconOnTrash;
+    private AnimatorSet iconToTrashAnimation;
+    private int offSetTrashX;
+    private int offSetTrashY;
 
     //L I F E C Y C L E
 
@@ -101,9 +106,9 @@ public class FloatingIconService extends Service implements View.OnClickListener
                 }
                 isMoveAction = true;
                 if (isOnTrash(event.getRawX(), event.getRawY())) {
-                    iconsParams.x = trashParams.x;
-                    iconsParams.y = trashParams.y;
+                    if (!isIconOnTrash) iconToTrashAnimation();
                 } else {
+                    if (isIconOnTrash) iconOutOfTrashAnimation(event.getRawX(),event.getRawY());
                     iconsParams.x = fixPositionX(event.getRawX());
                     iconsParams.y = fixPositionY(event.getRawY());
                 }
@@ -167,6 +172,61 @@ public class FloatingIconService extends Service implements View.OnClickListener
     }
 
     //A N I M A T I O N S
+    private void iconOutOfTrashAnimation(float x, float y){
+        ValueAnimator xAnim = new ValueAnimator();
+        xAnim.setIntValues(fixPositionX(x)-iconsParams.x,0);
+        xAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                offSetTrashX = (int) valueAnimator.getAnimatedValue();
+            }
+        });
+        ValueAnimator yAnim = new ValueAnimator();
+        yAnim.setIntValues(fixPositionY(y)-iconsParams.y,0);
+        yAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                offSetTrashY = (int) valueAnimator.getAnimatedValue();
+            }
+        });
+        AnimatorSet iconOutOfTrashAnimation = new AnimatorSet();
+        iconOutOfTrashAnimation.playTogether(xAnim,yAnim);
+        iconOutOfTrashAnimation.setDuration(100);
+        iconOutOfTrashAnimation.setInterpolator(new FastOutSlowInInterpolator());
+        iconOutOfTrashAnimation.start();
+
+        iconToTrashAnimation.cancel();
+        isIconOnTrash =false;
+    }
+
+    private void iconToTrashAnimation(){
+        ValueAnimator xAnim = new ValueAnimator();
+        xAnim.setIntValues(iconsParams.x,trashParams.x);
+        xAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                iconsParams.x = (int) valueAnimator.getAnimatedValue();
+                windowManager.updateViewLayout(iconImage, iconsParams);
+            }
+        });
+
+        ValueAnimator yAnim = new ValueAnimator();
+        yAnim.setIntValues(iconsParams.y,trashParams.y);
+        yAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                iconsParams.y = (int) valueAnimator.getAnimatedValue();
+                windowManager.updateViewLayout(iconImage, iconsParams);
+            }
+        });
+
+        iconToTrashAnimation =new AnimatorSet();
+        iconToTrashAnimation.playTogether(xAnim,yAnim);
+        iconToTrashAnimation.setInterpolator(new FastOutSlowInInterpolator());
+        iconToTrashAnimation.setDuration(100);
+        iconToTrashAnimation.start();
+        isIconOnTrash =true;
+    }
 
     private void trashEnterAnimation() {
         ValueAnimator anim = new ValueAnimator();
@@ -287,11 +347,11 @@ public class FloatingIconService extends Service implements View.OnClickListener
 
     private int fixPositionX(float x) {
         if (x > screenWidth - iconRadio) {
-            return screenWidth - iconWidth;
+            return screenWidth - iconWidth-offSetTrashX;
         } else if (x < iconRadio) {
-            return 0;
+            return 0-offSetTrashX;
         } else {
-            return (int) x-iconRadio;
+            return (int) x-iconRadio-offSetTrashX;
         }
     }
 
@@ -300,7 +360,7 @@ public class FloatingIconService extends Service implements View.OnClickListener
             return 0;
         }
         else{
-            return (int) (y-statusBarHeight-iconRadio-offsetY);
+            return (int) (y-statusBarHeight-iconRadio-offsetY-offSetTrashY);
         }
 
     }
