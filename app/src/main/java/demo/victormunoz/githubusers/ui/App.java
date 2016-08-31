@@ -2,6 +2,7 @@ package demo.victormunoz.githubusers.ui;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.res.Resources;
 
 
 import demo.victormunoz.githubusers.ui.di.component.DaggerUserComponent;
@@ -15,7 +16,12 @@ import demo.victormunoz.githubusers.ui.di.module.UsersPresenterModule;
 
 public class App extends Application {
 
-
+    public static Resources mResources;
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mResources = getResources();
+    }
 
     public UsersComponent getUsersComponent(Activity activity) {
         return DaggerUsersComponent.builder()

@@ -8,6 +8,7 @@
     <dimen name="margin_content_double">32dp</dimen>
     <dimen name="big_circle_image">160dp</dimen>
     <dimen name="little_circle_image">64dp</dimen>
+    <dimen name="icon_trash">48dp</dimen>
     <dimen name="base_elevation">2dp</dimen>
     <dimen name="item_padding">24dp</dimen>
 

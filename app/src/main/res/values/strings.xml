@@ -12,4 +12,5 @@
     <string name="available_for_hire">Available for hire</string>
     <string name="blog">Blog</string>
     <string name="profile">Profile</string>
+    <string name="trash_icon">trash icon</string>
 </resources>
