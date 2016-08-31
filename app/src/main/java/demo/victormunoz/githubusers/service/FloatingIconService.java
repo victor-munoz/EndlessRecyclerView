@@ -153,7 +153,7 @@ public class FloatingIconService extends Service implements View.OnClickListener
     @SuppressLint("InflateParams")
     private void setTrashImage() {
         LayoutInflater li = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        rlTrash = (RelativeLayout) li.inflate(R.layout.trash_icon, null);
+        rlTrash = (RelativeLayout) li.inflate(R.layout.service_trash_icon, null);
         rlTrash.setVisibility(View.GONE);
         ivTrash = (ImageView) rlTrash.findViewById(R.id.trash_icon);
         trashParams = new WindowManager.LayoutParams(
