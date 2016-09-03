@@ -3,6 +3,7 @@ package demo.victormunoz.githubusers.service;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.animation.PointFEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -44,7 +45,7 @@ public class FloatingIconService extends Service implements View.OnClickListener
     private WindowManager.LayoutParams iconParams;
     private WindowManager.LayoutParams trashParams;
     //motion
-    private boolean isMoveAction = false;
+    private boolean isMoveAction;
     private boolean isIconOnTrash;
     private int touchX;
     private int touchY;
@@ -353,9 +354,6 @@ public class FloatingIconService extends Service implements View.OnClickListener
         iconToTrashAnimation.start();
     }
 
-
-
-
     private void trashEnterAnimation() {
         ValueAnimator animY = new ValueAnimator();
         animY.setFloatValues(0, 1);
@@ -419,7 +417,7 @@ public class FloatingIconService extends Service implements View.OnClickListener
     private void iconToBorderX() {
         ValueAnimator anim = new ValueAnimator();
         anim.setInterpolator(new LinearOutSlowInInterpolator());
-        if (isOnLeftSideOfScreen()) {
+        if (iconParams.x < bound.centerX()) {
             anim.setIntValues(iconParams.x, bound.left - ICON_WIDTH / 3);
         } else {
            anim.setIntValues(iconParams.x, bound.right + ICON_WIDTH / 3);
@@ -451,7 +449,7 @@ public class FloatingIconService extends Service implements View.OnClickListener
         xAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                if(isOnLeftSideOfScreen()) {
+                if(iconParams.x < bound.centerX()) {
                     fingerDeltaX = (int) valueAnimator.getAnimatedValue();
                 }
                 else{
@@ -487,17 +485,13 @@ public class FloatingIconService extends Service implements View.OnClickListener
      * @return true if icon is close to the trash
      */
     private boolean isTouchInsideTrashArea() {
-        int iconX = touchX - ICON_WIDTH / 2;
-        int iconY = touchY -ICON_WIDTH/2 - fingerDeltaY;
-        Point icon = new Point(iconX, iconY);
-        Point trash = new Point(trashParams.x, trashParams.y);
-        double dist = Math.sqrt(Math.pow(icon.x - trash.x, 2) + Math.pow(icon.y - trash.y, 2));
+        int iconX = touchX - ICON_WIDTH / 2 - fingerDeltaX;
+        int iconY = touchY - ICON_WIDTH / 2 - fingerDeltaY;
+        double dist = Math.sqrt(
+                Math.pow(iconX - trashParams.x, 2)
+                        + Math.pow(iconY - trashParams.y, 2));
         int distanceToTrash = trashParams.width * 3 / 2;
         return dist <= distanceToTrash;
-    }
-
-    private boolean isOnLeftSideOfScreen() {
-        return iconParams.x <= bound.centerX() ;
     }
 
     private int getIconX() {
