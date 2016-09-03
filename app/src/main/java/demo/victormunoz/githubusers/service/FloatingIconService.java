@@ -10,6 +10,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.IBinder;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
@@ -42,23 +43,23 @@ public class FloatingIconService extends Service implements View.OnClickListener
     private RelativeLayout rlTrash;
     private WindowManager.LayoutParams iconParams;
     private WindowManager.LayoutParams trashParams;
-    //sizes
-    private int screenWidth;
-    private int screenHeight;
-    private int fingerDeltaY;
-    private int fingerDeltaX;
-    private int iconDeltaX;
-    private int iconDeltaY;
-    private int touchX;
-    private int touchY;
+    //motion
     private boolean isMoveAction = false;
     private boolean isIconOnTrash;
+    private int touchX;
+    private int touchY;
     //animations
     private AnimatorSet iconToTrashAnimation;
     private AnimatorSet iconOutOfTrashAnimation;
-    //animation factor
-    float trashToIconFactor;
-    float trashToPositionFactor;
+    //factor to trash following icon animation
+    private float trashEnterAnimPercent;
+    //delta to above finger position on touch first move animation
+    private int fingerDeltaY;
+    private int fingerDeltaX;
+    //delta to icon in out of trash animation
+    private int iconDeltaX;
+    private int iconDeltaY;
+    private Rect bound;
 
 
     //L I F E C Y C L E
@@ -77,8 +78,9 @@ public class FloatingIconService extends Service implements View.OnClickListener
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         DisplayMetrics displaymetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displaymetrics);
-        screenHeight = displaymetrics.heightPixels - STATUS_BAR_HEIGHT;
-        screenWidth = displaymetrics.widthPixels;
+        int screenHeight = displaymetrics.heightPixels - STATUS_BAR_HEIGHT;
+        int screenWidth = displaymetrics.widthPixels;
+        bound=new Rect(0,0,screenWidth - ICON_WIDTH,screenHeight - ICON_WIDTH);
         setIconImage();
         setTrashImage();
 
@@ -110,7 +112,8 @@ public class FloatingIconService extends Service implements View.OnClickListener
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         touchX = (int) event.getRawX();
-        touchY = (int) event.getRawY();
+        touchY = (int) event.getRawY()-STATUS_BAR_HEIGHT;
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 //by default the action will be a click
@@ -188,8 +191,8 @@ public class FloatingIconService extends Service implements View.OnClickListener
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
         trashParams.gravity = Gravity.TOP | Gravity.START;
-        trashParams.x = screenWidth / 2 - ICON_WIDTH / 2;
-        trashParams.y = screenHeight - TRASH_MARGIN_BOTTOM;
+        trashParams.x = bound.centerX();
+        trashParams.y = bound.bottom - TRASH_MARGIN_BOTTOM;
         windowManager.addView(rlTrash, trashParams);
     }
 
@@ -205,8 +208,8 @@ public class FloatingIconService extends Service implements View.OnClickListener
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
         iconParams.gravity = Gravity.TOP | Gravity.START;
-        iconParams.x = screenWidth / 2 - ICON_WIDTH / 2;
-        iconParams.y = screenHeight / 4;
+        iconParams.x = bound.centerX();
+        iconParams.y = bound.bottom / 4;
         ivIcon.setOnTouchListener(this);
         windowManager.addView(ivIcon, iconParams);
         iconToBorderX();
@@ -359,8 +362,7 @@ public class FloatingIconService extends Service implements View.OnClickListener
         animY.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                trashToPositionFactor = (float) valueAnimator.getAnimatedValue();
-                trashToIconFactor = (float) valueAnimator.getAnimatedValue();
+                trashEnterAnimPercent = (float) valueAnimator.getAnimatedValue();
                 trashParams.x = getTrashX();
                 trashParams.y = getTrashY();
                 windowManager.updateViewLayout(rlTrash, trashParams);
@@ -387,8 +389,7 @@ public class FloatingIconService extends Service implements View.OnClickListener
         factorAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                trashToPositionFactor = (float) valueAnimator.getAnimatedValue();
-                trashToIconFactor = (float) valueAnimator.getAnimatedValue();
+                trashEnterAnimPercent = (float) valueAnimator.getAnimatedValue();
                 if (iconParams.x == trashParams.x && iconParams.y == trashParams.y) {
                     iconParams.y = getTrashY();
                     iconParams.x = getTrashX();
@@ -419,9 +420,9 @@ public class FloatingIconService extends Service implements View.OnClickListener
         ValueAnimator anim = new ValueAnimator();
         anim.setInterpolator(new LinearOutSlowInInterpolator());
         if (isOnLeftSideOfScreen()) {
-            anim.setIntValues(iconParams.x, -ICON_WIDTH / 3);
+            anim.setIntValues(iconParams.x, bound.left - ICON_WIDTH / 3);
         } else {
-           anim.setIntValues(iconParams.x, screenWidth - ICON_WIDTH * 2 / 3);
+           anim.setIntValues(iconParams.x, bound.right + ICON_WIDTH / 3);
         }
         anim.setDuration(400);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -435,7 +436,9 @@ public class FloatingIconService extends Service implements View.OnClickListener
     }
 
     private void iconAboveYourFingerAnimation() {
-        ValueAnimator yAnim = ValueAnimator.ofInt(touchY - STATUS_BAR_HEIGHT- iconParams.y - ICON_WIDTH/2, MAX_FINGER_DISTANCE);
+        ValueAnimator yAnim = ValueAnimator.ofInt(
+                touchY - iconParams.y - ICON_WIDTH/2,
+                MAX_FINGER_DISTANCE);
         yAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -485,7 +488,7 @@ public class FloatingIconService extends Service implements View.OnClickListener
      */
     private boolean isTouchInsideTrashArea() {
         int iconX = touchX - ICON_WIDTH / 2;
-        int iconY = touchY - STATUS_BAR_HEIGHT -ICON_WIDTH/2- fingerDeltaY;
+        int iconY = touchY -ICON_WIDTH/2 - fingerDeltaY;
         Point icon = new Point(iconX, iconY);
         Point trash = new Point(trashParams.x, trashParams.y);
         double dist = Math.sqrt(Math.pow(icon.x - trash.x, 2) + Math.pow(icon.y - trash.y, 2));
@@ -494,37 +497,33 @@ public class FloatingIconService extends Service implements View.OnClickListener
     }
 
     private boolean isOnLeftSideOfScreen() {
-        return iconParams.x <= (screenWidth / 2) - (ICON_WIDTH / 2);
+        return iconParams.x <= bound.centerX() ;
     }
 
     private int getIconX() {
         int iconX = touchX - ICON_WIDTH / 2;
-        int limitLeft = 0;
-        int limitRight = screenWidth - ICON_WIDTH;
-        int iconFixedX =Math.max(Math.min(iconX, limitRight), limitLeft);
-        return  iconFixedX - iconDeltaX - fingerDeltaX;
+        int iconFixedX = Math.max(Math.min(iconX, bound.right), bound.left);
+        return iconFixedX - iconDeltaX - fingerDeltaX;
     }
 
     private int getIconY() {
-        int iconY = touchY - STATUS_BAR_HEIGHT - ICON_WIDTH/2 - fingerDeltaY;
-        int limitTop = 0;
-        int limitBottom = screenHeight - ICON_WIDTH;
-        int iconFixedY = Math.min(Math.max(iconY, limitTop), limitBottom);
-        return  iconFixedY - iconDeltaY;
+        int iconY = touchY - ICON_WIDTH/2 - fingerDeltaY;
+        int iconFixedY = Math.min(Math.max(iconY, bound.top), bound.bottom);
+        return iconFixedY - iconDeltaY;
     }
 
     private int getTrashX() {
-        int trashX = screenWidth / 2 - ICON_WIDTH / 2;
+        int trashX = bound.centerX() ;
         int trashToIconDelta = (int) ((getIconX() - trashX) * 0.1f);
-        return trashX + (int) (trashToIconDelta * trashToIconFactor);
+        return trashX + (int) (trashToIconDelta * trashEnterAnimPercent);
     }
 
     private int getTrashY() {
-        int trashY = screenHeight - (int) (TRASH_MARGIN_BOTTOM * trashToPositionFactor);
-        int fixedTouchY=Math.max(touchY, screenHeight / 2);
+        int trashY = bound.bottom + ICON_WIDTH - (int) (TRASH_MARGIN_BOTTOM * trashEnterAnimPercent);
+        int fixedTouchY = Math.max(touchY, bound.centerY());
         int iconY = fixedTouchY - STATUS_BAR_HEIGHT - fingerDeltaY - ICON_WIDTH/2 - iconDeltaY;
         int trashToIconDelta = (int) (( iconY - trashY) * 0.1f);
-        return trashY + (int) (trashToIconDelta * trashToIconFactor);
+        return trashY + (int) (trashToIconDelta * trashEnterAnimPercent);
     }
 
 
