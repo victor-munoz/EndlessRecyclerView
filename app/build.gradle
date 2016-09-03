@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "demo.victormunoz.githubusers"
-        minSdkVersion 22
+        minSdkVersion 21
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
