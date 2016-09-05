@@ -11,6 +11,7 @@ Source code of the Android app, using Retrofit, Materials, Dagger 2, Picasso, Bu
 ## Code Features
 
 - Clean app architecture: UI and API separated.
+- Responsive UI
 - Use of RecyclerView.
 - Use of Data Binding.
 - Retrofit + GSON .
