@@ -24,7 +24,7 @@ Source code of the Android app, using Retrofit, Materials, Dagger 2, Picasso, Bu
 ## Screenshots
 <img src="https://raw.githubusercontent.com/victor-munoz/EndlessRecyclerView/master/art/screenshots/users_nexus5.png" width="150"/><img src="https://raw.githubusercontent.com/victor-munoz/EndlessRecyclerView/master/art/screenshots/users_nexus7.png" width="220"/><img src="https://raw.githubusercontent.com/victor-munoz/EndlessRecyclerView/master/art/screenshots/user_nexus5.png" width="150"/><img src="https://raw.githubusercontent.com/victor-munoz/EndlessRecyclerView/master/art/screenshots/user_nexus7.png" width="220"/>
 
-## animated gifs
+## Animations
 <img src="https://raw.githubusercontent.com/victor-munoz/EndlessRecyclerView/master/art/gif/CoordinatorLayout.gif" width="200"/>
 <img src="https://raw.githubusercontent.com/victor-munoz/EndlessRecyclerView/master/art/gif/endless.gif" width="200"/>
 <img src="https://raw.githubusercontent.com/victor-munoz/EndlessRecyclerView/master/art/gif/shared.gif" width="200"/>
