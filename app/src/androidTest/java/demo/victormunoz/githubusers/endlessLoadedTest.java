@@ -1,7 +1,9 @@
 package demo.victormunoz.githubusers;
 
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingRegistry;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.filters.MediumTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -17,84 +19,86 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import demo.victormunoz.githubusers.macher.RecyclerViewMatcher;
-import demo.victormunoz.githubusers.ui.users.UsersActivity;
+import demo.victormunoz.githubusers.features.allusers.AllUsersActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static demo.victormunoz.githubusers.endlessLoadedTest.Matchers.withItemCount;
+import static demo.victormunoz.githubusers.macher.RecyclerViewMatcher.atPosition;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class endlessLoadedTest {
     @Rule
-    public ActivityTestRule<UsersActivity> mNotesActivityTestRule =
-            new ActivityTestRule<>(UsersActivity.class);
+    public final ActivityTestRule<AllUsersActivity> mAllUsersActivityTestRule = new ActivityTestRule<>(AllUsersActivity.class);
 
-    @Before
-    public void setUp() {
-        //set idle
-        Espresso.registerIdlingResources(mNotesActivityTestRule.getActivity().getCountingIdlingResource());
-        //trick to allow scrollToPosition inside CoordinatorLayout, otherwise the scroll will not be
-        // performed
-        mNotesActivityTestRule.getActivity().runOnUiThread(new Runnable() {
+    private void allowScrollToPosition(){
+        mAllUsersActivityTestRule.getActivity().runOnUiThread(new Runnable() {
             @Override
-            public void run() {
-                RecyclerView recyclerView = (RecyclerView) mNotesActivityTestRule.getActivity().findViewById(R.id.recycler_view);
-                CoordinatorLayout.LayoutParams params =
-                        (CoordinatorLayout.LayoutParams) recyclerView.getLayoutParams();
+            public void run(){
+                RecyclerView recyclerView = mAllUsersActivityTestRule.getActivity().findViewById(R.id.recycler_view);
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) recyclerView.getLayoutParams();
                 params.setBehavior(null);
                 recyclerView.requestLayout();
             }
         });
     }
-    /**
-     * scroll three times to the last element of the recyclerview and the check if exactly 90
-     * elements are loaded
-     */
+
+    @Before
+    public void setUp(){
+        IdlingResource idlingResource = mAllUsersActivityTestRule.getActivity().getCountingIdlingResource();
+        IdlingRegistry.getInstance().register(idlingResource);
+        allowScrollToPosition();
+    }
+
     @Test
-    public void endlessScrollingTest() {
-        //element 0  displayed
-        //onView(withRecyclerView(R.id.recycler_view).atPosition(0)).check(matches(isDisplayed()));
-        //scroll to element 29 (load more)
+    public void scrollDown_getMoreUsers(){
+        //check first page
+        onView(withId(R.id.recycler_view))
+                .perform(scrollToPosition(0))
+                .check(matches(atPosition(0, isDisplayed())));
+
+        //load second page
         onView(withId(R.id.recycler_view)).perform(scrollToPosition(29));
-        //scroll to the next row
-        onView(withId(R.id.recycler_view)).perform(scrollToPosition(30));
-        //element 30 is displayed
-        onView(withRecyclerView(R.id.recycler_view).atPosition(30)).check(matches(isDisplayed()));
-        //scroll to element 59 (load more)
+
+        //check second page
+        onView(withId(R.id.recycler_view))
+                .perform(scrollToPosition(30))
+                .check(matches(atPosition(30, isDisplayed())));
+
+        //load third page
         onView(withId(R.id.recycler_view)).perform(scrollToPosition(59));
-        //scroll to the next row
-        onView(withId(R.id.recycler_view)).perform(scrollToPosition(60));
-        //element 60 is displayed
-        onView(withRecyclerView(R.id.recycler_view).atPosition(60)).check(matches(isDisplayed()));
-        //total loaded users
+
+        //check third page
+        onView(withId(R.id.recycler_view))
+                .perform(scrollToPosition(60))
+                .check(matches(atPosition(60, isDisplayed())));
+
+        //check total items
         onView(withId(R.id.recycler_view)).check(matches(withItemCount(90)));
-        //scroll to beginning
-        onView(withId(R.id.recycler_view)).perform(scrollToPosition(0));
-
-
     }
+
     @After
-    public void unregisterIdlingResource() {
-        Espresso.unregisterIdlingResources(
-                mNotesActivityTestRule.getActivity().getCountingIdlingResource());
+    public void unregisterIdlingResource(){
+        IdlingRegistry.getInstance().unregister(mAllUsersActivityTestRule.getActivity().getCountingIdlingResource());
+        onView(withId(R.id.recycler_view)).perform(scrollToPosition(0));
     }
-    public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
-        return new RecyclerViewMatcher(recyclerViewId);
-    }
+
     static class Matchers {
-        public static Matcher<View> withItemCount(final int size) {
+        static Matcher<View> withItemCount(@SuppressWarnings("SameParameterValue") final int size){
             return new TypeSafeMatcher<View>() {
-                @Override public boolean matchesSafely (final View view) {
-                    return ((RecyclerView) view).getAdapter().getItemCount() == size;
+                @Override
+                public boolean matchesSafely(@NonNull final View view){
+                    return ((RecyclerView) checkNotNull(view)).getAdapter().getItemCount() == size;
                 }
 
-                @Override public void describeTo (final Description description) {
-                    description.appendText ("recyclerView should have " + size + " items");
+                @Override
+                public void describeTo(@NonNull final Description description){
+                    checkNotNull(description).appendText("recyclerView should have " + size + " items");
                 }
             };
         }
