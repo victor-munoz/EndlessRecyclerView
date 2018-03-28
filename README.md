@@ -17,7 +17,7 @@ Source code of the Android app, using Retrofit, Materials, Dagger 2, Picasso, Bu
 - Retrofit + GSON .
 - Dagger 2 for Dependency injection 
 - Picasso for image loading.
-- Espresso for Unit Testing. 
+- Espresso for UI Testing. 
 - Cool material design animations.
 
 
