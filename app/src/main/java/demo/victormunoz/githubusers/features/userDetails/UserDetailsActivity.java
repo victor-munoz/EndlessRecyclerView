@@ -175,22 +175,15 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
     public void displayUserDetails(@NonNull final User user){
         detailFragment.displayUserInfo(user);
         github.setVisibility(View.VISIBLE);
-        github.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v){
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(user.getGitHubProfileUrl()));
-                startActivity(browserIntent);
-            }
+        github.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(user.getGitHubProfileUrl()));
+            startActivity(browserIntent);
         });
         if (user.getBlog() != null && Patterns.WEB_URL.matcher(user.getBlog()).matches()) {
             blog.setVisibility(View.VISIBLE);
-            blog.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v){
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(user.getBlog()));
-                    startActivity(browserIntent);
-                }
+            blog.setOnClickListener(v -> {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(user.getBlog()));
+                startActivity(browserIntent);
             });
         }
 
@@ -204,16 +197,13 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
     @Override
     public void onLoadUserDetailsFail(){
         String errorMessage = getString(R.string.error_downloading_users_profile);
-        Snackbar snackbar = Snackbar.make(avatar, errorMessage, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                if (avatar.getDrawable() == null) {
-                    isSharedElementOn = false;
-                    downloadProfileImage();
-                }
-                if (name.getText().length() == 0) {
-                    mActionsListener.getUserDetails(loginName);
-                }
+        Snackbar snackbar = Snackbar.make(avatar, errorMessage, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, view -> {
+            if (avatar.getDrawable() == null) {
+                isSharedElementOn = false;
+                downloadProfileImage();
+            }
+            if (name.getText().length() == 0) {
+                mActionsListener.getUserDetails(loginName);
             }
         });
         View sbView = snackbar.getView();

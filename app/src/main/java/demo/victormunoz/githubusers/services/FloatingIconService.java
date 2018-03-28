@@ -215,42 +215,33 @@ public class FloatingIconService extends Service implements View.OnClickListener
     private void iconOutOfTrashAnimation(){
         ValueAnimator widthAnim = new ValueAnimator();
         widthAnim.setIntValues(ivTrash.getWidth(), TRASH_WIDTH);
-        widthAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(@NonNull ValueAnimator valueAnimator){
-                final int value = (int) valueAnimator.getAnimatedValue();
-                ivTrash.getLayoutParams().width = value;
-                ivTrash.getLayoutParams().height = value;
-                ivTrash.requestLayout();
-            }
+        widthAnim.addUpdateListener(valueAnimator -> {
+            final int value = (int) valueAnimator.getAnimatedValue();
+            ivTrash.getLayoutParams().width = value;
+            ivTrash.getLayoutParams().height = value;
+            ivTrash.requestLayout();
         });
 
         ValueAnimator xAnim = new ValueAnimator();
         xAnim.setIntValues(getIconX() - iconParams.x, 0);
-        xAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                                    @Override
-                                    public void onAnimationUpdate(@NonNull ValueAnimator valueAnimator){
-                                        iconDeltaX = (int) valueAnimator.getAnimatedValue();
-                                        iconParams.x = getIconX();
-                                        trashIconParams.x = getTrashX();
-                                        windowManager.updateViewLayout(ivIcon, iconParams);
-                                        windowManager.updateViewLayout(rlTrash, trashIconParams);
-                                    }
-                                }
+        xAnim.addUpdateListener(valueAnimator -> {
+            iconDeltaX = (int) valueAnimator.getAnimatedValue();
+            iconParams.x = getIconX();
+            trashIconParams.x = getTrashX();
+            windowManager.updateViewLayout(ivIcon, iconParams);
+            windowManager.updateViewLayout(rlTrash, trashIconParams);
+        }
 
         );
         ValueAnimator yAnim = new ValueAnimator();
         yAnim.setIntValues(getIconY() - iconParams.y, 0);
-        yAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(@NonNull ValueAnimator valueAnimator){
-                iconDeltaY = (int) valueAnimator.getAnimatedValue();
-                iconParams.y = getIconY();
-                trashIconParams.y = getTrashY();
-                windowManager.updateViewLayout(ivIcon, iconParams);
-                windowManager.updateViewLayout(rlTrash, trashIconParams);
+        yAnim.addUpdateListener(valueAnimator -> {
+            iconDeltaY = (int) valueAnimator.getAnimatedValue();
+            iconParams.y = getIconY();
+            trashIconParams.y = getTrashY();
+            windowManager.updateViewLayout(ivIcon, iconParams);
+            windowManager.updateViewLayout(rlTrash, trashIconParams);
 
-            }
         });
         iconOutOfTrashAnimation = new AnimatorSet();
         iconOutOfTrashAnimation.playTogether(xAnim, yAnim, widthAnim);
@@ -284,38 +275,29 @@ public class FloatingIconService extends Service implements View.OnClickListener
     private void iconInToTrashAnimation(){
         ValueAnimator widthAnim = new ValueAnimator();
         widthAnim.setIntValues(ivTrash.getWidth(), ICON_WIDTH);
-        widthAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(@NonNull ValueAnimator valueAnimator){
-                final int value = (int) valueAnimator.getAnimatedValue();
-                ivTrash.getLayoutParams().width = value;
-                ivTrash.getLayoutParams().height = value;
-                ivTrash.requestLayout();
-            }
+        widthAnim.addUpdateListener(valueAnimator -> {
+            final int value = (int) valueAnimator.getAnimatedValue();
+            ivTrash.getLayoutParams().width = value;
+            ivTrash.getLayoutParams().height = value;
+            ivTrash.requestLayout();
         });
         ValueAnimator xAnim = new ValueAnimator();
         xAnim.setIntValues(trashIconParams.x - iconParams.x, 0);
-        xAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(@NonNull ValueAnimator valueAnimator){
-                iconParams.x = trashIconParams.x - (int) valueAnimator.getAnimatedValue();
-                windowManager.updateViewLayout(ivIcon, iconParams);
-                trashIconParams.x = getTrashX();
-                //trashIconParams.y = getTrashY();
-                windowManager.updateViewLayout(rlTrash, trashIconParams);
-            }
+        xAnim.addUpdateListener(valueAnimator -> {
+            iconParams.x = trashIconParams.x - (int) valueAnimator.getAnimatedValue();
+            windowManager.updateViewLayout(ivIcon, iconParams);
+            trashIconParams.x = getTrashX();
+            //trashIconParams.y = getTrashY();
+            windowManager.updateViewLayout(rlTrash, trashIconParams);
         });
         ValueAnimator yAnim = new ValueAnimator();
         yAnim.setIntValues(trashIconParams.y - iconParams.y, 0);
-        yAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(@NonNull ValueAnimator valueAnimator){
-                iconParams.y = trashIconParams.y - (int) valueAnimator.getAnimatedValue();
-                windowManager.updateViewLayout(ivIcon, iconParams);
-                //  trashIconParams.x = getTrashX();
-                trashIconParams.y = getTrashY();
-                windowManager.updateViewLayout(rlTrash, trashIconParams);
-            }
+        yAnim.addUpdateListener(valueAnimator -> {
+            iconParams.y = trashIconParams.y - (int) valueAnimator.getAnimatedValue();
+            windowManager.updateViewLayout(ivIcon, iconParams);
+            //  trashIconParams.x = getTrashX();
+            trashIconParams.y = getTrashY();
+            windowManager.updateViewLayout(rlTrash, trashIconParams);
         });
         iconToTrashAnimation = new AnimatorSet();
         iconToTrashAnimation.playTogether(xAnim, yAnim, widthAnim);
@@ -345,14 +327,11 @@ public class FloatingIconService extends Service implements View.OnClickListener
     private void trashEnterAnimation(){
         ValueAnimator animY = new ValueAnimator();
         animY.setFloatValues(0, 1);
-        animY.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(@NonNull ValueAnimator valueAnimator){
-                trashEnterAnimPercent = (float) valueAnimator.getAnimatedValue();
-                trashIconParams.x = getTrashX();
-                trashIconParams.y = getTrashY();
-                windowManager.updateViewLayout(rlTrash, trashIconParams);
-            }
+        animY.addUpdateListener(valueAnimator -> {
+            trashEnterAnimPercent = (float) valueAnimator.getAnimatedValue();
+            trashIconParams.x = getTrashX();
+            trashIconParams.y = getTrashY();
+            windowManager.updateViewLayout(rlTrash, trashIconParams);
         });
         animY.setDuration(400);
         animY.setInterpolator(new FastOutSlowInInterpolator());
@@ -372,21 +351,18 @@ public class FloatingIconService extends Service implements View.OnClickListener
         factorAnim.setFloatValues(1, 0);
         factorAnim.setDuration(400);
         factorAnim.setInterpolator(new LinearOutSlowInInterpolator());
-        factorAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(@NonNull ValueAnimator valueAnimator){
-                trashEnterAnimPercent = (float) valueAnimator.getAnimatedValue();
-                if (iconParams.x == trashIconParams.x && iconParams.y == trashIconParams.y) {
-                    iconParams.y = getTrashY();
-                    iconParams.x = getTrashX();
-                    windowManager.updateViewLayout(ivIcon, iconParams);
-                }
-                trashIconParams.y = getTrashY();
-                trashIconParams.x = getTrashX();
-                windowManager.updateViewLayout(rlTrash, trashIconParams);
-
-
+        factorAnim.addUpdateListener(valueAnimator -> {
+            trashEnterAnimPercent = (float) valueAnimator.getAnimatedValue();
+            if (iconParams.x == trashIconParams.x && iconParams.y == trashIconParams.y) {
+                iconParams.y = getTrashY();
+                iconParams.x = getTrashX();
+                windowManager.updateViewLayout(ivIcon, iconParams);
             }
+            trashIconParams.y = getTrashY();
+            trashIconParams.x = getTrashX();
+            windowManager.updateViewLayout(rlTrash, trashIconParams);
+
+
         });
         factorAnim.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -412,38 +388,29 @@ public class FloatingIconService extends Service implements View.OnClickListener
             anim.setIntValues(iconParams.x, iconsBound.right + ICON_WIDTH / 3);
         }
         anim.setDuration(400);
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(@NonNull ValueAnimator valueAnimator){
-                iconParams.x = (int) valueAnimator.getAnimatedValue();
-                windowManager.updateViewLayout(ivIcon, iconParams);
-            }
+        anim.addUpdateListener(valueAnimator -> {
+            iconParams.x = (int) valueAnimator.getAnimatedValue();
+            windowManager.updateViewLayout(ivIcon, iconParams);
         });
         anim.start();
     }
 
     private void iconAboveYourFingerAnimation(){
         ValueAnimator yAnim = ValueAnimator.ofInt(touchY - iconParams.y - ICON_WIDTH / 2, MAX_FINGER_DISTANCE);
-        yAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(@NonNull ValueAnimator valueAnimator){
-                fingerDeltaY = (int) valueAnimator.getAnimatedValue();
-                iconParams.y = getIconY();
-                windowManager.updateViewLayout(ivIcon, iconParams);
-            }
+        yAnim.addUpdateListener(valueAnimator -> {
+            fingerDeltaY = (int) valueAnimator.getAnimatedValue();
+            iconParams.y = getIconY();
+            windowManager.updateViewLayout(ivIcon, iconParams);
         });
         ValueAnimator xAnim = ValueAnimator.ofInt(ICON_WIDTH / 3, 0);
-        xAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(@NonNull ValueAnimator valueAnimator){
-                if (iconParams.x < iconsBound.centerX()) {
-                    fingerDeltaX = (int) valueAnimator.getAnimatedValue();
-                } else {
-                    fingerDeltaX = -(int) valueAnimator.getAnimatedValue();
-                }
-                iconParams.x = getIconX();
-                windowManager.updateViewLayout(ivIcon, iconParams);
+        xAnim.addUpdateListener(valueAnimator -> {
+            if (iconParams.x < iconsBound.centerX()) {
+                fingerDeltaX = (int) valueAnimator.getAnimatedValue();
+            } else {
+                fingerDeltaX = -(int) valueAnimator.getAnimatedValue();
             }
+            iconParams.x = getIconX();
+            windowManager.updateViewLayout(ivIcon, iconParams);
         });
         AnimatorSet set = new AnimatorSet();
         set.playTogether(xAnim, yAnim);

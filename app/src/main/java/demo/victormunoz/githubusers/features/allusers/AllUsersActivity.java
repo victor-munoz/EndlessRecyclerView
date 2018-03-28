@@ -127,12 +127,9 @@ public class AllUsersActivity extends AppCompatActivity implements PresenterList
         if (mAllUsersAdapter.getItemCount() == 0) {
             errorMessage = getString(R.string.error_downloading_users);
         }
-        Snackbar snackbar = Snackbar.make(imageView, errorMessage, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                mViewListener.onRetry();
-            }
-        });
+        Snackbar snackbar = Snackbar
+                .make(imageView, errorMessage, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.retry, view -> mViewListener.onRetry());
         View sbView = snackbar.getView();
         TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
         Drawable cloudError = ResourcesCompat.getDrawable(getResources(), R.drawable.icon_cloud_error, null);

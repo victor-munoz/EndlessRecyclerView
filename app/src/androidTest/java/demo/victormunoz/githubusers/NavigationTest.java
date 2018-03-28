@@ -46,15 +46,12 @@ public class NavigationTest {
         IdlingRegistry.getInstance().register(mUsersActivityTestRule.getActivity().getCountingIdlingResource());
         //trick to allow scrollToPosition inside CoordinatorLayout, otherwise the scroll will not be
         // performed
-        mUsersActivityTestRule.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run(){
-                RecyclerView recyclerView = mUsersActivityTestRule.getActivity().
-                        findViewById(R.id.recycler_view);
-                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) recyclerView.getLayoutParams();
-                params.setBehavior(null);
-                recyclerView.requestLayout();
-            }
+        mUsersActivityTestRule.getActivity().runOnUiThread(() -> {
+            RecyclerView recyclerView = mUsersActivityTestRule.getActivity().
+                    findViewById(R.id.recycler_view);
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) recyclerView.getLayoutParams();
+            params.setBehavior(null);
+            recyclerView.requestLayout();
         });
 
     }

@@ -37,14 +37,11 @@ public class endlessLoadedTest {
     public final ActivityTestRule<AllUsersActivity> mAllUsersActivityTestRule = new ActivityTestRule<>(AllUsersActivity.class);
 
     private void allowScrollToPosition(){
-        mAllUsersActivityTestRule.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run(){
-                RecyclerView recyclerView = mAllUsersActivityTestRule.getActivity().findViewById(R.id.recycler_view);
-                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) recyclerView.getLayoutParams();
-                params.setBehavior(null);
-                recyclerView.requestLayout();
-            }
+        mAllUsersActivityTestRule.getActivity().runOnUiThread(() -> {
+            RecyclerView recyclerView = mAllUsersActivityTestRule.getActivity().findViewById(R.id.recycler_view);
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) recyclerView.getLayoutParams();
+            params.setBehavior(null);
+            recyclerView.requestLayout();
         });
     }
 
