@@ -15,11 +15,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
-import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -47,7 +45,6 @@ import butterknife.ButterKnife;
 import demo.victormunoz.githubusers.App;
 import demo.victormunoz.githubusers.R;
 import demo.victormunoz.githubusers.model.entity.User;
-import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource;
 import demo.victormunoz.githubusers.utils.picasso.ImageLoader;
 
 @SuppressWarnings("WeakerAccess")
@@ -55,6 +52,8 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
     public static final String USER_LOGIN = "user login";
     public static final String USER_PICTURE_URL = "user picture URL";
     private static final String USER_DETAIL_FRAGMENT = "user's detail fragment";
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.user_github)
     Button github;
     @BindView(R.id.user_blog)
@@ -89,21 +88,13 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
         postponeEnterTransition();
 
         setContentView(R.layout.activity_user_detail);
+        //data binding
         ButterKnife.bind(this);
-
-        //set Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        //set Actionbar
         setSupportActionBar(toolbar);
-        final ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-
         //get intent vars
         loginName = getIntent().getStringExtra(USER_LOGIN);
         avatarURL = getIntent().getStringExtra(USER_PICTURE_URL);
-
-
         //Dagger 2 injection
         ((App) getApplication()).getUserComponent(this).inject(this);
 
@@ -112,6 +103,14 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
             initFragment(UserDetailsFragment.newInstance());
         }
         downloadProfileImage();
+    }
+    @Override
+    public void setSupportActionBar(@Nullable Toolbar toolbar){
+        super.setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
     }
 
     @Override
@@ -233,12 +232,6 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @NonNull
-    @VisibleForTesting
-    public IdlingResource getCountingIdlingResource(){
-        return EspressoIdlingResource.getIdlingResource();
     }
 
     @Override

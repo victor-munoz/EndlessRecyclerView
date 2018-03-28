@@ -21,8 +21,8 @@
         <item name="windowNoTitle">true</item>
     </style>
     <style name="AppTheme.NoActionBar.userDetails">
-        <item name="android:windowEnterTransition">@transition/user_details_</item>
-        <item name="android:windowReturnTransition">@transition/user_details_</item>
+        <item name="android:windowEnterTransition">@transition/user_details</item>
+        <item name="android:windowReturnTransition">@transition/user_details</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -31,9 +31,9 @@
 
     <style name="vertical_separator">
         <item name="android:layout_width">0.2dp</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_marginTop">@dimen/margin_between_content</item>
-        <item name="android:layout_marginBottom">@dimen/margin_between_content</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginTop">@dimen/margin_small</item>
+        <item name="android:layout_marginBottom">@dimen/margin_small</item>
         <item name="android:background">@android:color/darker_gray</item>
     </style>
     <style name="horizontal_separator">
@@ -41,27 +41,11 @@
         <item name="android:layout_height">0.2dp</item>
         <item name="android:background">@android:color/darker_gray</item>
     </style>
-
-    <style name="statistic_container">
+    <style name="info_item">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:focusable">true</item>
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:paddingBottom">@dimen/margin_content</item>
-        <item name="android:paddingTop">@dimen/margin_content</item>
-        <item name="android:paddingStart">@dimen/margin_between_content</item>
-        <item name="android:paddingEnd">@dimen/margin_between_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_normal</item>
+        <item name="android:drawablePadding">@dimen/margin_normal</item>
     </style>
-
-    <style name="info_item">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:layout_marginBottom">@dimen/margin_content</item>
-        <item name="android:drawablePadding">@dimen/margin_content</item>
-    </style>
-
 
 </resources>
