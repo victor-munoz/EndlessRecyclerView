@@ -10,15 +10,20 @@ Source code of the Android app, using Retrofit, Materials, Dagger 2, Picasso, Bu
 
 ## Code Features
 
-- Clean app architecture: UI and API separated.
+- Clean app architecture: UI and API separated
+- Package by feature.
+- Model View Presenter pattern (MVP)
 - Responsive UI
-- Use of RecyclerView.
-- Use of Data Binding.
-- Retrofit + GSON .
+- Reactive Programming with RxJava
+- Use of ConstraintLayout
+- Use of Collapsing Toolbar Layout
+- Use of ButterKnife for Data Binding
+- Retrofit + GSON
 - Dagger 2 for Dependency injection 
-- Picasso for image loading.
-- Espresso for UI Testing. 
-- Cool material design animations.
+- Picasso for image loading
+- Espresso for UI Testing
+- Shared Element Activity Transition
+- Cool material design animations
 
 
 ## Screenshots
