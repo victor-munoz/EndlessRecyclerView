@@ -1,22 +1,28 @@
 package demo.victormunoz.githubusers.utils.picasso;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.squareup.picasso.Transformation;
 
 /**
  * transformation to be used with picasso library to change the shape of a bitmap to a circle.
  */
-public class ImageToCircleTransformation implements Transformation {
+public class CircleTransformation implements Transformation {
     /**
      * transform a bitmap into a circle
+     *
      * @param source bitmap to be transform
      * @return circle image bitmap
      */
+    @Nullable
     @Override
-    public Bitmap transform(Bitmap source) {
+    public Bitmap transform(@Nullable Bitmap source){
         if (source == null || source.isRecycled()) {
             return null;
         }
@@ -40,11 +46,13 @@ public class ImageToCircleTransformation implements Transformation {
 
         return canvasBitmap;
     }
+
     /**
      * @return a unique key for the transformation, used for caching purposes.
      */
+    @NonNull
     @Override
-    public String key() {
+    public String key(){
         return "imageToCircle";
     }
 }
