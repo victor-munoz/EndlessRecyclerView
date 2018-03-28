@@ -20,7 +20,7 @@
         <activity
             android:name=".features.allusers.AllUsersActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -32,7 +32,7 @@
             android:label="@string/title_activity_user_detail"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.userDetails" />
+            android:theme="@style/AppTheme" />
 
         <service
             android:name=".services.FloatingIconService"
