@@ -194,7 +194,7 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
             });
         }
 
-        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/heavy_data.ttf");
+        Typeface myTypeface = Typeface.createFromAsset(getAssets(), getString(R.string.base_font));
         name.setTypeface(myTypeface);
         name.setText(user.getFullName());
         email.setText(user.getEmail());
@@ -204,7 +204,7 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
     @Override
     public void onLoadUserDetailsFail(){
         String errorMessage = getString(R.string.error_downloading_users_profile);
-        Snackbar snackbar = Snackbar.make(avatar, errorMessage, Snackbar.LENGTH_INDEFINITE).setAction("RETRY", new View.OnClickListener() {
+        Snackbar snackbar = Snackbar.make(avatar, errorMessage, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
             @Override
             public void onClick(View view){
                 if (avatar.getDrawable() == null) {

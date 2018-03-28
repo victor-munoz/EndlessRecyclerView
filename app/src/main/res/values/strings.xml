@@ -14,4 +14,5 @@
     <string name="error_downloading_more_users">Error downloading more users</string>
     <string name="error_downloading_users">Error downloading users</string>
     <string name="error_downloading_users_profile">Error downloading user\'s profile</string>
+    <string name="base_font">fonts/heavy_data.ttf</string>
 </resources>
