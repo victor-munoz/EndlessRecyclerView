@@ -3,10 +3,13 @@
     <string name="title_activity_user_detail">UserDetailActivity</string>
     <string name="joined_on">"Joined on %s"</string>
     <string name="user_avatar">"GitHub user's picture"</string>
+
     <string name="public_repos">Public Repos</string>
     <string name="public_gists">Public Gists</string>
     <string name="followers">Followers</string>
     <string name="following">Following</string>
+    <string name="package_uri">package:%s</string>
+
     <string name="available_for_hire">Available for hire</string>
     <string name="blog">Blog</string>
     <string name="profile">Profile</string>

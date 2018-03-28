@@ -108,7 +108,7 @@ public class AllUsersActivity extends AppCompatActivity implements PresenterList
      * @param view      the view to be use in the shared element transition.
      * @param loginName the loginName of the user, will be use to make a API request.
      * @param avatarURL URL of the user's avatar image. The shared element transition needs the
-     *                  new activity downloaded the image before start. Sending the url we
+     *                  new activity download the image before start. Sending the url we
      *                  avoid to call the api to get the url and make a second call to download the image,
      *                  this way we can start the animation faster.
      */
@@ -163,7 +163,7 @@ public class AllUsersActivity extends AppCompatActivity implements PresenterList
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void checkPermission(){
-        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse(getResources().getString(R.string.package_uri,getPackageName())));
         startActivityForResult(intent, REQUEST_CODE);
     }
 
