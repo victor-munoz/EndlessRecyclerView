@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layer-list
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
             android:shape="rectangle">
-            <stroke android:width="1dp" android:color="@color/colorPrimary" />
-            <solid android:color="#77000000"/>
+            <stroke
+                android:width="1dp"
+                android:color="@color/colorPrimary" />
+            <solid android:color="#77000000" />
             <corners
-                android:bottomRightRadius="@dimen/little_circle_image"
-                android:bottomLeftRadius="@dimen/little_circle_image"
-                android:topLeftRadius="@dimen/little_circle_image"
-                android:topRightRadius="@dimen/little_circle_image" />
+                android:bottomLeftRadius="@dimen/image_circle_normal"
+                android:bottomRightRadius="@dimen/image_circle_normal"
+                android:topLeftRadius="@dimen/image_circle_normal"
+                android:topRightRadius="@dimen/image_circle_normal" />
         </shape>
     </item>
 

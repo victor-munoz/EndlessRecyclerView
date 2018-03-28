@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="big_circle_image">120dp</dimen>
-    <dimen name="app_bar_height">180dp</dimen>
-    <dimen name="statistic_number_text_size">24sp</dimen>
+    <dimen name="image_circle_large">180dp</dimen>
+    <dimen name="text_size_normal">24sp</dimen>
 </resources>

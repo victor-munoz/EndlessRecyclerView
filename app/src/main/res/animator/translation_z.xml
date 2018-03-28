@@ -2,8 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_enabled="true"
-        android:state_pressed="true"
-        >
+        android:state_pressed="true">
         <set>
             <objectAnimator
                 android:duration="0"
@@ -16,8 +15,8 @@
         <set>
             <objectAnimator
                 android:duration="@android:integer/config_shortAnimTime"
-                android:startOffset="@android:integer/config_shortAnimTime"
                 android:propertyName="translationZ"
+                android:startOffset="@android:integer/config_shortAnimTime"
                 android:valueTo="0dp"
                 android:valueType="floatType" />
         </set>

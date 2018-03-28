@@ -11,171 +11,183 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:visibility="invisible"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ui.userdetail.UserDetailFragment">
-    <LinearLayout
+    tools:context=".features.userDetails.UserDetailsFragment">
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:maxWidth="400dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <!--statistics-->
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/user_repos"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:gravity="center_horizontal"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/text_size_normal"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/user_gists"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout style="@style/statistic_container">
-
-                <TextView
-                    android:id="@+id/user_repos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textColor="@color/colorBlue"
-                    android:textSize="@dimen/statistic_number_text_size"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/public_repos" />
-
-            </LinearLayout>
-
-            <View style="@style/vertical_separator" />
-
-            <LinearLayout style="@style/statistic_container">
-
-                <TextView
-                    android:id="@+id/user_gists"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textColor="@color/colorBlue"
-                    android:textSize="@dimen/statistic_number_text_size"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/public_gists" />
-
-            </LinearLayout>
-
-            <View style="@style/vertical_separator" />
-
-            <LinearLayout style="@style/statistic_container">
-
-                <TextView
-                    android:id="@+id/user_followers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textColor="@color/colorBlue"
-                    android:textSize="@dimen/statistic_number_text_size"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/followers" />
-
-
-            </LinearLayout>
-
-            <View style="@style/vertical_separator" />
-
-            <LinearLayout style="@style/statistic_container">
-
-
-                <TextView
-                    android:id="@+id/user_following"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textColor="@color/colorBlue"
-                    android:textSize="@dimen/statistic_number_text_size"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/following" />
-            </LinearLayout>
-        </LinearLayout>
-        <View style="@style/horizontal_separator" />
-        <!--user info-->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/user_repos_legend"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/margin_content"
-            >
-            <!--biography-->
-            <TextView
-                android:id="@+id/user_bio"
-                style="@style/info_item"
-                android:drawableStart="@drawable/icon_biography"
-                android:textStyle="italic"
-                android:visibility="gone" />
-            <!--Company-->
-            <TextView
-                android:id="@+id/user_company"
-                style="@style/info_item"
-                android:drawableStart="@drawable/icon_work"
-                android:visibility="gone" />
+            android:text="@string/public_repos"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/user_gists"
+            app:layout_constraintTop_toBottomOf="@+id/user_repos" />
 
-            <!--Location-->
-            <TextView
-                android:id="@+id/user_location"
-                style="@style/info_item"
-                android:drawableStart="@drawable/icon_location"
-                android:visibility="gone" />
-            <!--joined at-->
-            <TextView
-                android:id="@+id/user_created_at"
-                style="@style/info_item"
-                android:drawableStart="@drawable/icon_clock" />
-            <!--hireable-->
-            <TextView
-                android:id="@+id/user_hireable"
-                style="@style/info_item"
-                android:drawableStart="@drawable/icon_alert"
-                android:visibility="gone" />
-            <!--blog-->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:id="@+id/user_blog"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlue"
-                    android:minWidth="88dp"
-                    android:text="@string/blog"
-                    android:layout_marginBottom="@dimen/margin_content"
-                    android:drawablePadding="@dimen/margin_content"
-                    android:drawableStart="@drawable/icon_link"
-                    android:visibility="gone"
-                    android:layout_alignParentEnd="false"
-                    android:layout_toStartOf="@+id/user_github" />
-                <!--GitHub page-->
-                <Button
-                    android:id="@+id/user_github"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:textColor="@color/colorBlue"
-                    android:layout_height="wrap_content"
-                    android:minWidth="88dp"
-                    android:text="@string/profile"
-                    android:layout_marginBottom="@dimen/margin_content"
-                    android:drawablePadding="@dimen/margin_content"
-                    android:drawableStart="@drawable/icon_github"
-                    android:layout_alignParentEnd="true" />
-            </RelativeLayout>
+        <View
+            style="@style/vertical_separator"
+            app:layout_constraintBottom_toBottomOf="@+id/horizontal_separator"
+            app:layout_constraintLeft_toRightOf="@id/user_repos"
+            app:layout_constraintRight_toLeftOf="@+id/user_gists"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/user_gists"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/text_size_normal"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@+id/user_repos"
+            app:layout_constraintRight_toLeftOf="@+id/user_followers"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/public_gists"
+            app:layout_constraintLeft_toRightOf="@+id/user_repos"
+            app:layout_constraintRight_toLeftOf="@+id/user_followers"
+            app:layout_constraintTop_toBottomOf="@+id/user_gists" />
+
+        <View
+            style="@style/vertical_separator"
+            app:layout_constraintBottom_toBottomOf="@+id/horizontal_separator"
+            app:layout_constraintLeft_toRightOf="@id/user_gists"
+            app:layout_constraintRight_toLeftOf="@+id/user_followers"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/user_followers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/text_size_normal"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/user_gists"
+            app:layout_constraintRight_toLeftOf="@+id/user_following"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/followers"
+            app:layout_constraintLeft_toRightOf="@id/user_gists"
+            app:layout_constraintRight_toLeftOf="@+id/user_following"
+            app:layout_constraintTop_toBottomOf="@id/user_followers" />
+
+        <View
+            style="@style/vertical_separator"
+            app:layout_constraintBottom_toBottomOf="@+id/horizontal_separator"
+            app:layout_constraintLeft_toRightOf="@id/user_followers"
+            app:layout_constraintRight_toLeftOf="@+id/user_following"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/user_following"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/text_size_normal"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@+id/user_followers"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/following"
+            app:layout_constraintLeft_toRightOf="@+id/user_followers"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_followers" />
+
+        <View
+            android:id="@+id/horizontal_separator"
+            style="@style/horizontal_separator"
+            android:layout_marginTop="@dimen/margin_normal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_repos_legend" />
+
+        <TextView
+            android:id="@+id/user_bio"
+            style="@style/info_item"
+            android:drawableStart="@drawable/icon_biography"
+            android:textStyle="italic"
+            android:visibility="gone"
+
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizontal_separator"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/user_company"
+            style="@style/info_item"
+            android:drawableStart="@drawable/icon_work"
+            android:visibility="gone"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_bio"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/user_location"
+            style="@style/info_item"
+            android:drawableStart="@drawable/icon_location"
+            android:visibility="gone"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_company"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/user_created_at"
+            style="@style/info_item"
+            android:drawableStart="@drawable/icon_clock"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_location" />
+
+        <TextView
+            android:id="@+id/user_hireable"
+            style="@style/info_item"
+            android:drawableStart="@drawable/icon_alert"
+            android:visibility="gone"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_created_at"
+            tools:visibility="visible" />
+
+    </android.support.constraint.ConstraintLayout>
+
 </android.support.v4.widget.NestedScrollView>

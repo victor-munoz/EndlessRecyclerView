@@ -1,21 +1,18 @@
 <resources>
+
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="app_bar_height">280dp</dimen>
-    <!--recyclerView-->
-    <dimen name="margin_between_content">8dp</dimen>
-    <dimen name="margin_content">16dp</dimen>
-    <dimen name="margin_content_double">32dp</dimen>
-    <dimen name="big_circle_image">160dp</dimen>
-    <dimen name="little_circle_image">64dp</dimen>
-    <dimen name="icon_trash">48dp</dimen>
-    <dimen name="icon_trash_margin_bottom">80dp</dimen>
-    <dimen name="base_elevation">2dp</dimen>
-    <dimen name="item_padding">24dp</dimen>
-
-    <dimen name="statistic_number_text_size">34sp</dimen>
-
-
+    <dimen name="app_bar_height">220dp</dimen>
+    <dimen name="elevation_base">2dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_normal">16dp</dimen>
+    <dimen name="margin_large">32dp</dimen>
+    <dimen name="padding_large">24dp</dimen>
+    <dimen name="text_size_normal">34sp</dimen>
+    <dimen name="image_circle_normal">64dp</dimen>
+    <dimen name="image_circle_large">160dp</dimen>
+    <dimen name="icon_remove">48dp</dimen>
+    <dimen name="icon_remove_margin_bottom">80dp</dimen>
 
 </resources>
 
