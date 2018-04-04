@@ -14,7 +14,7 @@ Source code of the Android app, using Retrofit, Materials, Dagger 2, Picasso, Bu
 - Package by feature.
 - Model View Presenter pattern (MVP)
 - Responsive UI
-- Reactive Programming with RxJava
+- Reactive Programming with RxJava and RxLifecycle
 - Use of ConstraintLayout
 - Use of Collapsing Toolbar Layout
 - Use of ButterKnife for Data Binding
