@@ -1,10 +1,10 @@
 package demo.victormunoz.githubusers.features.allusers;
 
 import android.view.View;
-
+import com.trello.rxlifecycle2.android.ActivityEvent;
 import java.util.List;
-
 import demo.victormunoz.githubusers.model.entity.User;
+import io.reactivex.Observable;
 
 public interface AllUsersContract {
 
@@ -30,6 +30,8 @@ public interface AllUsersContract {
         void onEndOfTheList();
 
         void onItemClick(View view, int position);
+
+        Observable<ActivityEvent> getLifeCycle();
     }
 
 }

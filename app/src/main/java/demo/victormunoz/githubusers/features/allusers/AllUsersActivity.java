@@ -16,13 +16,14 @@ import android.support.design.widget.Snackbar;
 import android.support.test.espresso.IdlingResource;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.trello.rxlifecycle2.android.ActivityEvent;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.List;
 
@@ -40,9 +41,11 @@ import demo.victormunoz.githubusers.model.entity.User;
 import demo.victormunoz.githubusers.services.FloatingIconService;
 import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource;
 import demo.victormunoz.githubusers.utils.recyclerview.MarginDecoration;
+import io.reactivex.Observable;
+
 
 @SuppressWarnings("WeakerAccess")
-public class AllUsersActivity extends AppCompatActivity implements PresenterListener, AdapterListener {
+public class AllUsersActivity extends RxAppCompatActivity implements PresenterListener, AdapterListener {
 
     private final static int REQUEST_CODE = 5463;
     @BindView(R.id.github_logo)
@@ -142,11 +145,16 @@ public class AllUsersActivity extends AppCompatActivity implements PresenterList
     public void onEndOfTheList(){
         mViewListener.onEndOfTheList();
     }
-
+    
     @Override
     public void onItemClick(View view, int position){
         User user = mAllUsersAdapter.getItem(position);
         mViewListener.onItemClick(view, user);
+    }
+
+    @Override
+    public Observable<ActivityEvent> getLifeCycle(){
+        return lifecycle();
     }
 
     private void setRecyclerView(){

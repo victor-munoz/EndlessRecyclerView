@@ -11,22 +11,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+@SuppressWarnings("unused")
 public class User implements Serializable {
-    @SuppressWarnings({"UnusedDeclaration"})
     private int id;
-    @SuppressWarnings({"UnusedDeclaration"})
     private String companyName;
-    @SuppressWarnings({"UnusedDeclaration"})
     private String blog;
-    @SuppressWarnings({"UnusedDeclaration"})
     private String location;
-    @SuppressWarnings({"UnusedDeclaration"})
     private String email;
-    @SuppressWarnings({"UnusedDeclaration"})
     private boolean hireable;
-    @SuppressWarnings({"UnusedDeclaration"})
     private int followers;
-    @SuppressWarnings({"UnusedDeclaration"})
     private int following;
     @SerializedName("created_at")
     private Date joinedIn;
