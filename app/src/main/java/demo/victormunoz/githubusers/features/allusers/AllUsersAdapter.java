@@ -37,7 +37,6 @@ public class AllUsersAdapter extends RecyclerView.Adapter<AllUsersViewHolder> {
     public void onBindViewHolder(@NonNull final AllUsersViewHolder holder, final int position){
         final User user = usersList.get(position);
         holder.loginName.setText(user.getLoginName());
-        holder.itemView.setVisibility(View.VISIBLE);
         imageLoader.load(user.getAvatarUrl(), Objects.requireNonNull(holder.avatar));
         entranceAnimation(holder.itemView);
     }
@@ -80,7 +79,7 @@ public class AllUsersAdapter extends RecyclerView.Adapter<AllUsersViewHolder> {
     }
 
     private void entranceAnimation(@NonNull final View view){
-        Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.alpha_translation_in);
+        Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(view.getContext().getApplicationContext(), R.anim.alpha_translation_in);
         view.startAnimation(hyperspaceJumpAnimation);
     }
 
