@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 
 android {
@@ -32,11 +35,15 @@ android {
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
 
     //BINDING
@@ -44,8 +51,11 @@ dependencies {
     implementation "com.jakewharton:butterknife:${rootProject.ext.butterknifeVersion}"
 
     //DEPENDENCY INJECTION
-    annotationProcessor "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
-    implementation "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
     //SUPPORT
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
@@ -86,6 +96,7 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso.idling:idling-concurrent:${rootProject.ext.espressoVersion}"
     androidTestImplementation "com.android.support.test.espresso:espresso-intents:${rootProject.ext.espressoVersion}"
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:${rootProject.ext.espressoVersion}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 
 }

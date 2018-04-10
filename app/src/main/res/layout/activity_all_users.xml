@@ -28,10 +28,12 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/logo_github"
                 android:transitionName="imageFromGrid"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.7"/>
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/tool_bar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />

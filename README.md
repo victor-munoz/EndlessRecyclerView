@@ -1,6 +1,6 @@
-# My Endless RecyclerView
+# My Endless RecyclerView (Kotlin)
 
-Source code of the Android app, using Retrofit, Materials, Dagger 2, Picasso, Butterknife and  palette
+Source code of the Android app, using Retrofit, Materials, Dagger 2, Picasso and  palette
 
 ## App Features
 
@@ -17,13 +17,17 @@ Source code of the Android app, using Retrofit, Materials, Dagger 2, Picasso, Bu
 - Reactive Programming with RxJava and RxLifecycle
 - Use of ConstraintLayout
 - Use of Collapsing Toolbar Layout
-- Use of ButterKnife for Data Binding
 - Retrofit + GSON
 - Dagger 2 for Dependency injection 
 - Picasso for image loading
 - Espresso for UI Testing
 - Shared Element Activity Transition
 - Cool material design animations
+- Extend data class (Kotlin)
+- Kotlin Android Extensions
+    * View Binding
+    * Parcelable
+    * LayoutContainer
 
 
 ## Screenshots
