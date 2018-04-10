@@ -1,8 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.31'
-    ext.dagger_version = '2.12'
+    ext.kotlinVersion = '1.2.31'
+    ext.daggerVersion = '2.12'
+    ext.compileSdkVersion = 27
+    ext.supportLibVersion = "27.1.1"
+    ext.espressoVersion = "3.0.1"
+    ext.leakCanaryVersion = "1.5.4"
+    ext.retrofitVersion = "2.1.0"
+    ext.butterknifeVersion = "8.5.1"
+    ext.daggerVersion = "2.5"
     repositories {
         jcenter()
         google()
@@ -11,7 +18,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.2.0-alpha09'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'me.tatarka:gradle-retrolambda:3.2.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -24,15 +31,7 @@ allprojects {
         google()
     }
 }
-ext {
-    compileSdkVersion = 27
-    supportLibVersion = "27.1.1"
-    espressoVersion = "3.0.1"
-    leakCanaryVersion = "1.5.4"
-    retrofitVersion = "2.1.0"
-    butterknifeVersion = "8.5.1"
-    daggerVersion = "2.5"
-}
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir

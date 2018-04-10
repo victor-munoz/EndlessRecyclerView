@@ -25,7 +25,7 @@ android {
     configurations.all {
         resolutionStrategy {
             force 'com.google.code.findbugs:jsr305:2.0.1'
-            force "com.android.support:preference-v7:${rootProject.ext.supportLibVersion}"
+            force "com.android.support:preference-v7:$supportLibVersion}"
         }
     }
     compileOptions {
@@ -43,26 +43,26 @@ android {
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
     testImplementation 'junit:junit:4.12'
 
     //BINDING
-    annotationProcessor "com.jakewharton:butterknife-compiler:${rootProject.ext.butterknifeVersion}"
-    implementation "com.jakewharton:butterknife:${rootProject.ext.butterknifeVersion}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+    implementation "com.jakewharton:butterknife:$butterknifeVersion"
 
     //DEPENDENCY INJECTION
-    implementation "com.google.dagger:dagger:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
     //SUPPORT
-    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
-    implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
-    implementation "com.android.support:recyclerview-v7:${rootProject.ext.supportLibVersion}"
-    implementation "com.android.support:palette-v7:${rootProject.ext.supportLibVersion}"
-    implementation "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation "com.android.support:design:$supportLibVersion"
+    implementation "com.android.support:recyclerview-v7:$supportLibVersion"
+    implementation "com.android.support:palette-v7:$supportLibVersion"
+    implementation "com.android.support:support-v4:$supportLibVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
     //RX
@@ -81,22 +81,21 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
     //RETROFIT
-    implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
-    implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVersion}"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
     //LEAKCANARY
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:${rootProject.ext.leakCanaryVersion}"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootProject.ext.leakCanaryVersion}"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
 
     //TEST
-    implementation "com.android.support.test.espresso.idling:idling-concurrent:${rootProject.ext.espressoVersion}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:${rootProject.ext.espressoVersion}"
+    implementation "com.android.support.test.espresso.idling:idling-concurrent:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test:rules:1.0.1'
-    androidTestImplementation "com.android.support.test.espresso.idling:idling-concurrent:${rootProject.ext.espressoVersion}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-intents:${rootProject.ext.espressoVersion}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:${rootProject.ext.espressoVersion}"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
+    androidTestImplementation "com.android.support.test.espresso.idling:idling-concurrent:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
 }
