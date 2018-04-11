@@ -3,9 +3,7 @@ package demo.victormunoz.githubusers.model.network
 import demo.victormunoz.githubusers.di.module.GitHubModule.GitHubApiInterface
 import demo.victormunoz.githubusers.model.entity.User
 import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource
-import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class GithubService(private val githubAPI: GitHubApiInterface) {
@@ -16,26 +14,16 @@ class GithubService(private val githubAPI: GitHubApiInterface) {
         githubAPI.getUsers(sinceId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<List<User>> {
-                    override fun onError(e: Throwable) {
-                        callback.fail()
-                        EspressoIdlingResource.decrement()
-                    }
-
-                    override fun onComplete() {
-                        EspressoIdlingResource.decrement()
-                    }
-
-                    override fun onSubscribe(d: Disposable) {
-
-                    }
-
-                    override fun onNext(users: List<User>) {
-                        sinceId = users[users.size - 1].id
-                        callback.success(users)
-                    }
-                })
-
+                .subscribe(
+                        { users ->
+                                sinceId = users[users.size - 1].id
+                                callback.success(users)
+                        }
+                        ,{ _->
+                                callback.fail()
+                                EspressoIdlingResource.decrement() }
+                        ,{ EspressoIdlingResource.decrement() }
+                )
     }
 
     fun getUser(login: String, callback: UserCallback) {
@@ -43,24 +31,14 @@ class GithubService(private val githubAPI: GitHubApiInterface) {
         githubAPI.getUser(login)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<User> {
-                    override fun onSubscribe(d: Disposable) {
+                .subscribe(
+                        {user->callback.success(user)}
+                        ,{_->
+                                callback.fail()
+                                EspressoIdlingResource.decrement()}
+                        ,{EspressoIdlingResource.decrement()}
+                )
 
-                    }
-
-                    override fun onNext(user: User) {
-                        callback.success(user)
-                    }
-
-                    override fun onError(e: Throwable) {
-                        callback.fail()
-                        EspressoIdlingResource.decrement()
-                    }
-
-                    override fun onComplete() {
-                        EspressoIdlingResource.decrement()
-                    }
-                })
     }
 
     interface UserCallback {
