@@ -23,7 +23,6 @@ class AllUsersViewHolder
 internal constructor(override val containerView: View, private val adapterListener: AllUsersContract.AdapterListener, private val imageLoader: ImageLoader) : RecyclerView.ViewHolder(containerView), Callback, LayoutContainer {
 
     init {
-        containerView.visibility = View.GONE
         val lifeCycle = (containerView.context as RxAppCompatActivity).lifecycle()
         RxView
                 .clicks(containerView)
@@ -37,7 +36,6 @@ internal constructor(override val containerView: View, private val adapterListen
         containerView.visibility = View.INVISIBLE
         iv_login.text = user.loginName
         imageLoader.load(user.avatarUrl, Objects.requireNonNull<ImageView>(iv_avatar),this)
-
     }
 
     override fun onSuccess() {

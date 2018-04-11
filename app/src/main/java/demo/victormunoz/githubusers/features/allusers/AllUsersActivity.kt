@@ -82,6 +82,7 @@ class AllUsersActivity : RxAppCompatActivity(), PresenterListener, AdapterListen
         val numColumns = resources.getInteger(R.integer.columns)
         val itemMargin = resources.getDimensionPixelSize(R.dimen.margin_small)
         recycler_view!!.setHasFixedSize(true)
+        recycler_view!!.itemAnimator = null
         recycler_view!!.layoutManager = GridLayoutManager(this, numColumns)
         recycler_view!!.addItemDecoration(MarginDecoration(itemMargin, numColumns))
     }
