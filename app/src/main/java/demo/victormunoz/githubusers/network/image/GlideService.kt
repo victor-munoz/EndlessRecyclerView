@@ -8,23 +8,6 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import io.reactivex.Single
 
-fun Drawable.toBitmap(): Bitmap {
-    if (this is BitmapDrawable) {
-        return bitmap
-    }
-
-    val width = if (bounds.isEmpty) intrinsicWidth else bounds.width()
-    val height = if (bounds.isEmpty) intrinsicHeight else bounds.height()
-
-    return Bitmap.createBitmap(width.nonZero(), height.nonZero(), Bitmap.Config.ARGB_8888).also {
-        val canvas = Canvas(it)
-        setBounds(0, 0, canvas.width, canvas.height)
-        draw(canvas)
-    }
-}
-
-private fun Int.nonZero() = if (this <= 0) 1 else this
-
 class GlideImageService(private val glide: RequestManager, private val transformation: RequestOptions): ImageDownloadService {
 
     override fun getImage(url: String,  imageSize: ImageDownloadService.ImageSize): Single<Bitmap> {
@@ -43,3 +26,20 @@ class GlideImageService(private val glide: RequestManager, private val transform
     }
 
 }
+
+fun Drawable.toBitmap(): Bitmap {
+    if (this is BitmapDrawable) {
+        return bitmap
+    }
+
+    val width = if (bounds.isEmpty) intrinsicWidth else bounds.width()
+    val height = if (bounds.isEmpty) intrinsicHeight else bounds.height()
+
+    return Bitmap.createBitmap(width.nonZero(), height.nonZero(), Bitmap.Config.ARGB_8888).also {
+        val canvas = Canvas(it)
+        setBounds(0, 0, canvas.width, canvas.height)
+        draw(canvas)
+    }
+}
+
+private fun Int.nonZero() = if (this <= 0) 1 else this

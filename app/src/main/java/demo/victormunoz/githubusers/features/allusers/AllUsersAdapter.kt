@@ -11,7 +11,7 @@ import demo.victormunoz.githubusers.model.entity.User
 import demo.victormunoz.githubusers.network.image.ImageDownloadService
 
 class AllUsersAdapter (
-        private val picassoService: ImageDownloadService,
+        private val imageService: ImageDownloadService,
         private val adapterListener: AllUsersContract.AdapterListener
 
 ) : RecyclerView.Adapter<AllUsersViewHolder>() {
@@ -20,7 +20,7 @@ class AllUsersAdapter (
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllUsersViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.adapter_all_users, parent, false)
-        return AllUsersViewHolder(itemView, adapterListener, picassoService)
+        return AllUsersViewHolder(itemView, adapterListener, imageService)
     }
 
     override fun onBindViewHolder(holder: AllUsersViewHolder, position: Int) {

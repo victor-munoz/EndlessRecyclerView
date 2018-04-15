@@ -16,8 +16,8 @@ class UsersAdapterModule(activity: Activity) {
 
     @Provides
     @ActivityScope
-    internal fun provideUsersAdapter(picasso: ImageDownloadService): AllUsersAdapter {
-        return AllUsersAdapter(picasso, mAdapterListener)
+    internal fun provideUsersAdapter(imageService: ImageDownloadService): AllUsersAdapter {
+        return AllUsersAdapter(imageService, mAdapterListener)
     }
 
 }

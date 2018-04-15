@@ -20,8 +20,8 @@ class UserDetailsPresenterModule(activity: Activity) {
 
     @Provides
     @ActivityScope
-    internal fun providesUserPresenterInterface(githubService: GithubService, picassoService: ImageDownloadService): UserActionsListener {
-        return UserDetailsPresenter( mUsersPresenterListener, githubService, picassoService, lifecycle )
+    internal fun providesUserPresenterInterface(githubService: GithubService, imageService: ImageDownloadService): UserActionsListener {
+        return UserDetailsPresenter( mUsersPresenterListener, githubService, imageService, lifecycle )
     }
 
 }
