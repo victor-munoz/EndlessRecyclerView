@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import com.trello.rxlifecycle2.RxLifecycle
 import com.trello.rxlifecycle2.android.ActivityEvent
 import demo.victormunoz.githubusers.features.userDetails.UserDetailsContract.PresenterListener
-import demo.victormunoz.githubusers.model.entity.User
+import demo.victormunoz.githubusers.model.User
 import demo.victormunoz.githubusers.network.github.GithubService
 import demo.victormunoz.githubusers.network.image.ImageDownloadService
 import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource
@@ -24,6 +24,7 @@ class UserDetailsPresenter(
 ) : UserDetailsContract.UserActionsListener {
 
     override fun onBackPressed() {
+        // not needed yet
     }
 
     private data class UserDetails(var user: User, var bitmap: Bitmap)

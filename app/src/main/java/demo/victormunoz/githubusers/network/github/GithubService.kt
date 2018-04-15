@@ -1,7 +1,7 @@
 package demo.victormunoz.githubusers.network.github
 
 import demo.victormunoz.githubusers.di.module.GitHubModule.GitHubApiInterface
-import demo.victormunoz.githubusers.model.entity.User
+import demo.victormunoz.githubusers.model.User
 import io.reactivex.Observable
 import io.reactivex.Single
 

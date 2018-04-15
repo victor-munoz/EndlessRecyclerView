@@ -3,7 +3,7 @@ package demo.victormunoz.githubusers.di.module
 import dagger.Module
 import dagger.Provides
 import demo.victormunoz.githubusers.di.scope.ActivityScope
-import demo.victormunoz.githubusers.model.entity.User
+import demo.victormunoz.githubusers.model.User
 import demo.victormunoz.githubusers.network.github.GithubService
 import io.reactivex.Observable
 import io.reactivex.Single

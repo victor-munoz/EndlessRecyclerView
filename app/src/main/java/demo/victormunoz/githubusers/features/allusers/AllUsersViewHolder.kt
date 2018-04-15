@@ -9,7 +9,7 @@ import com.trello.rxlifecycle2.RxLifecycle
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import demo.victormunoz.githubusers.R
-import demo.victormunoz.githubusers.model.entity.User
+import demo.victormunoz.githubusers.model.User
 import demo.victormunoz.githubusers.network.image.ImageDownloadService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -37,7 +37,6 @@ class AllUsersViewHolder (
 
     fun bind(user: User) {
         containerView.visibility = View.INVISIBLE
-        //todo: must be alredy ecived the bitmap?
         imageService.getImage(user.avatarUrl,ImageDownloadService.ImageSize.SMALL)
                 .compose(RxLifecycle.bindUntilEvent(lifeCycle, ActivityEvent.DESTROY))
                 .subscribeOn(Schedulers.io())

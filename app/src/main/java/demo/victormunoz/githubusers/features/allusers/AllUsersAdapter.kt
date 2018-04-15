@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import java.util.ArrayList
 
 import demo.victormunoz.githubusers.R
-import demo.victormunoz.githubusers.model.entity.User
+import demo.victormunoz.githubusers.model.User
 import demo.victormunoz.githubusers.network.image.ImageDownloadService
 
 class AllUsersAdapter (

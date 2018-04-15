@@ -5,7 +5,7 @@ import com.trello.rxlifecycle2.RxLifecycle
 import com.trello.rxlifecycle2.android.ActivityEvent
 import demo.victormunoz.githubusers.features.allusers.AllUsersContract.PresenterListener
 import demo.victormunoz.githubusers.features.allusers.AllUsersContract.ViewListener
-import demo.victormunoz.githubusers.model.entity.User
+import demo.victormunoz.githubusers.model.User
 import demo.victormunoz.githubusers.network.github.GithubService
 import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource
 import io.reactivex.Observable

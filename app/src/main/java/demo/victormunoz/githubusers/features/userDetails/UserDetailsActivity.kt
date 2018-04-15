@@ -27,7 +27,7 @@ import android.widget.TextView
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import demo.victormunoz.githubusers.App
 import demo.victormunoz.githubusers.R
-import demo.victormunoz.githubusers.model.entity.User
+import demo.victormunoz.githubusers.model.User
 import kotlinx.android.synthetic.main.activity_user_detail.*
 import javax.inject.Inject
 

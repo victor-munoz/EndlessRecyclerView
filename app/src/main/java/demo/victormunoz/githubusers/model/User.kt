@@ -1,4 +1,4 @@
-package demo.victormunoz.githubusers.model.entity
+package demo.victormunoz.githubusers.model
 
 import android.os.Parcelable
 import android.support.annotation.IntRange

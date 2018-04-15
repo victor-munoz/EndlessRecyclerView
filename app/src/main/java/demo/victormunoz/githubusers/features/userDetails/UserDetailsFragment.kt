@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import demo.victormunoz.githubusers.R
-import demo.victormunoz.githubusers.model.entity.User
+import demo.victormunoz.githubusers.model.User
 import kotlinx.android.synthetic.main.fragment_user_detail.*
 
 

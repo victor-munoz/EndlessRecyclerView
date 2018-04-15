@@ -1,7 +1,7 @@
 package demo.victormunoz.githubusers.features.allusers
 
 import android.view.View
-import demo.victormunoz.githubusers.model.entity.User
+import demo.victormunoz.githubusers.model.User
 
 interface AllUsersContract {
 

@@ -21,7 +21,7 @@ import demo.victormunoz.githubusers.R
 import demo.victormunoz.githubusers.features.allusers.AllUsersContract.AdapterListener
 import demo.victormunoz.githubusers.features.allusers.AllUsersContract.PresenterListener
 import demo.victormunoz.githubusers.features.userDetails.userDetailsActivity
-import demo.victormunoz.githubusers.model.entity.User
+import demo.victormunoz.githubusers.model.User
 import demo.victormunoz.githubusers.services.FloatingIconService
 import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource
 import demo.victormunoz.githubusers.utils.recyclerview.MarginDecoration

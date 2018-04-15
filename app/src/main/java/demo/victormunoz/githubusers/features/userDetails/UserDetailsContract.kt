@@ -1,7 +1,7 @@
 package demo.victormunoz.githubusers.features.userDetails
 
 import android.graphics.Bitmap
-import demo.victormunoz.githubusers.model.entity.User
+import demo.victormunoz.githubusers.model.User
 
 interface UserDetailsContract {
 
