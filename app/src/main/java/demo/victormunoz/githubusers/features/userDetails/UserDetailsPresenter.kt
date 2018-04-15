@@ -46,7 +46,7 @@ class UserDetailsPresenter(
                         { userDetails ->
                             mUsersPresenterListener.displayUserDetails(userDetails.user, userDetails.bitmap)
                         }, { e ->
-                            if (e !is CancellationException) mUsersPresenterListener.showErrorMessage() //todo: ugly
+                            if (e !is CancellationException) mUsersPresenterListener.showErrorMessage()
                             EspressoIdlingResource.decrement()
                         }
                 )

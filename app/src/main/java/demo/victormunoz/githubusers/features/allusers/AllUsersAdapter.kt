@@ -39,14 +39,8 @@ class AllUsersAdapter (
     }
 
     override fun onViewDetachedFromWindow(holder: AllUsersViewHolder) {
-        //picassoService.cancelRequest(holder.itemView.iv_avatar)//todo
         holder.itemView.clearAnimation()
         super.onViewDetachedFromWindow(holder)
-    }
-
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        //picassoService.cancelAll()//todo
-        super.onDetachedFromRecyclerView(recyclerView)
     }
 
     internal fun getItem(position: Int): User {

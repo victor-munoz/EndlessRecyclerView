@@ -10,7 +10,7 @@ import dagger.Provides
 import demo.victormunoz.githubusers.di.scope.ActivityScope
 import demo.victormunoz.githubusers.network.image.ImageDownloadService
 import demo.victormunoz.githubusers.network.image.PicassoService
-import demo.victormunoz.githubusers.utils.picasso.CircleTransformation
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
 @Module(includes = [(ContextModule::class)])
 class PicassoModule {
@@ -18,7 +18,7 @@ class PicassoModule {
     @Provides
     @ActivityScope
     internal fun transformationPicasso(): Transformation {
-        return CircleTransformation()
+        return CropCircleTransformation()
     }
 
     @Provides

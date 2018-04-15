@@ -15,9 +15,12 @@ class GlideImageService(private val glide: RequestManager, private val transform
             try {
                 if (!emitter.isDisposed) {
                     val size = imageSize.getWidth()
-                    val bitmap = glide.load(url).apply(transformation).submit(size,size).get().toBitmap()
+                    val bitmap = glide.load(url)
+                            .apply(transformation)
+                            .submit(size,size)
+                            .get()
+                            .toBitmap()
                     emitter.onSuccess(bitmap)
-
                 }
             } catch (e: Throwable) {
                 emitter.onError(e)
