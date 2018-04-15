@@ -1,7 +1,7 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nestedScroll"
+    android:id="@+id/nsv_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:maxWidth="400dp"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/user_repos"
+            android:id="@+id/tv_repos"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -28,7 +28,7 @@
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/user_gists"
+            app:layout_constraintRight_toLeftOf="@+id/tv_gists"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -37,18 +37,18 @@
             android:layout_height="wrap_content"
             android:text="@string/public_repos"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/user_gists"
-            app:layout_constraintTop_toBottomOf="@+id/user_repos" />
+            app:layout_constraintRight_toLeftOf="@+id/tv_gists"
+            app:layout_constraintTop_toBottomOf="@+id/tv_repos" />
 
         <View
             style="@style/vertical_separator"
             app:layout_constraintBottom_toBottomOf="@+id/horizontal_separator"
-            app:layout_constraintLeft_toRightOf="@id/user_repos"
-            app:layout_constraintRight_toLeftOf="@+id/user_gists"
+            app:layout_constraintLeft_toRightOf="@id/tv_repos"
+            app:layout_constraintRight_toLeftOf="@+id/tv_gists"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/user_gists"
+            android:id="@+id/tv_gists"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -56,27 +56,27 @@
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintLeft_toRightOf="@+id/user_repos"
-            app:layout_constraintRight_toLeftOf="@+id/user_followers"
+            app:layout_constraintLeft_toRightOf="@+id/tv_repos"
+            app:layout_constraintRight_toLeftOf="@+id/tv_followers"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/public_gists"
-            app:layout_constraintLeft_toRightOf="@+id/user_repos"
-            app:layout_constraintRight_toLeftOf="@+id/user_followers"
-            app:layout_constraintTop_toBottomOf="@+id/user_gists" />
+            app:layout_constraintLeft_toRightOf="@+id/tv_repos"
+            app:layout_constraintRight_toLeftOf="@+id/tv_followers"
+            app:layout_constraintTop_toBottomOf="@+id/tv_gists" />
 
         <View
             style="@style/vertical_separator"
             app:layout_constraintBottom_toBottomOf="@+id/horizontal_separator"
-            app:layout_constraintLeft_toRightOf="@id/user_gists"
-            app:layout_constraintRight_toLeftOf="@+id/user_followers"
+            app:layout_constraintLeft_toRightOf="@id/tv_gists"
+            app:layout_constraintRight_toLeftOf="@+id/tv_followers"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/user_followers"
+            android:id="@+id/tv_followers"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -84,27 +84,27 @@
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintLeft_toRightOf="@id/user_gists"
-            app:layout_constraintRight_toLeftOf="@+id/user_following"
+            app:layout_constraintLeft_toRightOf="@id/tv_gists"
+            app:layout_constraintRight_toLeftOf="@+id/tv_following"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/followers"
-            app:layout_constraintLeft_toRightOf="@id/user_gists"
-            app:layout_constraintRight_toLeftOf="@+id/user_following"
-            app:layout_constraintTop_toBottomOf="@id/user_followers" />
+            app:layout_constraintLeft_toRightOf="@id/tv_gists"
+            app:layout_constraintRight_toLeftOf="@+id/tv_following"
+            app:layout_constraintTop_toBottomOf="@id/tv_followers" />
 
         <View
             style="@style/vertical_separator"
             app:layout_constraintBottom_toBottomOf="@+id/horizontal_separator"
-            app:layout_constraintLeft_toRightOf="@id/user_followers"
-            app:layout_constraintRight_toLeftOf="@+id/user_following"
+            app:layout_constraintLeft_toRightOf="@id/tv_followers"
+            app:layout_constraintRight_toLeftOf="@+id/tv_following"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/user_following"
+            android:id="@+id/tv_following"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -112,7 +112,7 @@
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintLeft_toRightOf="@+id/user_followers"
+            app:layout_constraintLeft_toRightOf="@+id/tv_followers"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -120,9 +120,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/following"
-            app:layout_constraintLeft_toRightOf="@+id/user_followers"
+            app:layout_constraintLeft_toRightOf="@+id/tv_followers"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_followers" />
+            app:layout_constraintTop_toBottomOf="@id/tv_followers" />
 
         <View
             android:id="@+id/horizontal_separator"
@@ -133,7 +133,7 @@
             app:layout_constraintTop_toBottomOf="@+id/user_repos_legend" />
 
         <TextView
-            android:id="@+id/user_bio"
+            android:id="@+id/tv_bio"
             style="@style/info_item"
             android:drawableStart="@drawable/icon_biography"
             android:textStyle="italic"
@@ -147,45 +147,45 @@
             tools:visibility="visible" />
 
         <TextView
-            android:id="@+id/user_company"
+            android:id="@+id/tv_company"
             style="@style/info_item"
             android:drawableStart="@drawable/icon_work"
             android:visibility="gone"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_bio"
+            app:layout_constraintTop_toBottomOf="@+id/tv_bio"
             tools:visibility="visible" />
 
         <TextView
-            android:id="@+id/user_location"
+            android:id="@+id/tv_location"
             style="@style/info_item"
             android:drawableStart="@drawable/icon_location"
             android:visibility="gone"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_company"
+            app:layout_constraintTop_toBottomOf="@+id/tv_company"
             tools:visibility="visible" />
 
         <TextView
-            android:id="@+id/user_created_at"
+            android:id="@+id/tv_created_at"
             style="@style/info_item"
             android:drawableStart="@drawable/icon_clock"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_location" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_location" />
 
         <TextView
-            android:id="@+id/user_hireable"
+            android:id="@+id/tv_hireable"
             style="@style/info_item"
             android:drawableStart="@drawable/icon_alert"
             android:visibility="gone"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_created_at"
+            app:layout_constraintTop_toBottomOf="@+id/tv_created_at"
             tools:visibility="visible" />
 
     </android.support.constraint.ConstraintLayout>

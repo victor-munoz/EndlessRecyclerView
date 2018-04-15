@@ -4,8 +4,9 @@ import dagger.Module
 import dagger.Provides
 import demo.victormunoz.githubusers.di.scope.ActivityScope
 import demo.victormunoz.githubusers.model.entity.User
-import demo.victormunoz.githubusers.model.network.GithubService
+import demo.victormunoz.githubusers.network.github.GithubService
 import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -50,6 +51,6 @@ class GitHubModule {
          * @return an Observable with the required user
          */
         @GET("users/{user}?&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET")
-        fun getUser(@Path("user") name: String): Observable<User>
+        fun getUser(@Path("user") name: String): Single<User>
     }
 }

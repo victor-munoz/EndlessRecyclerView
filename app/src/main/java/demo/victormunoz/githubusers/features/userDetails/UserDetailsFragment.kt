@@ -27,28 +27,28 @@ class UserDetailsFragment : Fragment() {
     }
 
     fun displayUserInfo(user: User) {
-        nestedScroll.visibility = View.VISIBLE
-        user_followers.text = user.followers
-        user_following.text = user.following
-        user_gists.text = user.totalGists
-        user_repos.text = user.totalRepos
-        user_created_at.text = resources.getString(R.string.joined_on, user.joinedIn)
-        if (user.biography != null) {
-            user_bio.visibility = View.VISIBLE
-            user_bio.text = user.biography
+        nsv_root.visibility = View.VISIBLE
+        tv_followers.text = user.followers
+        tv_following.text = user.following
+        tv_gists.text = user.totalGists
+        tv_repos.text = user.totalRepos
+        tv_created_at.text = resources.getString(R.string.joined_on, user.joinedIn)
+        user.biography?.run {
+            tv_bio.visibility = View.VISIBLE
+            tv_bio.text = this }
+        user.companyName?.run {
+            tv_company.visibility = View.VISIBLE
+            tv_company.text = this
         }
-        if (user.companyName != null) {
-            user_company.visibility = View.VISIBLE
-            user_company.text = user.companyName
+        user.location?.run {
+            tv_location.visibility = View.VISIBLE
+            tv_location.text = this
         }
         if (user.isHireable) {
-            user_hireable.visibility = View.VISIBLE
-            user_hireable.setText(R.string.available_for_hire)
+            tv_hireable.visibility = View.VISIBLE
+            tv_hireable.setText(R.string.available_for_hire)
         }
-        if (user.location != null) {
-            user_location.visibility = View.VISIBLE
-            user_location.text = user.location
-        }
+
     }
 
 }

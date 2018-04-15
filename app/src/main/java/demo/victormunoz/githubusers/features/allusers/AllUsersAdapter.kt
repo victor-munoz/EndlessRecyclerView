@@ -8,16 +8,19 @@ import java.util.ArrayList
 
 import demo.victormunoz.githubusers.R
 import demo.victormunoz.githubusers.model.entity.User
-import demo.victormunoz.githubusers.utils.picasso.ImageLoader
-import kotlinx.android.synthetic.main.adapter_all_users.view.*
+import demo.victormunoz.githubusers.network.image.ImageDownloadService
 
-class AllUsersAdapter(private val imageLoader: ImageLoader, private val adapterListener: AllUsersContract.AdapterListener) : RecyclerView.Adapter<AllUsersViewHolder>() {
+class AllUsersAdapter (
+        private val picassoService: ImageDownloadService,
+        private val adapterListener: AllUsersContract.AdapterListener
+
+) : RecyclerView.Adapter<AllUsersViewHolder>() {
 
     private val usersList = ArrayList<User>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllUsersViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.adapter_all_users, parent, false)
-        return AllUsersViewHolder(itemView, adapterListener, imageLoader)
+        return AllUsersViewHolder(itemView, adapterListener, picassoService)
     }
 
     override fun onBindViewHolder(holder: AllUsersViewHolder, position: Int) {
@@ -36,13 +39,13 @@ class AllUsersAdapter(private val imageLoader: ImageLoader, private val adapterL
     }
 
     override fun onViewDetachedFromWindow(holder: AllUsersViewHolder) {
-        imageLoader.cancelRequest(holder.itemView.iv_avatar)
+        //picassoService.cancelRequest(holder.itemView.iv_avatar)//todo
         holder.itemView.clearAnimation()
         super.onViewDetachedFromWindow(holder)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        imageLoader.cancelAll()
+        //picassoService.cancelAll()//todo
         super.onDetachedFromRecyclerView(recyclerView)
     }
 

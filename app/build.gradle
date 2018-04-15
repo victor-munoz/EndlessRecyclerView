@@ -69,6 +69,9 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle:2.2.1'
+
+
 
     //GOOGLE
     implementation 'com.google.guava:guava:23.3-android'
@@ -77,8 +80,12 @@ dependencies {
     //PALETTE
     implementation 'com.github.florent37:picassopalette:2.0.0'
 
-    //IMAGE DOWNLOAD
+    //PICASSO
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    //GLIDE
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    implementation 'jp.wasabeef:glide-transformations:3.0.1'
 
     //RETROFIT
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"

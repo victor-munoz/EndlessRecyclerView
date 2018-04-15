@@ -2,6 +2,7 @@ package demo.victormunoz.githubusers
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.content.res.Resources
 
 import com.squareup.leakcanary.LeakCanary
@@ -19,11 +20,13 @@ class App : Application() {
 
     companion object {
         lateinit var mResources: Resources
+        lateinit var context: Context
     }
 
     override fun onCreate() {
         super.onCreate()
         setLeakCanary()
+        context = this.applicationContext
         setResources()
     }
 
