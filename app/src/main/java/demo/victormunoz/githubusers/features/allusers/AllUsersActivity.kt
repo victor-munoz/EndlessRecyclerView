@@ -1,6 +1,5 @@
 package demo.victormunoz.githubusers.features.allusers
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -10,6 +9,7 @@ import android.support.annotation.RequiresApi
 import android.support.annotation.VisibleForTesting
 import android.support.design.widget.Snackbar
 import android.support.test.espresso.IdlingResource
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.Toolbar
@@ -49,7 +49,7 @@ class AllUsersActivity : RxAppCompatActivity(), PresenterListener, AdapterListen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_users)
-        setDependencyInjection()
+        injectDependencies()
         setSupportActionBar(tool_bar)
         setRecyclerView()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
@@ -73,7 +73,7 @@ class AllUsersActivity : RxAppCompatActivity(), PresenterListener, AdapterListen
     }
 
 
-    private fun setDependencyInjection() {
+    private fun injectDependencies() {
         (application as App).getUsersComponent(this).inject(this)
     }
 
@@ -99,7 +99,7 @@ class AllUsersActivity : RxAppCompatActivity(), PresenterListener, AdapterListen
     }
 
     override fun goToUserDetails(view: View, user: User) {
-        val options = ActivityOptions.makeSceneTransitionAnimation(this, view, view.transitionName)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, view.transitionName)
         startActivity(userDetailsActivity(user), options.toBundle())
     }
 
