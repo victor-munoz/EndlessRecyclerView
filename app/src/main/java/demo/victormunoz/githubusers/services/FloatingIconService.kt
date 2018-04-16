@@ -16,14 +16,9 @@ import android.support.annotation.RequiresApi
 import android.support.constraint.ConstraintLayout
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v4.view.animation.LinearOutSlowInInterpolator
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
-
 import demo.victormunoz.githubusers.App
 import demo.victormunoz.githubusers.R
 import demo.victormunoz.githubusers.features.allusers.AllUsersActivity
@@ -448,10 +443,10 @@ class FloatingIconService : Service(), View.OnClickListener, View.OnTouchListene
         }
         val xAnim = ValueAnimator.ofInt(ICON_WIDTH / 3, 0)
         xAnim.addUpdateListener { valueAnimator ->
-            if (iconParams!!.x < iconsBound!!.centerX()) {
-                fingerDeltaX = valueAnimator.animatedValue as Int
+            fingerDeltaX = if (iconParams!!.x < iconsBound!!.centerX()) {
+                valueAnimator.animatedValue as Int
             } else {
-                fingerDeltaX = -(valueAnimator.animatedValue as Int)
+                -(valueAnimator.animatedValue as Int)
             }
             iconParams!!.x = iconX
             windowManager!!.updateViewLayout(ivIcon, iconParams)

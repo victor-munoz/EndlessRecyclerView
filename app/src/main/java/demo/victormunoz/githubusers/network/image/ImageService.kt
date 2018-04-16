@@ -6,19 +6,18 @@ import demo.victormunoz.githubusers.R
 import io.reactivex.Single
 
 
-
-interface ImageDownloadService {
+interface ImageService {
 
     enum class ImageSize {
         BIG, SMALL
     }
 
-    fun ImageSize.getWidth(): Int{
-        return when (this){
-            ImageDownloadService.ImageSize.BIG -> {
+    fun ImageSize.getWidth(): Int {
+        return when (this) {
+            ImageService.ImageSize.BIG -> {
                 App.mResources.getDimensionPixelSize(R.dimen.image_circle_large)
             }
-            ImageDownloadService.ImageSize.SMALL -> {
+            ImageService.ImageSize.SMALL -> {
                 App.mResources.getDimensionPixelSize(R.dimen.image_circle_normal)
             }
         }

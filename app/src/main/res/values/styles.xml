@@ -20,6 +20,7 @@
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="AppTheme.NoActionBar.userDetails">
         <item name="android:windowEnterTransition">@transition/user_details</item>
         <item name="android:windowReturnTransition">@transition/user_details</item>
@@ -36,11 +37,13 @@
         <item name="android:layout_marginBottom">@dimen/margin_small</item>
         <item name="android:background">@android:color/darker_gray</item>
     </style>
+
     <style name="horizontal_separator">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.2dp</item>
         <item name="android:background">@android:color/darker_gray</item>
     </style>
+
     <style name="info_item">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>

@@ -3,15 +3,13 @@ package demo.victormunoz.githubusers.features.allusers
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-
-import java.util.ArrayList
-
 import demo.victormunoz.githubusers.R
 import demo.victormunoz.githubusers.model.User
-import demo.victormunoz.githubusers.network.image.ImageDownloadService
+import demo.victormunoz.githubusers.network.image.ImageService
+import java.util.*
 
-class AllUsersAdapter (
-        private val imageService: ImageDownloadService,
+class AllUsersAdapter(
+        private val imageService: ImageService,
         private val adapterListener: AllUsersContract.AdapterListener
 
 ) : RecyclerView.Adapter<AllUsersViewHolder>() {

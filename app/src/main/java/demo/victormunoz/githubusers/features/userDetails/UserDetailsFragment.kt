@@ -11,7 +11,6 @@ import demo.victormunoz.githubusers.model.User
 import kotlinx.android.synthetic.main.fragment_user_detail.*
 
 
-
 class UserDetailsFragment : Fragment() {
 
     companion object {
@@ -35,7 +34,8 @@ class UserDetailsFragment : Fragment() {
         tv_created_at.text = resources.getString(R.string.joined_on, user.joinedIn)
         user.biography?.run {
             tv_bio.visibility = View.VISIBLE
-            tv_bio.text = this }
+            tv_bio.text = this
+        }
         user.companyName?.run {
             tv_company.visibility = View.VISIBLE
             tv_company.text = this

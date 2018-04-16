@@ -20,13 +20,11 @@ class App : Application() {
 
     companion object {
         lateinit var mResources: Resources
-        lateinit var context: Context
     }
 
     override fun onCreate() {
         super.onCreate()
         setLeakCanary()
-        context = this.applicationContext
         setResources()
     }
 
@@ -45,7 +43,7 @@ class App : Application() {
                 .build()
     }
 
-    private fun setResources(){
+    private fun setResources() {
         mResources = resources
     }
 

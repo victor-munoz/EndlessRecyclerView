@@ -7,16 +7,16 @@ import dagger.Provides
 import demo.victormunoz.githubusers.di.scope.ActivityScope
 import demo.victormunoz.githubusers.features.allusers.AllUsersAdapter
 import demo.victormunoz.githubusers.features.allusers.AllUsersContract.AdapterListener
-import demo.victormunoz.githubusers.network.image.ImageDownloadService
+import demo.victormunoz.githubusers.network.image.ImageService
 
-@Module(includes = [(GlideModule::class)])
+@Module(includes = [(PicassoModule::class)])
 class UsersAdapterModule(activity: Activity) {
 
     private val mAdapterListener: AdapterListener = activity as AdapterListener
 
     @Provides
     @ActivityScope
-    internal fun provideUsersAdapter(imageService: ImageDownloadService): AllUsersAdapter {
+    internal fun provideUsersAdapter(imageService: ImageService): AllUsersAdapter {
         return AllUsersAdapter(imageService, mAdapterListener)
     }
 

@@ -8,7 +8,7 @@ import com.squareup.picasso.Transformation
 import dagger.Module
 import dagger.Provides
 import demo.victormunoz.githubusers.di.scope.ActivityScope
-import demo.victormunoz.githubusers.network.image.ImageDownloadService
+import demo.victormunoz.githubusers.network.image.ImageService
 import demo.victormunoz.githubusers.network.image.PicassoService
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
@@ -29,7 +29,7 @@ class PicassoModule {
 
     @Provides
     @ActivityScope
-    internal fun providePicassoService(picasso: Picasso, transformation: Transformation): ImageDownloadService {
+    internal fun providePicassoService(picasso: Picasso, transformation: Transformation): ImageService {
         return PicassoService(picasso, transformation)
     }
 

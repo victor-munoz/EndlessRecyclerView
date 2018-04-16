@@ -40,7 +40,7 @@ fun Context.userDetailsActivity(user: User): Intent {
 
 }
 
-class UserDetailsActivity : RxAppCompatActivity(), UserDetailsContract.PresenterListener{
+class UserDetailsActivity : RxAppCompatActivity(), UserDetailsContract.PresenterListener {
 
     companion object {
         private const val USER_DETAIL_FRAGMENT = "user's detail fragment"
@@ -129,7 +129,6 @@ class UserDetailsActivity : RxAppCompatActivity(), UserDetailsContract.Presenter
     private fun getUser(): User {
         return intent.extras.getParcelable(INTENT_USER)
     }
-
 
 
     private fun startRevealAnimation(gradient: ShapeDrawable, delay: Long) {

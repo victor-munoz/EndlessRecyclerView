@@ -8,8 +8,8 @@ import com.bumptech.glide.request.RequestOptions
 import dagger.Module
 import dagger.Provides
 import demo.victormunoz.githubusers.di.scope.ActivityScope
-import demo.victormunoz.githubusers.network.image.GlideImageService
-import demo.victormunoz.githubusers.network.image.ImageDownloadService
+import demo.victormunoz.githubusers.network.image.GlideService
+import demo.victormunoz.githubusers.network.image.ImageService
 
 @Module(includes = [(ContextModule::class)])
 class GlideModule {
@@ -19,6 +19,7 @@ class GlideModule {
     internal fun providesGlide(context: Context): RequestManager {
         return Glide.with(context)
     }
+
     @Provides
     @ActivityScope
     internal fun provideTransformation(): RequestOptions {
@@ -27,8 +28,8 @@ class GlideModule {
 
     @Provides
     @ActivityScope
-    internal fun provideGlideService(glide: RequestManager, requestOptions: RequestOptions): ImageDownloadService {
-        return GlideImageService(glide, requestOptions)
+    internal fun provideGlideService(glide: RequestManager, requestOptions: RequestOptions): ImageService {
+        return GlideService(glide, requestOptions)
     }
 
 }

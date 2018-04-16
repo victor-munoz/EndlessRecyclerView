@@ -17,10 +17,8 @@
 package demo.victormunoz.githubusers.utils.espresso
 
 import android.support.test.espresso.IdlingResource
-
-import java.util.concurrent.atomic.AtomicInteger
-
 import com.google.common.base.Preconditions.checkNotNull
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * A simple counter implementation of [IdlingResource] that determines idleness by

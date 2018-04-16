@@ -5,8 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     android:elevation="@dimen/elevation_base"
-    android:stateListAnimator="@animator/translation_z"
-   >
+    android:stateListAnimator="@animator/translation_z">
 
     <ImageView
         android:id="@+id/iv_avatar"

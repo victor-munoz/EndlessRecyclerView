@@ -5,8 +5,8 @@ import com.trello.rxlifecycle2.RxLifecycle
 import com.trello.rxlifecycle2.android.ActivityEvent
 import demo.victormunoz.githubusers.features.userDetails.UserDetailsContract.PresenterListener
 import demo.victormunoz.githubusers.model.User
-import demo.victormunoz.githubusers.network.github.GithubService
-import demo.victormunoz.githubusers.network.image.ImageDownloadService
+import demo.victormunoz.githubusers.network.api.ApiService
+import demo.victormunoz.githubusers.network.image.ImageService
 import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -17,8 +17,8 @@ import java.util.concurrent.CancellationException
 
 class UserDetailsPresenter(
         private var mUsersPresenterListener: PresenterListener,
-        private val githubService: GithubService,
-        private val imageService: ImageDownloadService,
+        private val githubService: ApiService,
+        private val imageService: ImageService,
         private val lifecycle: Observable<ActivityEvent>
 
 ) : UserDetailsContract.UserActionsListener {
@@ -31,15 +31,12 @@ class UserDetailsPresenter(
 
     override fun getUserDetails(login: String, url: String) {
         EspressoIdlingResource.increment()
-
-        val singleBitmap = imageService.getImage(url, ImageDownloadService.ImageSize.BIG)
-        val getUser = githubService.getUser(login)
+        val getUserImage = imageService.getImage(url, ImageService.ImageSize.BIG)
+        val getUserData = githubService.getUser(login)
         val convertToUserDetails = BiFunction<User, Bitmap, UserDetails> { u, b ->
             UserDetails(u, b)
         }
-
-
-        Single.zip(getUser, singleBitmap, convertToUserDetails)
+        Single.zip(getUserData, getUserImage, convertToUserDetails)
                 .compose(RxLifecycle.bindUntilEvent(lifecycle, ActivityEvent.DESTROY))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -47,7 +44,7 @@ class UserDetailsPresenter(
                         { userDetails ->
                             mUsersPresenterListener.displayUserDetails(userDetails.user, userDetails.bitmap)
                         }, { e ->
-                            if (e !is CancellationException) mUsersPresenterListener.showErrorMessage()
+                            if (e !is CancellationException) { mUsersPresenterListener.showErrorMessage()}
                             EspressoIdlingResource.decrement()
                         }
                 )

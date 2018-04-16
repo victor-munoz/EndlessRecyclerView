@@ -9,17 +9,17 @@ import demo.victormunoz.githubusers.di.scope.ActivityScope
 import demo.victormunoz.githubusers.features.allusers.AllUsersContract.PresenterListener
 import demo.victormunoz.githubusers.features.allusers.AllUsersContract.ViewListener
 import demo.victormunoz.githubusers.features.allusers.AllUsersPresenter
-import demo.victormunoz.githubusers.network.github.GithubService
+import demo.victormunoz.githubusers.network.api.ApiService
 
 @Module(includes = [(GitHubModule::class)])
 class AllUsersPresenterModule(activity: Activity) {
 
-    private var  mUsersView = activity as PresenterListener
-    private var  lifecycle = (activity as RxAppCompatActivity).lifecycle()
+    private var mUsersView = activity as PresenterListener
+    private var lifecycle = (activity as RxAppCompatActivity).lifecycle()
 
     @Provides
     @ActivityScope
-    internal fun providesUsersPresenterInterface(github: GithubService): ViewListener {
+    internal fun providesUsersPresenterInterface(github: ApiService): ViewListener {
         return AllUsersPresenter(mUsersView, github, lifecycle)
     }
 

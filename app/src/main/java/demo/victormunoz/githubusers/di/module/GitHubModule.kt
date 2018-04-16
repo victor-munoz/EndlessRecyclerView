@@ -4,7 +4,8 @@ import dagger.Module
 import dagger.Provides
 import demo.victormunoz.githubusers.di.scope.ActivityScope
 import demo.victormunoz.githubusers.model.User
-import demo.victormunoz.githubusers.network.github.GithubService
+import demo.victormunoz.githubusers.network.api.ApiService
+import demo.victormunoz.githubusers.network.api.GithubService
 import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.Retrofit
@@ -28,7 +29,7 @@ class GitHubModule {
 
     @Provides
     @ActivityScope
-    internal fun providesGithubService(gitHubApiInterface: GitHubApiInterface): GithubService {
+    internal fun providesGithubService(gitHubApiInterface: GitHubApiInterface): ApiService {
         return GithubService(gitHubApiInterface)
     }
 
@@ -41,7 +42,6 @@ class GitHubModule {
          */
         @GET("/users?&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET")
         fun getUsers(@Query("since") sinceId: Int): Observable<List<User>>
-
 
 
         /**

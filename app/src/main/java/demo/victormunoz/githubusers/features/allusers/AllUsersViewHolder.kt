@@ -10,17 +10,17 @@ import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import demo.victormunoz.githubusers.R
 import demo.victormunoz.githubusers.model.User
-import demo.victormunoz.githubusers.network.image.ImageDownloadService
+import demo.victormunoz.githubusers.network.image.ImageService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.adapter_all_users.*
 
 
-class AllUsersViewHolder (
+class AllUsersViewHolder(
         override val containerView: View,
         private val adapterListener: AllUsersContract.AdapterListener,
-        private val imageService: ImageDownloadService
+        private val imageService: ImageService
 
 ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
@@ -37,17 +37,17 @@ class AllUsersViewHolder (
 
     fun bind(user: User) {
         containerView.visibility = View.INVISIBLE
-        imageService.getImage(user.avatarUrl,ImageDownloadService.ImageSize.SMALL)
+        imageService.getImage(user.avatarUrl, ImageService.ImageSize.SMALL)
                 .compose(RxLifecycle.bindUntilEvent(lifeCycle, ActivityEvent.DESTROY))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        {bitmap->
+                        { bitmap ->
                             containerView.visibility = View.VISIBLE
                             updateData(bitmap, user.loginName)
                             animEntrance()
                         },
-                        {_->
+                        { _ ->
                             containerView.visibility = View.VISIBLE
                         })
     }
