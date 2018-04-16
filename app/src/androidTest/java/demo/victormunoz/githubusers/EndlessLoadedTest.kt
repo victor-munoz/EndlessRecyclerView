@@ -1,13 +1,21 @@
 package demo.victormunoz.githubusers
 
 import android.support.design.widget.CoordinatorLayout
+import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.IdlingRegistry
+import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition
+import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
+import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.filters.MediumTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.RecyclerView
 import android.view.View
-
+import com.google.common.base.Preconditions.checkNotNull
+import demo.victormunoz.githubusers.EndlessLoadedTest.Matchers.withItemCount
+import demo.victormunoz.githubusers.features.allusers.AllUsersActivity
+import demo.victormunoz.githubusers.macher.RecyclerViewMatcher.atPosition
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
@@ -16,17 +24,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import demo.victormunoz.githubusers.features.allusers.AllUsersActivity
-
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition
-import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
-import android.support.test.espresso.matcher.ViewMatchers.withId
-import com.google.common.base.Preconditions.checkNotNull
-import demo.victormunoz.githubusers.EndlessLoadedTest.Matchers.withItemCount
-import demo.victormunoz.githubusers.macher.RecyclerViewMatcher.atPosition
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest

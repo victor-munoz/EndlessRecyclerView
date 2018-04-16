@@ -3,11 +3,9 @@ package demo.victormunoz.githubusers.macher
 import android.support.test.espresso.matcher.BoundedMatcher
 import android.support.v7.widget.RecyclerView
 import android.view.View
-
+import com.google.common.base.Preconditions.checkNotNull
 import org.hamcrest.Description
 import org.hamcrest.Matcher
-
-import com.google.common.base.Preconditions.checkNotNull
 
 object RecyclerViewMatcher {
 
