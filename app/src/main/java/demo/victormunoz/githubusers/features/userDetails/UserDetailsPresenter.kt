@@ -30,19 +30,20 @@ class UserDetailsPresenter(
     private data class UserDetails(var user: User, var bitmap: Bitmap)
 
     override fun getUserDetails(login: String, url: String) {
-        EspressoIdlingResource.increment()
         val getUserImage = imageService.getImage(url, ImageService.ImageSize.BIG)
         val getUserData = githubService.getUser(login)
         val convertToUserDetails = BiFunction<User, Bitmap, UserDetails> { u, b ->
             UserDetails(u, b)
         }
         Single.zip(getUserData, getUserImage, convertToUserDetails)
+                .doOnSubscribe { EspressoIdlingResource.increment() }
                 .compose(RxLifecycle.bindUntilEvent(lifecycle, ActivityEvent.DESTROY))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { userDetails ->
                             mUsersPresenterListener.displayUserDetails(userDetails.user, userDetails.bitmap)
+                            EspressoIdlingResource.decrement()
                         }, { e ->
                             if (e !is CancellationException) { mUsersPresenterListener.showErrorMessage()}
                             EspressoIdlingResource.decrement()

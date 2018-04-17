@@ -28,7 +28,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class EndlessLoadedTest {
-    @Rule
+    @get:Rule
     val mAllUsersActivityTestRule = ActivityTestRule(AllUsersActivity::class.java)
 
     private fun allowScrollToPosition() {
