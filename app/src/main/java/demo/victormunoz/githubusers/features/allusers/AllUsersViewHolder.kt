@@ -8,6 +8,7 @@ import com.jakewharton.rxbinding2.view.RxView
 import com.trello.rxlifecycle2.RxLifecycle
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import com.trello.rxlifecycle2.kotlin.bindUntilEvent
 import demo.victormunoz.githubusers.R
 import demo.victormunoz.githubusers.model.User
 import demo.victormunoz.githubusers.network.image.ImageService
@@ -40,8 +41,8 @@ class AllUsersViewHolder(
     fun bind(user: User) {
         containerView.visibility = View.INVISIBLE
         imageService.getImage(user.avatarUrl, ImageService.ImageSize.SMALL)
+                .bindUntilEvent(lifeCycle, ActivityEvent.DESTROY)
                 .doOnSubscribe { EspressoIdlingResource.increment() }
-                .compose(RxLifecycle.bindUntilEvent(lifeCycle, ActivityEvent.DESTROY))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -52,7 +53,9 @@ class AllUsersViewHolder(
                             EspressoIdlingResource.decrement()
                         },
                         { e ->
-                            if (e !is CancellationException) { containerView.visibility = View.VISIBLE }
+                            if (e !is CancellationException) {
+                                containerView.visibility = View.VISIBLE
+                            }
                             EspressoIdlingResource.decrement()
                         })
     }

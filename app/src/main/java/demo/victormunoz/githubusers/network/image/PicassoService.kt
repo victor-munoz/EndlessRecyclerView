@@ -16,7 +16,8 @@ class PicassoService(private val picasso: Picasso, private val transformation: T
                             .resize(size, size)
                             .centerCrop()
                             .noFade()
-                            .transform(transformation).get()
+                            .transform(transformation)
+                            .get()
                     emitter.onSuccess(bitmap)
 
                 }

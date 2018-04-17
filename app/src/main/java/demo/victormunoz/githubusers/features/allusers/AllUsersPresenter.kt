@@ -1,8 +1,8 @@
 package demo.victormunoz.githubusers.features.allusers
 
 import android.view.View
-import com.trello.rxlifecycle2.RxLifecycle
 import com.trello.rxlifecycle2.android.ActivityEvent
+import com.trello.rxlifecycle2.kotlin.bindUntilEvent
 import demo.victormunoz.githubusers.features.allusers.AllUsersContract.PresenterListener
 import demo.victormunoz.githubusers.features.allusers.AllUsersContract.ViewListener
 import demo.victormunoz.githubusers.model.User
@@ -40,10 +40,10 @@ class AllUsersPresenter(
 
     private fun loadMore() {
         service.getUsers(sinceId)
+                .bindUntilEvent(lifecycle, ActivityEvent.DESTROY)
                 .doOnSubscribe { EspressoIdlingResource.increment() }
                 .doOnSuccess { sinceId = it.last().id }
                 .filter { v->!v.isEmpty() }.toSingle()
-                .compose(RxLifecycle.bindUntilEvent(lifecycle, ActivityEvent.DESTROY))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -52,7 +52,9 @@ class AllUsersPresenter(
                             EspressoIdlingResource.decrement()
                     }
                     , { e ->
-                            if (e !is CancellationException) { mUsersView.showError() }
+                            if (e !is CancellationException) {
+                                mUsersView.showError()
+                            }
                             EspressoIdlingResource.decrement()
                     }
 
