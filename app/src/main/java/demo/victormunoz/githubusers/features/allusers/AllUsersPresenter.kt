@@ -11,6 +11,7 @@ import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.CancellationException
 
 class AllUsersPresenter(
         private val mUsersView: PresenterListener,
@@ -40,19 +41,21 @@ class AllUsersPresenter(
     private fun loadMore() {
         service.getUsers(sinceId)
                 .doOnSubscribe { EspressoIdlingResource.increment() }
-                .doOnNext { sinceId = it.last().id }
+                .doOnSuccess { sinceId = it.last().id }
+                .filter { v->!v.isEmpty() }.toSingle()
                 .compose(RxLifecycle.bindUntilEvent(lifecycle, ActivityEvent.DESTROY))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { users ->
                             mUsersView.addUsers(users)
-                    }
-                    , { _ ->
-                            mUsersView.showError()
                             EspressoIdlingResource.decrement()
                     }
-                    , { EspressoIdlingResource.decrement() }
+                    , { e ->
+                            if (e !is CancellationException) { mUsersView.showError() }
+                            EspressoIdlingResource.decrement()
+                    }
+
                 )
 
 

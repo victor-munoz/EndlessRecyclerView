@@ -11,10 +11,12 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import demo.victormunoz.githubusers.R
 import demo.victormunoz.githubusers.model.User
 import demo.victormunoz.githubusers.network.image.ImageService
+import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.adapter_all_users.*
+import java.util.concurrent.CancellationException
 
 
 class AllUsersViewHolder(
@@ -38,6 +40,7 @@ class AllUsersViewHolder(
     fun bind(user: User) {
         containerView.visibility = View.INVISIBLE
         imageService.getImage(user.avatarUrl, ImageService.ImageSize.SMALL)
+                .doOnSubscribe { EspressoIdlingResource.increment() }
                 .compose(RxLifecycle.bindUntilEvent(lifeCycle, ActivityEvent.DESTROY))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -46,9 +49,11 @@ class AllUsersViewHolder(
                             containerView.visibility = View.VISIBLE
                             updateData(bitmap, user.loginName)
                             animEntrance()
+                            EspressoIdlingResource.decrement()
                         },
-                        { _ ->
-                            containerView.visibility = View.VISIBLE
+                        { e ->
+                            if (e !is CancellationException) { containerView.visibility = View.VISIBLE }
+                            EspressoIdlingResource.decrement()
                         })
     }
 

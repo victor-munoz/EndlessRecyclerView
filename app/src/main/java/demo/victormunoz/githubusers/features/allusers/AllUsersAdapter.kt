@@ -47,9 +47,9 @@ class AllUsersAdapter(
 
     internal fun addUsers(users: List<User>) {
         val startPosition = usersList.size
-        val endPosition = startPosition + users.size - 1
+        val numberOfUsers = startPosition + users.size
         usersList.addAll(users)
-        notifyItemRangeInserted(startPosition, endPosition)
+        notifyItemRangeInserted(startPosition, numberOfUsers)
     }
 
 

@@ -41,7 +41,7 @@ class GitHubModule {
          * @return an Observable with a list of users
          */
         @GET("/users?&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET")
-        fun getUsers(@Query("since") sinceId: Int): Observable<List<User>>
+        fun getUsers(@Query("since") sinceId: Int): Single<List<User>>
 
 
         /**
