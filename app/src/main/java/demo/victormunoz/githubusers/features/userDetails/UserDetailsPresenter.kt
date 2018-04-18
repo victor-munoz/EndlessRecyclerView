@@ -3,7 +3,7 @@ package demo.victormunoz.githubusers.features.userDetails
 import android.graphics.Bitmap
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.kotlin.bindUntilEvent
-import demo.victormunoz.githubusers.features.userDetails.UserDetailsContract.PresenterListener
+import demo.victormunoz.githubusers.features.userDetails.UserDetailsContract.ViewListener
 import demo.victormunoz.githubusers.model.User
 import demo.victormunoz.githubusers.network.api.ApiService
 import demo.victormunoz.githubusers.network.image.ImageService
@@ -16,12 +16,12 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.CancellationException
 
 class UserDetailsPresenter(
-        private var mUsersPresenterListener: PresenterListener,
-        private val githubService: ApiService,
+        private var viewListener: ViewListener,
+        private val apiService: ApiService,
         private val imageService: ImageService,
         private val lifecycle: Observable<ActivityEvent>
 
-) : UserDetailsContract.UserActionsListener {
+) : UserDetailsContract.PresenterListener {
 
     override fun onBackPressed() {
         // not needed yet
@@ -31,7 +31,7 @@ class UserDetailsPresenter(
 
     override fun getUserDetails(login: String, url: String) {
         val getUserImage = imageService.getImage(url, ImageService.ImageSize.BIG)
-        val getUserData = githubService.getUser(login)
+        val getUserData = apiService.getUser(login)
         val convertToUserDetails = BiFunction<User, Bitmap, UserDetails> { u, b ->
             UserDetails(u, b)
         }
@@ -42,11 +42,11 @@ class UserDetailsPresenter(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { userDetails ->
-                            mUsersPresenterListener.displayUserDetails(userDetails.user, userDetails.bitmap)
+                            viewListener.displayUserDetails(userDetails.user, userDetails.bitmap)
                             EspressoIdlingResource.decrement()
                         }, { e ->
                             if (e !is CancellationException) {
-                               mUsersPresenterListener.showErrorMessage()
+                               viewListener.showErrorMessage()
                             }
                             EspressoIdlingResource.decrement()
                         }

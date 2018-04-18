@@ -3,8 +3,8 @@ package demo.victormunoz.githubusers.features.allusers
 import android.view.View
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.kotlin.bindUntilEvent
-import demo.victormunoz.githubusers.features.allusers.AllUsersContract.PresenterListener
 import demo.victormunoz.githubusers.features.allusers.AllUsersContract.ViewListener
+import demo.victormunoz.githubusers.features.allusers.AllUsersContract.PresenterListener
 import demo.victormunoz.githubusers.model.User
 import demo.victormunoz.githubusers.network.api.ApiService
 import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource
@@ -14,11 +14,11 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.CancellationException
 
 class AllUsersPresenter(
-        private val mUsersView: PresenterListener,
-        private val service: ApiService,
+        private val viewListener: ViewListener,
+        private val apiService: ApiService,
         private val lifecycle: Observable<ActivityEvent>
 
-) : ViewListener {
+) : PresenterListener {
 
     private var sinceId = 0
 
@@ -35,11 +35,11 @@ class AllUsersPresenter(
     }
 
     override fun onItemClick(view: View, user: User) {
-        mUsersView.goToUserDetails(view, user)
+        viewListener.goToUserDetails(view, user)
     }
 
     private fun loadMore() {
-        service.getUsers(sinceId)
+        apiService.getUsers(sinceId)
                 .bindUntilEvent(lifecycle, ActivityEvent.DESTROY)
                 .doOnSubscribe { EspressoIdlingResource.increment() }
                 .doOnSuccess { sinceId = it.last().id }
@@ -48,12 +48,12 @@ class AllUsersPresenter(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { users ->
-                            mUsersView.addUsers(users)
+                            viewListener.addUsers(users)
                             EspressoIdlingResource.decrement()
                     }
                     , { e ->
                             if (e !is CancellationException) {
-                                mUsersView.showError()
+                                viewListener.showError()
                             }
                             EspressoIdlingResource.decrement()
                     }

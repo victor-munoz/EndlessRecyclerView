@@ -5,14 +5,14 @@ import demo.victormunoz.githubusers.model.User
 
 interface UserDetailsContract {
 
-    interface PresenterListener {
+    interface ViewListener {
 
         fun displayUserDetails(user: User, bitmap: Bitmap)
 
         fun showErrorMessage()
     }
 
-    interface UserActionsListener {
+    interface PresenterListener {
 
         fun getUserDetails(login: String, url: String)
 

@@ -18,8 +18,6 @@ import android.widget.TextView
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import demo.victormunoz.githubusers.App
 import demo.victormunoz.githubusers.R
-import demo.victormunoz.githubusers.features.allusers.AllUsersContract.AdapterListener
-import demo.victormunoz.githubusers.features.allusers.AllUsersContract.PresenterListener
 import demo.victormunoz.githubusers.features.userDetails.userDetailsActivity
 import demo.victormunoz.githubusers.model.User
 import demo.victormunoz.githubusers.services.FloatingIconService
@@ -29,17 +27,17 @@ import kotlinx.android.synthetic.main.activity_all_users.*
 import javax.inject.Inject
 
 
-class AllUsersActivity : RxAppCompatActivity(), PresenterListener, AdapterListener {
+class AllUsersActivity : RxAppCompatActivity(), AllUsersContract.ViewListener, AllUsersContract.AdapterListener {
 
     companion object {
         private const val REQUEST_CODE = 5463
     }
 
     @Inject
-    lateinit var mAllUsersAdapter: AllUsersAdapter
+    lateinit var adapter: AllUsersAdapter
 
     @Inject
-    lateinit var mViewListener: AllUsersContract.ViewListener
+    lateinit var presenterListener: AllUsersContract.PresenterListener
 
     val countingIdlingResource: IdlingResource
         @VisibleForTesting
@@ -58,7 +56,7 @@ class AllUsersActivity : RxAppCompatActivity(), PresenterListener, AdapterListen
     }
 
     override fun onDestroy() {
-        recycler_view.adapter = mAllUsersAdapter
+        recycler_view.adapter = adapter
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(this)) {
             startService(Intent(this, FloatingIconService::class.java))
         }
@@ -78,7 +76,7 @@ class AllUsersActivity : RxAppCompatActivity(), PresenterListener, AdapterListen
     }
 
     private fun setRecyclerView() {
-        recycler_view!!.adapter = mAllUsersAdapter
+        recycler_view!!.adapter = adapter
         val numColumns = resources.getInteger(R.integer.columns)
         val itemMargin = resources.getDimensionPixelSize(R.dimen.margin_small)
         recycler_view!!.setHasFixedSize(true)
@@ -95,7 +93,7 @@ class AllUsersActivity : RxAppCompatActivity(), PresenterListener, AdapterListen
 
     //presenter listener
     override fun addUsers(users: List<User>) {
-        mAllUsersAdapter.addUsers(users)
+        adapter.addUsers(users)
     }
 
     override fun goToUserDetails(view: View, user: User) {
@@ -105,12 +103,12 @@ class AllUsersActivity : RxAppCompatActivity(), PresenterListener, AdapterListen
 
     override fun showError() {
         var errorMessage = getString(R.string.error_downloading_more_users)
-        if (mAllUsersAdapter.itemCount == 0) {
+        if (adapter.itemCount == 0) {
             errorMessage = getString(R.string.error_downloading_users)
         }
         val snackbar = Snackbar
                 .make(github_logo, errorMessage, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.retry) { mViewListener.onRetry() }
+                .setAction(R.string.retry) { presenterListener.onRetry() }
         val sbView = snackbar.view
         val textView = sbView.findViewById<TextView>(android.support.design.R.id.snackbar_text)
         val cloudError = ResourcesCompat.getDrawable(resources, R.drawable.icon_cloud_error, null)
@@ -121,12 +119,12 @@ class AllUsersActivity : RxAppCompatActivity(), PresenterListener, AdapterListen
 
     //adapter Listener
     override fun onEndOfTheList() {
-        mViewListener.onEndOfTheList()
+        presenterListener.onEndOfTheList()
     }
 
     override fun onItemClick(view: View, position: Int) {
-        val user = mAllUsersAdapter.getItem(position)
-        mViewListener.onItemClick(view, user)
+        val user = adapter.getItem(position)
+        presenterListener.onItemClick(view, user)
     }
 
 

@@ -40,14 +40,14 @@ fun Context.userDetailsActivity(user: User): Intent {
 
 }
 
-class UserDetailsActivity : RxAppCompatActivity(), UserDetailsContract.PresenterListener {
+class UserDetailsActivity : RxAppCompatActivity(), UserDetailsContract.ViewListener {
 
     companion object {
         private const val USER_DETAIL_FRAGMENT = "user's detail fragment"
     }
 
     @Inject
-    lateinit var mActionsListener: UserDetailsContract.UserActionsListener
+    lateinit var presenterListener: UserDetailsContract.PresenterListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +55,7 @@ class UserDetailsActivity : RxAppCompatActivity(), UserDetailsContract.Presenter
         setSupportActionBar(toolbar)
         injectDependencies()
         initFragment(UserDetailsFragment.newInstance())
-        mActionsListener.getUserDetails(getUser().loginName, getUser().avatarUrl)
+        presenterListener.getUserDetails(getUser().loginName, getUser().avatarUrl)
         supportPostponeEnterTransition()
     }
 
@@ -82,7 +82,7 @@ class UserDetailsActivity : RxAppCompatActivity(), UserDetailsContract.Presenter
     }
 
     override fun onBackPressed() {
-        mActionsListener.onBackPressed()
+        presenterListener.onBackPressed()
         supportFinishAfterTransition()
         super.onBackPressed()
     }
@@ -98,7 +98,7 @@ class UserDetailsActivity : RxAppCompatActivity(), UserDetailsContract.Presenter
         supportStartPostponedEnterTransition()
         val errorMessage = getString(R.string.error_downloading_users_profile)
         val snackbar = Snackbar.make(user_avatar, errorMessage, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry) {
-            mActionsListener.getUserDetails(getUser().loginName, getUser().avatarUrl)
+            presenterListener.getUserDetails(getUser().loginName, getUser().avatarUrl)
         }
         val sbView = snackbar.view
         val textView = sbView.findViewById<TextView>(android.support.design.R.id.snackbar_text)

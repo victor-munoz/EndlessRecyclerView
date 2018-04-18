@@ -5,7 +5,7 @@ import demo.victormunoz.githubusers.model.User
 
 interface AllUsersContract {
 
-    interface ViewListener {
+    interface PresenterListener {
 
         fun onEndOfTheList()
 
@@ -15,7 +15,7 @@ interface AllUsersContract {
 
     }
 
-    interface PresenterListener {
+    interface ViewListener {
 
         fun showError()
 

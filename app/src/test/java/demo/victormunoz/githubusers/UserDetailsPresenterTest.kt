@@ -22,7 +22,7 @@ import java.util.concurrent.CancellationException
 
 class UserDetailsPresenterTest {
     @Mock
-    private lateinit var mUsersPresenterListener: UserDetailsContract.PresenterListener
+    private lateinit var viewListener: UserDetailsContract.ViewListener
     @Mock
     private lateinit var lifecycle: Observable<ActivityEvent>
     @Mock
@@ -53,52 +53,48 @@ class UserDetailsPresenterTest {
                 , null, null, 0, 0, null, 1, 1)
     }
 
-    @Test
-    fun getUserDetails_success() {
+    @Test fun getUserDetails_success() {
         /* Given */
         `when`(githubService.getUser(user.loginName)).thenReturn(Single.just(user))
         `when`(imageService.getImage(user.avatarUrl, ImageService.ImageSize.BIG)).thenReturn(Single.just(bitmap))
         /* When */
         presenter.getUserDetails(user.loginName, user.avatarUrl)
         /* Then */
-        verify(mUsersPresenterListener, times(1)).displayUserDetails(user, bitmap)
-        verifyNoMoreInteractions(mUsersPresenterListener)
+        verify(viewListener, times(1)).displayUserDetails(user, bitmap)
+        verifyNoMoreInteractions(viewListener)
 
     }
 
-    @Test
-    fun getUserDetails_getUserFail() {
+    @Test fun getUserDetails_getUserFail() {
         /* Given */
         `when`(githubService.getUser(user.loginName)).thenReturn(Single.error(Throwable("fail")))
         `when`(imageService.getImage(user.avatarUrl, ImageService.ImageSize.BIG)).thenReturn(Single.just(bitmap))
         /* When */
         presenter.getUserDetails(user.loginName, user.avatarUrl)
         /* Then */
-        verify(mUsersPresenterListener, times(1)).showErrorMessage()
-        verifyNoMoreInteractions(mUsersPresenterListener)
+        verify(viewListener, times(1)).showErrorMessage()
+        verifyNoMoreInteractions(viewListener)
     }
 
-    @Test
-    fun getUserDetails_getImageFail() {
+    @Test fun getUserDetails_getImageFail() {
         /* Given */
         `when`(githubService.getUser(user.loginName)).thenReturn(Single.just(user))
         `when`(imageService.getImage(user.avatarUrl, ImageService.ImageSize.BIG)).thenReturn(Single.error(Throwable("fail")))
         /* When */
         presenter.getUserDetails(user.loginName, user.avatarUrl)
         /* Then */
-        verify(mUsersPresenterListener, times(1)).showErrorMessage()
-        verifyNoMoreInteractions(mUsersPresenterListener)
+        verify(viewListener, times(1)).showErrorMessage()
+        verifyNoMoreInteractions(viewListener)
     }
 
-    @Test
-    fun getUserDetails_cancelled() {
+    @Test fun getUserDetails_cancelled() {
         /* Given */
         `when`(githubService.getUser(user.loginName)).thenReturn(Single.error(CancellationException()))
         `when`(imageService.getImage(user.avatarUrl, ImageService.ImageSize.BIG)).thenReturn(Single.just(bitmap))
         /* When */
         presenter.getUserDetails(user.loginName, user.avatarUrl)
         /* Then */
-        verifyNoMoreInteractions(mUsersPresenterListener)
+        verifyNoMoreInteractions(viewListener)
     }
 
 

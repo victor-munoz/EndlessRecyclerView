@@ -9,15 +9,15 @@ import demo.victormunoz.githubusers.features.allusers.AllUsersAdapter
 import demo.victormunoz.githubusers.features.allusers.AllUsersContract.AdapterListener
 import demo.victormunoz.githubusers.network.image.ImageService
 
-@Module(includes = [(PicassoModule::class)])
+@Module(includes = [(GlideModule::class)])
 class UsersAdapterModule(activity: Activity) {
 
-    private val mAdapterListener: AdapterListener = activity as AdapterListener
+    private val adapterListener: AdapterListener = activity as AdapterListener
 
     @Provides
     @ActivityScope
     internal fun provideUsersAdapter(imageService: ImageService): AllUsersAdapter {
-        return AllUsersAdapter(imageService, mAdapterListener)
+        return AllUsersAdapter(imageService, adapterListener)
     }
 
 }
