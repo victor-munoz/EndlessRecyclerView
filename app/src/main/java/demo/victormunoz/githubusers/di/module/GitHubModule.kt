@@ -6,7 +6,6 @@ import demo.victormunoz.githubusers.di.scope.ActivityScope
 import demo.victormunoz.githubusers.model.User
 import demo.victormunoz.githubusers.network.api.ApiService
 import demo.victormunoz.githubusers.network.api.GithubService
-import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.Retrofit
 import retrofit2.http.GET

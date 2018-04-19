@@ -2,19 +2,12 @@ package demo.victormunoz.githubusers
 
 import android.app.Activity
 import android.app.Application
-import android.content.Context
 import android.content.res.Resources
+import android.support.v7.widget.RecyclerView
 
 import com.squareup.leakcanary.LeakCanary
-
-import demo.victormunoz.githubusers.di.component.AllUsersComponent
-import demo.victormunoz.githubusers.di.component.DaggerAllUsersComponent
-import demo.victormunoz.githubusers.di.component.DaggerUserDetailsComponent
-import demo.victormunoz.githubusers.di.component.UserDetailsComponent
-import demo.victormunoz.githubusers.di.module.AllUsersPresenterModule
-import demo.victormunoz.githubusers.di.module.ContextModule
-import demo.victormunoz.githubusers.di.module.UserDetailsPresenterModule
-import demo.victormunoz.githubusers.di.module.UsersAdapterModule
+import demo.victormunoz.githubusers.di.component.*
+import demo.victormunoz.githubusers.di.module.*
 
 class App : Application() {
 
@@ -28,18 +21,25 @@ class App : Application() {
         setResources()
     }
 
-    fun getUsersComponent(activity: Activity): AllUsersComponent {
-        return DaggerAllUsersComponent.builder()
+    fun getUsersComponent(activity: Activity): AllUsersActivityComponent {
+        return DaggerAllUsersActivityComponent.builder()
                 .contextModule(ContextModule(activity))
-                .usersAdapterModule(UsersAdapterModule(activity))
-                .allUsersPresenterModule(AllUsersPresenterModule(activity))
+                .allUsersAdapterModule(AllUsersAdapterModule())
+                .allUsersActivityPresenterModule(AllUsersActivityPresenterModule())
                 .build()
     }
 
-    fun getUserComponent(activity: Activity): UserDetailsComponent {
-        return DaggerUserDetailsComponent.builder()
+    fun getUserComponent(activity: Activity): UserDetailsActivityComponent {
+        return DaggerUserDetailsActivityComponent.builder()
                 .contextModule(ContextModule(activity))
-                .userDetailsPresenterModule(UserDetailsPresenterModule(activity))
+                .userDetailsActivityPresenterModule(UserDetailsActivityPresenterModule())
+                .build()
+    }
+
+    fun getUsersViewHolderComponent(viewHolder: RecyclerView.ViewHolder): AllUsersViewHolderComponent {
+        return DaggerAllUsersViewHolderComponent.builder()
+                .contextModule(ContextModule(viewHolder.itemView.context))
+                .allUsersViewHolderPresenterModule(AllUsersViewHolderPresenterModule(viewHolder))
                 .build()
     }
 

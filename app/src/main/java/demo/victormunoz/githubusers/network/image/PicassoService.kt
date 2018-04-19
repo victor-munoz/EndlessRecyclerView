@@ -7,13 +7,12 @@ import io.reactivex.Single
 
 class PicassoService(private val picasso: Picasso, private val transformation: Transformation) : ImageService {
 
-    override fun getImage(url: String, imageSize: ImageService.ImageSize): Single<Bitmap> {
+    override fun getImage(url: String, width: Int): Single<Bitmap> {
         return Single.create<Bitmap> { emitter ->
             try {
                 if (!emitter.isDisposed) {
-                    val size = imageSize.getWidth()
                     val bitmap: Bitmap = picasso.load(url)
-                            .resize(size, size)
+                            .resize(width, width)
                             .centerCrop()
                             .noFade()
                             .transform(transformation)

@@ -8,67 +8,49 @@ import com.jakewharton.rxbinding2.view.RxView
 import com.trello.rxlifecycle2.RxLifecycle
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
-import com.trello.rxlifecycle2.kotlin.bindUntilEvent
+import demo.victormunoz.githubusers.App
 import demo.victormunoz.githubusers.R
 import demo.victormunoz.githubusers.model.User
-import demo.victormunoz.githubusers.network.image.ImageService
-import demo.victormunoz.githubusers.utils.espresso.EspressoIdlingResource
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.adapter_all_users.*
-import java.util.concurrent.CancellationException
+import javax.inject.Inject
 
 
-class AllUsersViewHolder(
-        override val containerView: View,
-        private val adapterListener: AllUsersContract.AdapterListener,
-        private val imageService: ImageService
-
-) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+class AllUsersViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
+        LayoutContainer, AllUsersContract.ViewHolderListener {
 
     private val lifeCycle = (containerView.context as RxAppCompatActivity).lifecycle()
 
-    init {
-        RxView.clicks(containerView)
-                .compose(RxLifecycle.bindUntilEvent(lifeCycle, ActivityEvent.DESTROY))
-                .subscribe {
-                    adapterListener.onItemClick(iv_avatar, adapterPosition)
-                }
+    @Inject
+    lateinit var presenterListener: AllUsersContract.ViewHolderPresenterListener
 
+    init {
+        injectDependencies()
+    }
+
+    private fun injectDependencies() {
+        (containerView.context.applicationContext as App).getUsersViewHolderComponent(this).inject(this)
     }
 
     fun bind(user: User) {
         containerView.visibility = View.INVISIBLE
-        imageService.getImage(user.avatarUrl, ImageService.ImageSize.SMALL)
-                .bindUntilEvent(lifeCycle, ActivityEvent.DESTROY)
-                .doOnSubscribe { EspressoIdlingResource.increment() }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { bitmap ->
-                            containerView.visibility = View.VISIBLE
-                            updateData(bitmap, user.loginName)
-                            animEntrance()
-                            EspressoIdlingResource.decrement()
-                        },
-                        { e ->
-                            if (e !is CancellationException) {
-                                containerView.visibility = View.VISIBLE
-                            }
-                            EspressoIdlingResource.decrement()
-                        })
+        iv_login.text = user.loginName
+        RxView.clicks(containerView)
+                .compose(RxLifecycle.bindUntilEvent(lifeCycle, ActivityEvent.DESTROY))
+                .subscribe {
+                    presenterListener.onItemClick(iv_avatar, user)
+                }
+        presenterListener.onImageRequest(user.avatarUrl, App.mResources.getDimensionPixelSize(R.dimen.image_circle_normal))
     }
 
-    private fun updateData(v: Bitmap, loginName: String) {
-        iv_login.text = loginName
-        iv_avatar.setImageBitmap(v)
-    }
-
-    private fun animEntrance() {
+    override fun showImage(bitmap: Bitmap) {
+        containerView.visibility = View.VISIBLE
+        iv_avatar.setImageBitmap(bitmap)
         val anim = AnimationUtils.loadAnimation(containerView.context.applicationContext, R.anim.alpha_translation_in)
         containerView.startAnimation(anim)
     }
-
+    override fun showError() {
+        containerView.visibility = View.VISIBLE
+    }
 
 }

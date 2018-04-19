@@ -3,7 +3,7 @@ package demo.victormunoz.githubusers
 import android.graphics.Bitmap
 import com.trello.rxlifecycle2.android.ActivityEvent
 import demo.victormunoz.githubusers.features.userDetails.UserDetailsContract
-import demo.victormunoz.githubusers.features.userDetails.UserDetailsPresenter
+import demo.victormunoz.githubusers.features.userDetails.UserDetailsActivityPresenter
 import demo.victormunoz.githubusers.model.User
 import demo.victormunoz.githubusers.network.api.ApiService
 import demo.victormunoz.githubusers.network.image.ImageService
@@ -22,7 +22,7 @@ import java.util.concurrent.CancellationException
 
 class UserDetailsPresenterTest {
     @Mock
-    private lateinit var viewListener: UserDetailsContract.ViewListener
+    private lateinit var activityListener: UserDetailsContract.ActivityListener
     @Mock
     private lateinit var lifecycle: Observable<ActivityEvent>
     @Mock
@@ -34,9 +34,10 @@ class UserDetailsPresenterTest {
     private lateinit var bitmap: Bitmap
 
     @InjectMocks
-    private lateinit var presenter: UserDetailsPresenter
+    private lateinit var presenter: UserDetailsActivityPresenter
 
     private val user = getUser()
+    private val imageSize = 30
 
     @Before
     @Throws(Exception::class)
@@ -54,47 +55,46 @@ class UserDetailsPresenterTest {
     }
 
     @Test fun getUserDetails_success() {
-        /* Given */
+        //ARRANGE
         `when`(githubService.getUser(user.loginName)).thenReturn(Single.just(user))
-        `when`(imageService.getImage(user.avatarUrl, ImageService.ImageSize.BIG)).thenReturn(Single.just(bitmap))
-        /* When */
-        presenter.getUserDetails(user.loginName, user.avatarUrl)
-        /* Then */
-        verify(viewListener, times(1)).displayUserDetails(user, bitmap)
-        verifyNoMoreInteractions(viewListener)
+        `when`(imageService.getImage(user.avatarUrl, imageSize)).thenReturn(Single.just(bitmap))
+        //ACT
+        presenter.getUserDetails(user.loginName, user.avatarUrl, imageSize)
+        //ASSERT
+        verify(activityListener, times(1)).displayUserDetails(user, bitmap)
 
     }
 
     @Test fun getUserDetails_getUserFail() {
-        /* Given */
+        //ARRANGE
         `when`(githubService.getUser(user.loginName)).thenReturn(Single.error(Throwable("fail")))
-        `when`(imageService.getImage(user.avatarUrl, ImageService.ImageSize.BIG)).thenReturn(Single.just(bitmap))
-        /* When */
-        presenter.getUserDetails(user.loginName, user.avatarUrl)
-        /* Then */
-        verify(viewListener, times(1)).showErrorMessage()
-        verifyNoMoreInteractions(viewListener)
+        `when`(imageService.getImage(user.avatarUrl, imageSize)).thenReturn(Single.just(bitmap))
+        //ACT
+        presenter.getUserDetails(user.loginName, user.avatarUrl, imageSize)
+        //ASSERT
+        verify(activityListener, times(1)).showErrorMessage()
+        verifyNoMoreInteractions(activityListener)
     }
 
     @Test fun getUserDetails_getImageFail() {
-        /* Given */
+        //ARRANGE
         `when`(githubService.getUser(user.loginName)).thenReturn(Single.just(user))
-        `when`(imageService.getImage(user.avatarUrl, ImageService.ImageSize.BIG)).thenReturn(Single.error(Throwable("fail")))
-        /* When */
-        presenter.getUserDetails(user.loginName, user.avatarUrl)
-        /* Then */
-        verify(viewListener, times(1)).showErrorMessage()
-        verifyNoMoreInteractions(viewListener)
+        `when`(imageService.getImage(user.avatarUrl, imageSize)).thenReturn(Single.error(Throwable("fail")))
+        //ACT
+        presenter.getUserDetails(user.loginName, user.avatarUrl, imageSize)
+        //ASSERT
+        verify(activityListener, times(1)).showErrorMessage()
+        verifyNoMoreInteractions(activityListener)
     }
 
     @Test fun getUserDetails_cancelled() {
-        /* Given */
+        //ARRANGE
         `when`(githubService.getUser(user.loginName)).thenReturn(Single.error(CancellationException()))
-        `when`(imageService.getImage(user.avatarUrl, ImageService.ImageSize.BIG)).thenReturn(Single.just(bitmap))
-        /* When */
-        presenter.getUserDetails(user.loginName, user.avatarUrl)
-        /* Then */
-        verifyNoMoreInteractions(viewListener)
+        `when`(imageService.getImage(user.avatarUrl, imageSize)).thenReturn(Single.just(bitmap))
+        //ACT
+        presenter.getUserDetails(user.loginName, user.avatarUrl, imageSize)
+        //ASSERT
+        verifyNoMoreInteractions(activityListener)
     }
 
 

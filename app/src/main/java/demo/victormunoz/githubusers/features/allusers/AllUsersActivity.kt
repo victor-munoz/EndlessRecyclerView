@@ -27,7 +27,11 @@ import kotlinx.android.synthetic.main.activity_all_users.*
 import javax.inject.Inject
 
 
-class AllUsersActivity : RxAppCompatActivity(), AllUsersContract.ViewListener, AllUsersContract.AdapterListener {
+class AllUsersActivity :
+        AllUsersContract.ActivityListener,
+        AllUsersContract.ActivityNavigationListener,
+        RxAppCompatActivity(),
+        AllUsersContract.AdapterListener {
 
     companion object {
         private const val REQUEST_CODE = 5463
@@ -37,7 +41,7 @@ class AllUsersActivity : RxAppCompatActivity(), AllUsersContract.ViewListener, A
     lateinit var adapter: AllUsersAdapter
 
     @Inject
-    lateinit var presenterListener: AllUsersContract.PresenterListener
+    lateinit var activityPresenterListener: AllUsersContract.ActivityPresenterListener
 
     val countingIdlingResource: IdlingResource
         @VisibleForTesting
@@ -92,7 +96,7 @@ class AllUsersActivity : RxAppCompatActivity(), AllUsersContract.ViewListener, A
     }
 
     //presenter listener
-    override fun addUsers(users: List<User>) {
+    override fun showUsers(users: List<User>) {
         adapter.addUsers(users)
     }
 
@@ -108,7 +112,7 @@ class AllUsersActivity : RxAppCompatActivity(), AllUsersContract.ViewListener, A
         }
         val snackbar = Snackbar
                 .make(github_logo, errorMessage, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.retry) { presenterListener.onRetry() }
+                .setAction(R.string.retry) { activityPresenterListener.onRetry() }
         val sbView = snackbar.view
         val textView = sbView.findViewById<TextView>(android.support.design.R.id.snackbar_text)
         val cloudError = ResourcesCompat.getDrawable(resources, R.drawable.icon_cloud_error, null)
@@ -119,13 +123,9 @@ class AllUsersActivity : RxAppCompatActivity(), AllUsersContract.ViewListener, A
 
     //adapter Listener
     override fun onEndOfTheList() {
-        presenterListener.onEndOfTheList()
+        activityPresenterListener.onEndOfTheList()
     }
 
-    override fun onItemClick(view: View, position: Int) {
-        val user = adapter.getItem(position)
-        presenterListener.onItemClick(view, user)
-    }
 
 
 }

@@ -40,14 +40,14 @@ fun Context.userDetailsActivity(user: User): Intent {
 
 }
 
-class UserDetailsActivity : RxAppCompatActivity(), UserDetailsContract.ViewListener {
+class UserDetailsActivity : RxAppCompatActivity(), UserDetailsContract.ActivityListener {
 
     companion object {
         private const val USER_DETAIL_FRAGMENT = "user's detail fragment"
     }
 
     @Inject
-    lateinit var presenterListener: UserDetailsContract.PresenterListener
+    lateinit var activityPresenterListener: UserDetailsContract.ActivityPresenterListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +55,7 @@ class UserDetailsActivity : RxAppCompatActivity(), UserDetailsContract.ViewListe
         setSupportActionBar(toolbar)
         injectDependencies()
         initFragment(UserDetailsFragment.newInstance())
-        presenterListener.getUserDetails(getUser().loginName, getUser().avatarUrl)
+        activityPresenterListener.getUserDetails(getUser().loginName, getUser().avatarUrl, resources.getDimensionPixelSize(R.dimen.image_circle_large))
         supportPostponeEnterTransition()
     }
 
@@ -82,7 +82,7 @@ class UserDetailsActivity : RxAppCompatActivity(), UserDetailsContract.ViewListe
     }
 
     override fun onBackPressed() {
-        presenterListener.onBackPressed()
+        activityPresenterListener.onBackPressed()
         supportFinishAfterTransition()
         super.onBackPressed()
     }
@@ -98,7 +98,7 @@ class UserDetailsActivity : RxAppCompatActivity(), UserDetailsContract.ViewListe
         supportStartPostponedEnterTransition()
         val errorMessage = getString(R.string.error_downloading_users_profile)
         val snackbar = Snackbar.make(user_avatar, errorMessage, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry) {
-            presenterListener.getUserDetails(getUser().loginName, getUser().avatarUrl)
+            activityPresenterListener.getUserDetails(getUser().loginName, getUser().avatarUrl, resources.getDimensionPixelSize(R.dimen.image_circle_large))
         }
         val sbView = snackbar.view
         val textView = sbView.findViewById<TextView>(android.support.design.R.id.snackbar_text)

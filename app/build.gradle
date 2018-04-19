@@ -43,12 +43,7 @@ android {
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
-    testImplementation 'junit:junit:4.12'
-
-    //BINDING
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
-    implementation "com.jakewharton:butterknife:$butterknifeVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     //DEPENDENCY INJECTION
     implementation "com.google.dagger:dagger:$daggerVersion"
@@ -63,7 +58,7 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$supportLibVersion"
     implementation "com.android.support:palette-v7:$supportLibVersion"
     implementation "com.android.support:support-v4:$supportLibVersion"
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 
     //RX
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
@@ -81,10 +76,11 @@ dependencies {
     //PICASSO
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'jp.wasabeef:picasso-transformations:2.2.1'
+
     //GLIDE
     implementation 'com.github.bumptech.glide:glide:4.7.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     implementation 'jp.wasabeef:glide-transformations:3.0.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
 
     //RETROFIT
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -102,10 +98,9 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test:rules:1.0.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     //MOCKITO
+    testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.8.9'
-
 
 }

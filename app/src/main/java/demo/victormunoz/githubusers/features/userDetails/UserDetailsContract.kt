@@ -5,16 +5,16 @@ import demo.victormunoz.githubusers.model.User
 
 interface UserDetailsContract {
 
-    interface ViewListener {
+    interface ActivityListener {
 
         fun displayUserDetails(user: User, bitmap: Bitmap)
 
         fun showErrorMessage()
     }
 
-    interface PresenterListener {
+    interface ActivityPresenterListener {
 
-        fun getUserDetails(login: String, url: String)
+        fun getUserDetails(login: String, url: String, imageWidth: Int)
 
         fun onBackPressed()
     }
